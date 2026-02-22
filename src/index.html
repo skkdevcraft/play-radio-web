@@ -642,9 +642,23 @@
     const FavoritesStore = (() => {
       const KEY = 'radio_favorites_v1';
 
+      const DEFAULTS = [
+        'https://dancewave.online/dance.ogg',
+        'https://n08.radiojar.com/083wqknmsuhvv?rj-ttl=5&rj-tok=AAABnIWtQmMAztJzDQnM9GXL5A',
+        'https://play.global.audio/nrj128',
+        'https://play.global.audio/vanillahi.aac',
+        'https://play.global.audio/energy-90s.aac',
+      ];
+
       function load() {
-        try { return JSON.parse(localStorage.getItem(KEY)) || []; }
-        catch { return []; }
+        try {
+          const raw = localStorage.getItem(KEY);
+          if (raw !== null) return JSON.parse(raw) || [];
+          // First visit — seed with defaults and persist them
+          const defaults = DEFAULTS.map(url => ({ url, meta: null, addedAt: Date.now() }));
+          localStorage.setItem(KEY, JSON.stringify(defaults));
+          return defaults;
+        } catch { return []; }
       }
 
       function save(list) {
@@ -699,7 +713,6 @@
           }
 
           const h = res.headers;
-
           // ICY headers are lowercase in the Fetch API; check both casings defensively
           const get = key => h.get(key) || h.get(key.toLowerCase()) || null;
 
