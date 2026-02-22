@@ -1,0 +1,19 @@
+services:
+  cloudflaretunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN=$TUNNEL_TOKEN
+    command: tunnel --no-autoupdate run
+  
+  web:
+    image: nginx:alpine
+    # ports:
+    #   - "8080:8080" 
+    expose:
+      - "8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../../src:/usr/share/nginx/html:ro
+    restart: unless-stopped
+  
