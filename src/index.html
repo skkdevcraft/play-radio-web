@@ -27,7 +27,7 @@
       font-family: var(--font-mono);
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 2rem;
       background-image:
@@ -37,7 +37,8 @@
 
     main {
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
+      padding-top: 1rem;
     }
 
     header {
@@ -109,22 +110,9 @@
       transition: background 0.3s;
     }
 
-    .status-dot.playing {
-      background: #1aff6a;
-      box-shadow: 0 0 8px #1aff6a;
-      animation: blink 1.2s ease-in-out infinite;
-    }
-
-    .status-dot.buffering {
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      animation: blink 0.4s ease-in-out infinite;
-    }
-
-    .status-dot.error {
-      background: var(--accent2);
-      box-shadow: 0 0 8px var(--accent2);
-    }
+    .status-dot.playing { background: #1aff6a; box-shadow: 0 0 8px #1aff6a; animation: blink 1.2s ease-in-out infinite; }
+    .status-dot.buffering { background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: blink 0.4s ease-in-out infinite; }
+    .status-dot.error { background: var(--accent2); box-shadow: 0 0 8px var(--accent2); }
 
     @keyframes blink {
       0%, 100% { opacity: 1; }
@@ -179,43 +167,19 @@
 
     button:active::after { opacity: 0.15; background: #fff; }
 
-    #btn-play {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
+    #btn-play { border-color: var(--accent); color: var(--accent); }
+    #btn-play:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px rgba(232,255,0,0.4); }
 
-    #btn-play:hover {
-      background: var(--accent);
-      color: #000;
-      box-shadow: 0 0 20px rgba(232,255,0,0.4);
-    }
+    #btn-stop { border-color: var(--accent2); color: var(--accent2); }
+    #btn-stop:hover { background: var(--accent2); color: #fff; box-shadow: 0 0 20px rgba(255,60,0,0.4); }
 
-    #btn-stop {
-      border-color: var(--accent2);
-      color: var(--accent2);
-    }
-
-    #btn-stop:hover {
-      background: var(--accent2);
-      color: #fff;
-      box-shadow: 0 0 20px rgba(255,60,0,0.4);
-    }
-
-    button:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    button:disabled:hover {
-      background: transparent;
-      box-shadow: none;
-      color: inherit;
-    }
+    button:disabled { opacity: 0.3; cursor: not-allowed; }
+    button:disabled:hover { background: transparent; box-shadow: none; color: inherit; }
 
     #btn-record {
       border-color: #c0392b;
       color: #c0392b;
-      grid-column: 1 / -1; /* full width row */
+      grid-column: 1 / -1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -223,11 +187,7 @@
       font-size: 1.2rem;
     }
 
-    #btn-record:hover:not(:disabled) {
-      background: #c0392b;
-      color: #fff;
-      box-shadow: 0 0 20px rgba(192,57,43,0.5);
-    }
+    #btn-record:hover:not(:disabled) { background: #c0392b; color: #fff; box-shadow: 0 0 20px rgba(192,57,43,0.5); }
 
     #btn-record.recording {
       border-color: var(--accent2);
@@ -235,35 +195,16 @@
       animation: rec-pulse 1.4s ease-in-out infinite;
     }
 
-    #btn-record.recording:hover:not(:disabled) {
-      background: var(--accent2);
-      color: #fff;
-      box-shadow: 0 0 20px rgba(255,60,0,0.5);
-    }
+    #btn-record.recording:hover:not(:disabled) { background: var(--accent2); color: #fff; box-shadow: 0 0 20px rgba(255,60,0,0.5); }
 
     @keyframes rec-pulse {
       0%, 100% { box-shadow: 0 0 0px rgba(255,60,0,0); }
       50%       { box-shadow: 0 0 12px rgba(255,60,0,0.7); }
     }
 
-    .rec-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: currentColor;
-      flex-shrink: 0;
-    }
-
-    #btn-record.recording .rec-dot {
-      animation: blink 0.8s ease-in-out infinite;
-    }
-
-    .rec-timer {
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      letter-spacing: 0.1em;
-      opacity: 0.8;
-    }
+    .rec-dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    #btn-record.recording .rec-dot { animation: blink 0.8s ease-in-out infinite; }
+    .rec-timer { font-size: 0.75rem; font-family: var(--font-mono); letter-spacing: 0.1em; opacity: 0.8; }
 
     /* Volume control */
     .volume-row {
@@ -273,14 +214,7 @@
       margin-top: 1rem;
     }
 
-    .volume-icon {
-      font-size: 0.9rem;
-      color: var(--dim);
-      flex-shrink: 0;
-      width: 1.2rem;
-      text-align: center;
-      user-select: none;
-    }
+    .volume-icon { font-size: 0.9rem; color: var(--dim); flex-shrink: 0; width: 1.2rem; text-align: center; user-select: none; }
 
     .volume-slider {
       -webkit-appearance: none;
@@ -290,14 +224,11 @@
       background: var(--border);
       outline: none;
       cursor: pointer;
-      position: relative;
     }
 
     .volume-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      appearance: none;
-      width: 14px;
-      height: 14px;
+      width: 14px; height: 14px;
       border-radius: 50%;
       background: var(--accent);
       box-shadow: 0 0 6px rgba(232,255,0,0.4);
@@ -306,147 +237,320 @@
     }
 
     .volume-slider::-moz-range-thumb {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border: none;
+      width: 14px; height: 14px;
+      border-radius: 50%; border: none;
       background: var(--accent);
       box-shadow: 0 0 6px rgba(232,255,0,0.4);
       cursor: pointer;
-      transition: transform 0.1s, box-shadow 0.1s;
     }
 
-    .volume-slider:hover::-webkit-slider-thumb {
-      transform: scale(1.3);
-      box-shadow: 0 0 12px rgba(232,255,0,0.7);
-    }
+    .volume-slider:hover::-webkit-slider-thumb { transform: scale(1.3); box-shadow: 0 0 12px rgba(232,255,0,0.7); }
+    .volume-slider:hover::-moz-range-thumb { transform: scale(1.3); box-shadow: 0 0 12px rgba(232,255,0,0.7); }
 
-    .volume-slider:hover::-moz-range-thumb {
-      transform: scale(1.3);
-      box-shadow: 0 0 12px rgba(232,255,0,0.7);
-    }
-
-    .volume-value {
-      font-size: 0.65rem;
-      color: var(--dim);
-      letter-spacing: 0.1em;
-      width: 2.5rem;
-      text-align: right;
-      flex-shrink: 0;
-    }
-
-    /* No stream notice */
-    .no-stream {
-      text-align: center;
-      padding: 1rem 0;
-      font-size: 0.75rem;
-      color: var(--dim);
-      line-height: 1.8;
-    }
-
-    .no-stream code {
-      color: var(--accent);
-      background: #000;
-      padding: 0.1em 0.4em;
-    }
+    .volume-value { font-size: 0.65rem; color: var(--dim); letter-spacing: 0.1em; width: 2.5rem; text-align: right; flex-shrink: 0; }
 
     /* ICY Station metadata panel */
-    .station-meta {
-      display: none;
-      margin-bottom: 1.5rem;
-      background: #000;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
+    .station-meta { display: none; margin-bottom: 1.5rem; background: #000; border: 1px solid var(--border); overflow: hidden; }
     .station-meta.visible { display: flex; }
 
-    .station-logo {
-      width: 80px;
-      min-width: 80px;
-      height: 80px;
-      object-fit: cover;
-      display: block;
-      background: #1a1a1a;
-      border-right: 1px solid var(--border);
+    .station-logo { width: 80px; min-width: 80px; height: 80px; object-fit: cover; display: block; background: #1a1a1a; border-right: 1px solid var(--border); }
+    .station-logo-placeholder { width: 80px; min-width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; background: #0d0d0d; border-right: 1px solid var(--border); color: var(--dim); flex-shrink: 0; }
+
+    .station-info { padding: 0.6rem 0.8rem; display: flex; flex-direction: column; justify-content: center; gap: 0.25rem; overflow: hidden; min-width: 0; }
+    .station-name { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.08em; color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.1; }
+    .station-name a { color: inherit; text-decoration: none; }
+    .station-name a:hover { text-decoration: underline; }
+    .station-desc { font-size: 0.62rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.04em; }
+
+    .station-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.15rem; }
+    .station-tag { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; background: #1a1a1a; border: 1px solid var(--border); color: var(--dim); padding: 0.15em 0.45em; }
+    .station-tag.hl { border-color: var(--accent); color: var(--accent); }
+
+    /* ============================================================
+       FAVORITES PANEL
+    ============================================================ */
+    .favorites-panel {
+      margin-top: 1.5rem;
+      border: 1px solid var(--border);
+      border-top: 3px solid #333;
     }
 
-    .station-logo-placeholder {
-      width: 80px;
-      min-width: 80px;
-      height: 80px;
+    .favorites-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
       background: #0d0d0d;
-      border-right: 1px solid var(--border);
-      color: var(--dim);
-      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
     }
 
-    .station-info {
-      padding: 0.6rem 0.8rem;
+    .favorites-header-left {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0.25rem;
-      overflow: hidden;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .favorites-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+    }
+
+    .favorites-count {
+      font-size: 0.6rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      padding: 0.1em 0.5em;
+    }
+
+    .favorites-toggle {
+      font-size: 0.7rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      transition: transform 0.2s;
+    }
+
+    .favorites-toggle.open { transform: rotate(180deg); }
+
+    .favorites-body {
+      display: none;
+      background: #0a0a0a;
+    }
+
+    .favorites-body.open { display: block; }
+
+    /* Add Station form */
+    .add-station-form {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0.5rem;
+      align-items: stretch;
+    }
+
+    .add-station-input {
+      flex: 1;
+      background: #000;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 0.5rem 0.6rem;
+      letter-spacing: 0.05em;
+      outline: none;
+      transition: border-color 0.15s;
       min-width: 0;
     }
 
-    .station-name {
+    .add-station-input::placeholder { color: #333; }
+    .add-station-input:focus { border-color: var(--accent); }
+
+    .add-station-btn {
       font-family: var(--font-display);
-      font-size: 1.1rem;
-      letter-spacing: 0.08em;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--accent);
       color: var(--accent);
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .add-station-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 12px rgba(232,255,0,0.3); }
+
+    /* Station list */
+    .station-list {
+      max-height: 320px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .station-list::-webkit-scrollbar { width: 4px; }
+    .station-list::-webkit-scrollbar-track { background: transparent; }
+    .station-list::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .fav-item {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid #161616;
+      transition: background 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fav-item:last-child { border-bottom: none; }
+    .fav-item:hover { background: #111; }
+    .fav-item.active-station { background: #0d1400; }
+    .fav-item.active-station::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--accent);
+    }
+
+    .fav-logo-wrap {
+      width: 52px;
+      min-width: 52px;
+      height: 52px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #080808;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .fav-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .fav-logo-placeholder {
+      font-size: 1.2rem;
+      color: var(--dim);
+    }
+
+    .fav-logo-loading {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .fav-info {
+      flex: 1;
+      padding: 0.5rem 0.7rem;
+      overflow: hidden;
+      min-width: 0;
+      cursor: pointer;
+    }
+
+    .fav-name {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      color: var(--text);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 1.1;
     }
 
-    .station-name a { color: inherit; text-decoration: none; }
-    .station-name a:hover { text-decoration: underline; }
+    .active-station .fav-name { color: var(--accent); }
 
-    .station-desc {
-      font-size: 0.62rem;
-      color: var(--text);
+    .fav-url {
+      font-size: 0.57rem;
+      color: var(--dim);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      letter-spacing: 0.04em;
+      margin-top: 0.2rem;
+      letter-spacing: 0.03em;
     }
 
-    .station-tags {
+    .fav-tags {
       display: flex;
+      gap: 0.25rem;
+      margin-top: 0.3rem;
       flex-wrap: wrap;
-      gap: 0.3rem;
-      margin-top: 0.15rem;
     }
 
-    .station-tag {
-      font-size: 0.55rem;
+    .fav-tag {
+      font-size: 0.5rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--dim);
+      border: 1px solid #2a2a2a;
+      padding: 0.1em 0.35em;
+    }
+
+    .fav-tag.hl { color: var(--accent); border-color: rgba(232,255,0,0.3); }
+
+    .fav-actions {
+      display: flex;
+      align-items: center;
+      padding: 0 0.5rem;
+      gap: 0.3rem;
+      flex-shrink: 0;
+    }
+
+    .fav-btn {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--dim);
+      font-size: 0.7rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      padding: 0;
+      letter-spacing: 0;
+    }
+
+    .fav-btn-play:hover { border-color: var(--accent); color: var(--accent); background: rgba(232,255,0,0.07); }
+    .fav-btn-remove:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(255,60,0,0.07); }
+
+    .fav-empty {
+      padding: 1.5rem 1rem;
+      text-align: center;
+      font-size: 0.65rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+    }
+
+    .fav-empty code {
+      color: var(--accent);
+      background: #000;
+      padding: 0.1em 0.4em;
+    }
+
+    /* Notification toast */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
       background: #1a1a1a;
       border: 1px solid var(--border);
-      color: var(--dim);
-      padding: 0.15em 0.45em;
-    }
-
-    .station-tag.hl {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    footer {
-      margin-top: 1rem;
-      text-align: right;
-      font-size: 0.6rem;
-      color: #333;
+      border-left: 3px solid var(--accent);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
       letter-spacing: 0.1em;
+      padding: 0.6rem 1.2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 100;
+      white-space: nowrap;
     }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.error { border-left-color: var(--accent2); }
+
+    footer { margin-top: 1rem; text-align: right; font-size: 0.6rem; color: #333; letter-spacing: 0.1em; }
   </style>
 </head>
 <body>
@@ -457,12 +561,9 @@
     </header>
 
     <article class="player">
-
-      <!-- ICY station metadata — shown when headers are available -->
       <div class="station-meta" id="station-meta" aria-label="Station info"></div>
 
-      <div class="vu-meter" id="vu-meter" aria-hidden="true">
-      </div>
+      <div class="vu-meter" id="vu-meter" aria-hidden="true"></div>
 
       <div class="status-bar">
         <div class="status-dot" id="status-dot"></div>
@@ -473,15 +574,32 @@
         <span>SRC</span> —
       </div>
 
-      <div id="player-content">
-        <!-- controls or no-stream notice -->
-      </div>
-
+      <div id="player-content"></div>
     </article>
+
+    <!-- FAVORITES PANEL -->
+    <div class="favorites-panel" id="favorites-panel">
+      <div class="favorites-header" id="fav-header">
+        <div class="favorites-header-left">
+          <span class="favorites-title">Favorites</span>
+          <span class="favorites-count" id="fav-count">0</span>
+        </div>
+        <span class="favorites-toggle" id="fav-toggle">▼</span>
+      </div>
+      <div class="favorites-body open" id="fav-body">
+        <div class="add-station-form">
+          <input class="add-station-input" id="fav-input" type="url"
+            placeholder="https://stream.example.com/radio.mp3" autocomplete="off" spellcheck="false" />
+          <button class="add-station-btn" id="fav-add-btn">+ Add</button>
+        </div>
+        <div class="station-list" id="station-list"></div>
+      </div>
+    </div>
 
     <footer>FM / AM / DAB / IP</footer>
   </main>
 
+  <div class="toast" id="toast"></div>
   <audio id="audio" preload="none"></audio>
 
   <script>
@@ -497,6 +615,18 @@
     const stationMeta = document.getElementById('station-meta');
 
     /* =========================================================
+       TOAST
+    ========================================================= */
+    let toastTimer = null;
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast show' + (isError ? ' error' : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { t.className = 'toast'; }, 2500);
+    }
+
+    /* =========================================================
        STATUS UI
     ========================================================= */
     function setStatus(state, extra) {
@@ -506,31 +636,71 @@
     }
 
     /* =========================================================
+       FAVORITES STORE
+       Uses localStorage for persistent storage.
+    ========================================================= */
+    const FavoritesStore = (() => {
+      const KEY = 'radio_favorites_v1';
+
+      function load() {
+        try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+        catch { return []; }
+      }
+
+      function save(list) {
+        localStorage.setItem(KEY, JSON.stringify(list));
+      }
+
+      function getAll() { return load(); }
+
+      function add(url) {
+        const list = load();
+        if (list.find(f => f.url === url)) return false;
+        list.push({ url, meta: null, addedAt: Date.now() });
+        save(list);
+        return true;
+      }
+
+      function remove(url) {
+        const list = load().filter(f => f.url !== url);
+        save(list);
+      }
+
+      function updateMeta(url, meta) {
+        const list = load();
+        const item = list.find(f => f.url === url);
+        if (item) { item.meta = meta; save(list); }
+      }
+
+      return { getAll, add, remove, updateMeta };
+    })();
+
+    /* =========================================================
        ICY METADATA MODULE
-       Fetches ICY/Shoutcast stream headers via a HEAD request
-       (requires the server to send CORS headers — same constraint
-       as the Web Audio analyser). Renders station info into the
-       #station-meta panel if any icy-* headers are present.
     ========================================================= */
     const IcyMeta = (() => {
-
-      /** Try to read ICY headers from the stream URL. Returns parsed object or null. */
-      async function fetch(url) {
+      async function fetchMeta(url) {
         try {
-          // Use no-cors as fallback awareness — but we actually need cors to read headers.
-          // If the server doesn't allow CORS, headers will simply be empty.
+          const ctrl = new AbortController();
+          const tid = setTimeout(() => ctrl.abort(), 6000);
+
           const res = await window.fetch(url, {
             method: 'GET',
-            headers: { 'Icy-MetaData': '1' },
-            // We only need the headers, but HEAD often isn't allowed for streams.
-            // We abort immediately after headers arrive.
-            signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined,
+            redirect: 'follow',   // explicitly follow redirects
+            // No Icy-MetaData header — some streams stall or behave badly when they see it
+            signal: ctrl.signal,
           });
 
-          // Abort the body download right away — we only wanted headers
-          res.body && res.body.cancel().catch(() => {});
+          clearTimeout(tid);
+
+          // Cancel body download immediately — we only want response headers
+          if (res.body) {
+            try { await res.body.cancel(); } catch (_) {}
+          }
 
           const h = res.headers;
+
+          // ICY headers are lowercase in the Fetch API; check both casings defensively
           const get = key => h.get(key) || h.get(key.toLowerCase()) || null;
 
           const meta = {
@@ -541,52 +711,14 @@
             logo:        get('icy-logo'),
             bitrate:     get('icy-br'),
             samplerate:  get('icy-sr'),
-            mainUrl:     get('icy-main-stream-url'),
           };
 
-          // Only return something if at least one useful field was found
           if (Object.values(meta).some(v => v !== null)) return meta;
           return null;
-
         } catch (e) {
-          console.info('IcyMeta fetch failed (likely CORS or network):', e.message);
+          // CORS block, network error, timeout, etc — fail silently
           return null;
         }
-      }
-
-      /** Render parsed metadata into the station panel. */
-      function render(meta) {
-        if (!meta) return;
-
-        const nameHtml = meta.url
-          ? `<a href="${meta.url}" target="_blank" rel="noopener">${esc(meta.name || 'Unknown Station')}</a>`
-          : esc(meta.name || 'Unknown Station');
-
-        // Genre tags — split on space or slash
-        const genreTags = meta.genre
-          ? meta.genre.split(/[\s/]+/).filter(Boolean).map(g =>
-              `<span class="station-tag">${esc(g)}</span>`).join('')
-          : '';
-
-        // Technical tags
-        const techTags = [
-          meta.bitrate   ? `<span class="station-tag hl">${esc(meta.bitrate)} kbps</span>` : '',
-          meta.samplerate ? `<span class="station-tag">${esc(meta.samplerate)} Hz</span>` : '',
-        ].join('');
-
-        const logoHtml = meta.logo
-          ? `<img class="station-logo" src="${esc(meta.logo)}" alt="Station logo" onerror="this.outerHTML='<div class=station-logo-placeholder>📻</div>'">`
-          : `<div class="station-logo-placeholder">📻</div>`;
-
-        stationMeta.innerHTML = `
-          ${logoHtml}
-          <div class="station-info">
-            <div class="station-name">${nameHtml}</div>
-            ${meta.description ? `<div class="station-desc">${esc(meta.description)}</div>` : ''}
-            ${(genreTags || techTags) ? `<div class="station-tags">${genreTags}${techTags}</div>` : ''}
-          </div>`;
-
-        stationMeta.classList.add('visible');
       }
 
       function esc(str) {
@@ -595,10 +727,40 @@
           .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       }
 
-      /** Convenience: fetch then render. Call once after initiating playback. */
+      function renderPanel(meta, panelEl) {
+        if (!meta) return;
+        const nameHtml = meta.url
+          ? `<a href="${esc(meta.url)}" target="_blank" rel="noopener">${esc(meta.name || 'Unknown Station')}</a>`
+          : esc(meta.name || 'Unknown Station');
+
+        const genreTags = meta.genre
+          ? meta.genre.split(/[\s/]+/).filter(Boolean).map(g =>
+              `<span class="station-tag">${esc(g)}</span>`).join('')
+          : '';
+
+        const techTags = [
+          meta.bitrate    ? `<span class="station-tag hl">${esc(meta.bitrate)} kbps</span>` : '',
+          meta.samplerate ? `<span class="station-tag">${esc(meta.samplerate)} Hz</span>` : '',
+        ].join('');
+
+        const logoHtml = meta.logo
+          ? `<img class="station-logo" src="${esc(meta.logo)}" alt="Station logo" onerror="this.outerHTML='<div class=station-logo-placeholder>📻</div>'">`
+          : `<div class="station-logo-placeholder">📻</div>`;
+
+        panelEl.innerHTML = `
+          ${logoHtml}
+          <div class="station-info">
+            <div class="station-name">${nameHtml}</div>
+            ${meta.description ? `<div class="station-desc">${esc(meta.description)}</div>` : ''}
+            ${(genreTags || techTags) ? `<div class="station-tags">${genreTags}${techTags}</div>` : ''}
+          </div>`;
+        panelEl.classList.add('visible');
+      }
+
       async function load(url) {
-        const meta = await fetch(url);
-        render(meta);
+        const meta = await fetchMeta(url);
+        renderPanel(meta, stationMeta);
+        return meta;
       }
 
       function clear() {
@@ -606,54 +768,34 @@
         stationMeta.classList.remove('visible');
       }
 
-      return { load, clear };
+      return { fetchMeta, renderPanel, load, clear, esc };
     })();
 
     /* =========================================================
        STREAM MODULE
-       Responsible only for loading / playing / stopping audio.
-       Strategy:
-         1. Try with crossOrigin="anonymous" so Web Audio API can
-            analyse the stream (works when the server sends CORS headers).
-         2. If that causes a network error (server rejects CORS requests),
-            retry without crossOrigin so audio still plays — but the
-            analyser will only receive silence (browser security policy).
-         3. After a short grace period we detect zero-output and tell
-            the Visualizer to enter its CORS-fallback mode.
     ========================================================= */
     const StreamPlayer = (() => {
       let audioCtx   = null;
       let analyser   = null;
       let sourceNode = null;
-      let corsMode   = true;   // start optimistic
+      let corsMode   = true;
 
       function ensureAudioGraph() {
         if (audioCtx) return;
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 64;               // 32 frequency bins
+        analyser.fftSize = 64;
         analyser.smoothingTimeConstant = 0.8;
         sourceNode = audioCtx.createMediaElementSource(audio);
         sourceNode.connect(analyser);
         analyser.connect(audioCtx.destination);
       }
 
-      /**
-       * Load + play the given URL.
-       * @param {string} url
-       * @param {boolean} withCors  Whether to set crossOrigin="anonymous"
-       * @returns {Promise}
-       */
       function loadAndPlay(url, withCors) {
         ensureAudioGraph();
         if (audioCtx.state === 'suspended') audioCtx.resume();
-
-        if (withCors) {
-          audio.crossOrigin = 'anonymous';
-        } else {
-          audio.removeAttribute('crossOrigin');
-        }
-
+        if (withCors) { audio.crossOrigin = 'anonymous'; }
+        else { audio.removeAttribute('crossOrigin'); }
         audio.src = url;
         audio.load();
         return audio.play();
@@ -666,49 +808,31 @@
         if (audioCtx && audioCtx.state === 'running') audioCtx.suspend();
       }
 
-      function getAnalyser() { return analyser; }
-      function getAudioContext() { return audioCtx; }
-      function isCorsMode()  { return corsMode; }
-
-      /**
-       * High-level play: tries CORS first, falls back to no-CORS on error.
-       * Returns a promise that resolves when audio starts playing,
-       * and calls onCorsFailure() if we had to drop to no-CORS mode.
-       */
       function play(url, onCorsFailure) {
         corsMode = true;
-
         return loadAndPlay(url, true).catch(err => {
-          // Network/CORS error — retry without crossOrigin attribute
-          console.warn('CORS play failed, retrying without crossOrigin:', err);
+          console.warn('CORS play failed:', err);
           corsMode = false;
           onCorsFailure();
           return loadAndPlay(url, false);
         });
       }
 
-      return { play, stop, getAnalyser, getAudioContext, isCorsMode };
+      function getAnalyser()     { return analyser; }
+      function getAudioContext() { return audioCtx; }
+
+      return { play, stop, getAnalyser, getAudioContext };
     })();
 
     /* =========================================================
        VISUALIZER MODULE
-       Two rendering modes:
-         • "analyser"  — real frequency data from Web Audio API
-         • "fallback"  — simple CSS-driven idle animation when
-                         CORS blocks analyser access
-       To replace the visualization, edit renderAnalyserFrame()
-       and/or renderFallbackFrame() independently.
     ========================================================= */
     const Visualizer = (() => {
       const BAR_COUNT = 16;
       const bars = [];
-      let rafId     = null;
-      let analyser  = null;
-      let dataArray = null;
-      let mode      = 'idle';  // 'idle' | 'analyser' | 'fallback'
-      let fallbackT = 0;       // time counter for fallback animation
+      let rafId = null, analyser = null, dataArray = null;
+      let mode = 'idle';
 
-      // Build bar DOM elements once
       for (let i = 0; i < BAR_COUNT; i++) {
         const b = document.createElement('div');
         b.className = 'vu-bar';
@@ -717,424 +841,451 @@
         bars.push(b);
       }
 
-      /** Colour ramp: green → yellow → red */
       function barColor(norm) {
-        if (norm < 0.6)  return '#1aff6a';
+        if (norm < 0.6) return '#1aff6a';
         if (norm < 0.85) return '#e8ff00';
         return '#ff3c00';
       }
 
-      /* ---- Real analyser render ---- */
       function renderAnalyserFrame() {
         analyser.getByteFrequencyData(dataArray);
-        const binCount = dataArray.length;
-        const innerH   = vuMeter.clientHeight - 16;
-
+        const innerH = vuMeter.clientHeight - 16;
         for (let i = 0; i < BAR_COUNT; i++) {
-          const binIndex = Math.floor((i / BAR_COUNT) * binCount);
-          const raw  = dataArray[binIndex];
-          const norm = raw / 255;
-          const px   = Math.max(2, Math.round(norm * innerH));
-          bars[i].style.height     = px + 'px';
+          const norm = dataArray[Math.floor((i / BAR_COUNT) * dataArray.length)] / 255;
+          const px = Math.max(2, Math.round(norm * innerH));
+          bars[i].style.height = px + 'px';
           bars[i].style.background = barColor(norm);
         }
       }
 
-      /* ---- Fallback render (no analyser data) ---- */
       function renderFallbackFrame(ts) {
-        // Gentle sine-wave ripple so bars aren't just static
         const innerH = vuMeter.clientHeight - 16;
         const t = ts / 1000;
-
         for (let i = 0; i < BAR_COUNT; i++) {
-          // Each bar oscillates at a slightly different phase & frequency
           const phase = (i / BAR_COUNT) * Math.PI * 2;
-          const speed = 0.6 + (i % 5) * 0.07;
-          const norm  = 0.08 + 0.12 * (0.5 + 0.5 * Math.sin(t * speed + phase));
-          const px    = Math.max(2, Math.round(norm * innerH));
-          bars[i].style.height     = px + 'px';
-          bars[i].style.background = '#1aff6a44'; // dim green tint
+          const norm  = 0.08 + 0.12 * (0.5 + 0.5 * Math.sin(t * (0.6 + (i % 5) * 0.07) + phase));
+          bars[i].style.height     = Math.max(2, Math.round(norm * innerH)) + 'px';
+          bars[i].style.background = '#1aff6a44';
         }
       }
 
-      /* ---- Shared RAF loop ---- */
       function loop(ts) {
         rafId = requestAnimationFrame(loop);
-        if (mode === 'analyser') {
-          renderAnalyserFrame();
-        } else if (mode === 'fallback') {
-          renderFallbackFrame(ts);
-        }
+        if (mode === 'analyser') renderAnalyserFrame();
+        else if (mode === 'fallback') renderFallbackFrame(ts);
       }
 
-      /**
-       * Check whether the analyser is actually producing data.
-       * Returns true if all bins are zero (i.e. CORS blocked).
-       */
       function isAnalyserSilent() {
         if (!analyser || !dataArray) return true;
         analyser.getByteFrequencyData(dataArray);
         return dataArray.every(v => v === 0);
       }
 
-      function startLoop() {
-        if (!rafId) rafId = requestAnimationFrame(loop);
-      }
-
-      function stopLoop() {
-        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-      }
-
-      /** Start with real analyser data. Call switchToFallback() if CORS blocks it. */
       function start(analyserNode) {
         analyser  = analyserNode;
         dataArray = new Uint8Array(analyser.frequencyBinCount);
-        mode      = 'analyser';
-        startLoop();
+        mode = 'analyser';
+        if (!rafId) rafId = requestAnimationFrame(loop);
       }
 
-      /** Switch to the fallback animation (called when CORS blocks the analyser). */
       function switchToFallback() {
         mode = 'fallback';
-        startLoop();
+        if (!rafId) rafId = requestAnimationFrame(loop);
       }
 
       function stop() {
-        stopLoop();
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
         mode = 'idle';
-        bars.forEach(b => {
-          b.style.height     = '2px';
-          b.style.background = 'var(--dim)';
-        });
+        bars.forEach(b => { b.style.height = '2px'; b.style.background = 'var(--dim)'; });
       }
 
       return { start, stop, switchToFallback, isAnalyserSilent };
     })();
 
     /* =========================================================
-       MAIN — glue stream + visualizer together
+       CURRENT STREAM STATE
+    ========================================================= */
+    let currentStreamUrl = null;
+
+    function updateBrowserUrl(streamUrl) {
+      const u = new URL(window.location.href);
+      if (streamUrl) u.searchParams.set('play', streamUrl);
+      else u.searchParams.delete('play');
+      window.history.replaceState({}, '', u.toString());
+    }
+
+    /* =========================================================
+       PLAYER SETUP
     ========================================================= */
     const params    = new URLSearchParams(window.location.search);
-    const streamUrl = params.get('play') || "https://dancewave.online/dance.ogg";
+    const initialUrl = params.get('play') || 'https://dancewave.online/dance.ogg';
 
-    if (streamUrl) {
-      urlDisplay.innerHTML = `<span>SRC</span> ${streamUrl}`;
-      urlDisplay.title = streamUrl;
+    // Inject player controls
+    content.innerHTML = `
+      <div class="controls">
+        <button id="btn-play" aria-label="Play stream">▶ Play</button>
+        <button id="btn-stop" aria-label="Stop stream" disabled>■ Stop</button>
+        <button id="btn-record" aria-label="Record stream" disabled>
+          <span class="rec-dot"></span>
+          <span class="rec-label">Record</span>
+          <span class="rec-timer"></span>
+        </button>
+      </div>
+      <div class="volume-row">
+        <span class="volume-icon" id="vol-icon">🔊</span>
+        <input class="volume-slider" id="vol-slider" type="range" min="0" max="100" value="100" aria-label="Volume">
+        <span class="volume-value" id="vol-value">100%</span>
+      </div>
+      <div id="cors-notice" style="display:none; margin-top:0.8rem; font-size:0.62rem; color:#555; letter-spacing:0.08em; line-height:1.6;">
+        ⚠ Visualizer limited — stream server does not send CORS headers.
+      </div>`;
 
-      content.innerHTML = `
-        <div class="controls">
-          <button id="btn-play" aria-label="Play stream">▶ Play</button>
-          <button id="btn-stop" aria-label="Stop stream" disabled>■ Stop</button>
-          <button id="btn-record" aria-label="Record stream" disabled>
-            <span class="rec-dot"></span>
-            <span class="rec-label">Record</span>
-            <span class="rec-timer"></span>
-          </button>
-        </div>
-        <div class="volume-row">
-          <span class="volume-icon" id="vol-icon">🔊</span>
-          <input class="volume-slider" id="vol-slider" type="range" min="0" max="100" value="100" aria-label="Volume">
-          <span class="volume-value" id="vol-value">100%</span>
-        </div>
-        <div id="cors-notice" style="
-          display:none; margin-top:0.8rem; font-size:0.62rem;
-          color:#555; letter-spacing:0.08em; line-height:1.6;
-        ">⚠ Visualizer limited — stream server does not send CORS headers.</div>`;
+    const btnPlay    = document.getElementById('btn-play');
+    const btnStop    = document.getElementById('btn-stop');
+    const btnRecord  = document.getElementById('btn-record');
+    const corsNotice = document.getElementById('cors-notice');
 
-      const btnPlay    = document.getElementById('btn-play');
-      const btnStop    = document.getElementById('btn-stop');
-      const btnRecord  = document.getElementById('btn-record');
-      const corsNotice = document.getElementById('cors-notice');
+    /* Volume */
+    const volSlider = document.getElementById('vol-slider');
+    const volValue  = document.getElementById('vol-value');
+    const volIcon   = document.getElementById('vol-icon');
 
-      /* ---- Volume control ---- */
-      const volSlider = document.getElementById('vol-slider');
-      const volValue  = document.getElementById('vol-value');
-      const volIcon   = document.getElementById('vol-icon');
+    function updateVolumeUI(val) {
+      const pct = Math.round(val * 100);
+      volValue.textContent = `${pct}%`;
+      volSlider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--border) ${pct}%)`;
+      if (val === 0)       volIcon.textContent = '🔇';
+      else if (val < 0.4)  volIcon.textContent = '🔈';
+      else if (val < 0.75) volIcon.textContent = '🔉';
+      else                 volIcon.textContent = '🔊';
+    }
 
-      function updateVolumeUI(val) {
-        const pct = Math.round(val * 100);
-        volValue.textContent = `${pct}%`;
-        // Track fill via background gradient
-        volSlider.style.background =
-          `linear-gradient(to right, var(--accent) ${pct}%, var(--border) ${pct}%)`;
-        // Icon reflects level
-        if (val === 0)       volIcon.textContent = '🔇';
-        else if (val < 0.4)  volIcon.textContent = '🔈';
-        else if (val < 0.75) volIcon.textContent = '🔉';
-        else                 volIcon.textContent = '🔊';
+    volSlider.addEventListener('input', () => {
+      audio.volume = volSlider.value / 100;
+      updateVolumeUI(audio.volume);
+    });
+
+    let lastVolume = 1;
+    volIcon.style.cursor = 'pointer';
+    volIcon.addEventListener('click', () => {
+      if (audio.volume > 0) { lastVolume = audio.volume; audio.volume = 0; volSlider.value = 0; }
+      else { audio.volume = lastVolume; volSlider.value = Math.round(lastVolume * 100); }
+      updateVolumeUI(audio.volume);
+    });
+
+    updateVolumeUI(1);
+
+    /* =========================================================
+       RECORDER MODULE
+    ========================================================= */
+    const Recorder = (() => {
+      let processor = null, recording = false, buffers = [], sampleRate = 44100;
+      let timerInterval = null, startTime = 0;
+
+      const label = btnRecord.querySelector('.rec-label');
+      const timer = btnRecord.querySelector('.rec-timer');
+
+      function updateTimer() {
+        const e = Math.floor((Date.now() - startTime) / 1000);
+        timer.textContent = `${String(Math.floor(e/60)).padStart(2,'0')}:${String(e%60).padStart(2,'0')}`;
       }
 
-      volSlider.addEventListener('input', () => {
-        const val = volSlider.value / 100;
-        audio.volume = val;
-        updateVolumeUI(val);
-      });
-
-      // Click the icon to toggle mute
-      let lastVolume = 1;
-      volIcon.style.cursor = 'pointer';
-      volIcon.addEventListener('click', () => {
-        if (audio.volume > 0) {
-          lastVolume = audio.volume;
-          audio.volume = 0;
-          volSlider.value = 0;
-        } else {
-          audio.volume = lastVolume;
-          volSlider.value = Math.round(lastVolume * 100);
-        }
-        updateVolumeUI(audio.volume);
-      });
-
-      // Init track fill
-      updateVolumeUI(1);
-
-      /* =========================================================
-         RECORDER MODULE
-         Records audio by collecting raw PCM samples via a
-         ScriptProcessorNode tapped from the Web Audio graph.
-         On stop, encodes collected samples as a proper WAV file
-         and triggers a browser download. No external libs needed.
-      ========================================================= */
-      const Recorder = (() => {
-        let processor   = null;   // ScriptProcessorNode
-        let recording   = false;
-        let buffers     = [];     // collected Float32Array chunks (L+R interleaved)
-        let sampleRate  = 44100;
-        let timerInterval = null;
-        let startTime   = 0;
-
-        const label = btnRecord.querySelector('.rec-label');
-        const timer = btnRecord.querySelector('.rec-timer');
-
-        function updateTimer() {
-          const elapsed = Math.floor((Date.now() - startTime) / 1000);
-          const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
-          const s = String(elapsed % 60).padStart(2, '0');
-          timer.textContent = `${m}:${s}`;
-        }
-
-        /**
-         * Start recording from the existing AudioContext + AnalyserNode.
-         * @param {AudioContext} ctx
-         * @param {AudioNode} sourceNode  — the node to tap (analyser output)
-         */
-        function start(ctx, sourceNode) {
-          if (recording) return;
-          recording  = true;
-          buffers    = [];
-          sampleRate = ctx.sampleRate;
-
-          // ScriptProcessorNode: 4096 sample buffer, 2ch in, 2ch out
-          processor = ctx.createScriptProcessor(4096, 2, 2);
-
-          processor.onaudioprocess = (e) => {
-            if (!recording) return;
-            const L = e.inputBuffer.getChannelData(0);
-            const R = e.inputBuffer.getChannelData(1);
-            // Interleave L/R into one chunk
-            const interleaved = new Float32Array(L.length * 2);
-            for (let i = 0; i < L.length; i++) {
-              interleaved[i * 2]     = L[i];
-              interleaved[i * 2 + 1] = R[i];
-            }
-            buffers.push(interleaved);
-          };
-
-          // Tap from sourceNode (analyser) → processor → ctx.destination
-          // (processor must be connected to destination to fire in some browsers)
-          sourceNode.connect(processor);
-          processor.connect(ctx.destination);
-
-          // UI
-          btnRecord.classList.add('recording');
-          label.textContent = 'Stop Rec';
-          startTime = Date.now();
-          updateTimer();
-          timerInterval = setInterval(updateTimer, 1000);
-        }
-
-        function stop() {
+      function start(ctx, sourceNode) {
+        if (recording) return;
+        recording = true; buffers = []; sampleRate = ctx.sampleRate;
+        processor = ctx.createScriptProcessor(4096, 2, 2);
+        processor.onaudioprocess = (e) => {
           if (!recording) return;
-          recording = false;
-
-          clearInterval(timerInterval);
-          timer.textContent = '';
-          btnRecord.classList.remove('recording');
-          label.textContent = 'Record';
-
-          if (processor) {
-            try { processor.disconnect(); } catch(_) {}
-            processor.onaudioprocess = null;
-            processor = null;
-          }
-
-          if (buffers.length === 0) return;
-
-          // Merge all chunks
-          const totalLen = buffers.reduce((s, b) => s + b.length, 0);
-          const merged   = new Float32Array(totalLen);
-          let offset = 0;
-          for (const chunk of buffers) {
-            merged.set(chunk, offset);
-            offset += chunk.length;
-          }
-          buffers = [];
-
-          downloadWav(merged, 2, sampleRate);
-        }
-
-        /**
-         * Encode interleaved Float32 PCM as a 16-bit WAV and trigger download.
-         */
-        function downloadWav(samples, numChannels, rate) {
-          const bytesPerSample = 2;  // 16-bit
-          const blockAlign     = numChannels * bytesPerSample;
-          const byteRate       = rate * blockAlign;
-          const dataLen        = samples.length * bytesPerSample;
-          const buffer         = new ArrayBuffer(44 + dataLen);
-          const view           = new DataView(buffer);
-
-          // WAV header
-          const writeStr = (off, str) => {
-            for (let i = 0; i < str.length; i++) view.setUint8(off + i, str.charCodeAt(i));
-          };
-          writeStr(0,  'RIFF');
-          view.setUint32(4,  36 + dataLen, true);
-          writeStr(8,  'WAVE');
-          writeStr(12, 'fmt ');
-          view.setUint32(16, 16, true);            // PCM chunk size
-          view.setUint16(20, 1,  true);            // PCM format
-          view.setUint16(22, numChannels, true);
-          view.setUint32(24, rate, true);
-          view.setUint32(28, byteRate, true);
-          view.setUint16(32, blockAlign, true);
-          view.setUint16(34, 16, true);            // bits per sample
-          writeStr(36, 'data');
-          view.setUint32(40, dataLen, true);
-
-          // PCM samples — clamp float32 → int16
-          let p = 44;
-          for (let i = 0; i < samples.length; i++, p += 2) {
-            const s = Math.max(-1, Math.min(1, samples[i]));
-            view.setInt16(p, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-          }
-
-          // Generate filename: station-name or timestamp
-          const stationEl = document.querySelector('.station-name');
-          const base = stationEl
-            ? stationEl.textContent.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase()
-            : 'recording';
-          const ts = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
-          const filename = `${base}_${ts}.wav`;
-
-          const blob = new Blob([buffer], { type: 'audio/wav' });
-          const url  = URL.createObjectURL(blob);
-          const a    = document.createElement('a');
-          a.href     = url;
-          a.download = filename;
-          a.click();
-          setTimeout(() => URL.revokeObjectURL(url), 10000);
-        }
-
-        function isRecording() { return recording; }
-
-        return { start, stop, isRecording };
-      })();
-
-      /* ---- Wire record button ---- */
-      btnRecord.addEventListener('click', () => {
-        if (Recorder.isRecording()) {
-          Recorder.stop();
-        } else {
-          const ctx       = StreamPlayer.getAudioContext();
-          const tapNode   = StreamPlayer.getAnalyser();
-          if (ctx && tapNode) Recorder.start(ctx, tapNode);
-        }
-      });
-
-      // After audio starts playing, wait briefly then check if
-      // the analyser is actually receiving data.
-      let corsCheckTimer = null;
-      function scheduleCorsCheck() {
-        clearTimeout(corsCheckTimer);
-        corsCheckTimer = setTimeout(() => {
-          if (Visualizer.isAnalyserSilent()) {
-            console.warn('Analyser output is silent — CORS likely blocked. Switching to fallback visualizer.');
-            Visualizer.switchToFallback();
-            corsNotice.style.display = 'block';
-          }
-        }, 2500); // give the stream 2.5 s to start producing data
+          const L = e.inputBuffer.getChannelData(0), R = e.inputBuffer.getChannelData(1);
+          const il = new Float32Array(L.length * 2);
+          for (let i = 0; i < L.length; i++) { il[i*2] = L[i]; il[i*2+1] = R[i]; }
+          buffers.push(il);
+        };
+        sourceNode.connect(processor);
+        processor.connect(ctx.destination);
+        btnRecord.classList.add('recording');
+        label.textContent = 'Stop Rec';
+        startTime = Date.now(); updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
       }
 
-      function handlePlay() {
-        btnPlay.disabled = true;
-        btnStop.disabled = false;
-        corsNotice.style.display = 'none';
-        setStatus('buffering');
+      function stop() {
+        if (!recording) return;
+        recording = false;
+        clearInterval(timerInterval);
+        timer.textContent = '';
+        btnRecord.classList.remove('recording');
+        label.textContent = 'Record';
+        if (processor) { try { processor.disconnect(); } catch(_) {} processor.onaudioprocess = null; processor = null; }
+        if (buffers.length === 0) return;
+        const totalLen = buffers.reduce((s,b)=>s+b.length,0);
+        const merged = new Float32Array(totalLen);
+        let off = 0;
+        for (const c of buffers) { merged.set(c, off); off += c.length; }
+        buffers = [];
+        downloadWav(merged, 2, sampleRate);
+      }
 
-        // Fetch ICY headers in parallel with starting playback
-        IcyMeta.load(streamUrl);
+      function downloadWav(samples, ch, rate) {
+        const bps = 2, ba = ch*bps, br = rate*ba, dl = samples.length*bps;
+        const buf = new ArrayBuffer(44+dl), view = new DataView(buf);
+        const ws = (o,s) => { for(let i=0;i<s.length;i++) view.setUint8(o+i,s.charCodeAt(i)); };
+        ws(0,'RIFF'); view.setUint32(4,36+dl,true); ws(8,'WAVE'); ws(12,'fmt ');
+        view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,ch,true);
+        view.setUint32(24,rate,true); view.setUint32(28,br,true); view.setUint16(32,ba,true);
+        view.setUint16(34,16,true); ws(36,'data'); view.setUint32(40,dl,true);
+        let p=44;
+        for(let i=0;i<samples.length;i++,p+=2) {
+          const s=Math.max(-1,Math.min(1,samples[i]));
+          view.setInt16(p,s<0?s*0x8000:s*0x7FFF,true);
+        }
+        const stEl = document.querySelector('.station-name');
+        const base = stEl ? stEl.textContent.trim().replace(/[^a-z0-9]/gi,'_').toLowerCase() : 'recording';
+        const ts = new Date().toISOString().slice(0,19).replace(/[T:]/g,'-');
+        const blob = new Blob([buf],{type:'audio/wav'});
+        const url = URL.createObjectURL(blob);
+        const a = Object.assign(document.createElement('a'),{href:url,download:`${base}_${ts}.wav`});
+        a.click();
+        setTimeout(()=>URL.revokeObjectURL(url),10000);
+      }
 
-        StreamPlayer.play(
-          streamUrl,
-          /* onCorsFailure — called synchronously if CORS request errored */ () => {
-            Visualizer.switchToFallback();
-            corsNotice.style.display = 'block';
-          }
-        ).catch(() => {
-          setStatus('error');
-          Visualizer.stop();
-          btnPlay.disabled = false;
-          btnStop.disabled = true;
+      function isRecording() { return recording; }
+      return { start, stop, isRecording };
+    })();
+
+    btnRecord.addEventListener('click', () => {
+      if (Recorder.isRecording()) Recorder.stop();
+      else { const ctx = StreamPlayer.getAudioContext(), tap = StreamPlayer.getAnalyser(); if(ctx&&tap) Recorder.start(ctx,tap); }
+    });
+
+    /* =========================================================
+       PLAY / STOP LOGIC
+    ========================================================= */
+    let corsCheckTimer = null;
+
+    function scheduleCorsCheck() {
+      clearTimeout(corsCheckTimer);
+      corsCheckTimer = setTimeout(() => {
+        if (Visualizer.isAnalyserSilent()) {
+          Visualizer.switchToFallback();
+          corsNotice.style.display = 'block';
+        }
+      }, 2500);
+    }
+
+    function handlePlay(url) {
+      url = url || currentStreamUrl || initialUrl;
+      currentStreamUrl = url;
+      updateBrowserUrl(url);
+      FavoritesUI.setActive(url);
+
+      urlDisplay.innerHTML = `<span>SRC</span> ${url}`;
+      urlDisplay.title = url;
+
+      btnPlay.disabled = true;
+      btnStop.disabled = false;
+      corsNotice.style.display = 'none';
+      setStatus('buffering');
+
+      IcyMeta.load(url);
+
+      StreamPlayer.play(url, () => {
+        Visualizer.switchToFallback();
+        corsNotice.style.display = 'block';
+      }).catch(() => {
+        setStatus('error');
+        Visualizer.stop();
+        btnPlay.disabled = false;
+        btnStop.disabled = true;
+      });
+    }
+
+    function handleStop() {
+      clearTimeout(corsCheckTimer);
+      if (Recorder.isRecording()) Recorder.stop();
+      StreamPlayer.stop();
+      Visualizer.stop();
+      IcyMeta.clear();
+      btnPlay.disabled = false;
+      btnStop.disabled = true;
+      btnRecord.disabled = true;
+      setStatus('idle');
+      FavoritesUI.setActive(null);
+    }
+
+    btnPlay.addEventListener('click', () => handlePlay());
+    btnStop.addEventListener('click', handleStop);
+
+    audio.addEventListener('playing', () => {
+      setStatus('playing');
+      Visualizer.start(StreamPlayer.getAnalyser());
+      scheduleCorsCheck();
+      btnRecord.disabled = false;
+    });
+
+    audio.addEventListener('waiting', () => setStatus('buffering'));
+    audio.addEventListener('stalled', () => setStatus('buffering'));
+    audio.addEventListener('ended',   handleStop);
+    audio.addEventListener('error',   () => {
+      setStatus('error');
+      Visualizer.stop();
+      if (Recorder.isRecording()) Recorder.stop();
+      btnPlay.disabled = false;
+      btnStop.disabled = true;
+      btnRecord.disabled = true;
+    });
+
+    /* =========================================================
+       FAVORITES UI
+    ========================================================= */
+    const FavoritesUI = (() => {
+      const listEl    = document.getElementById('station-list');
+      const countEl   = document.getElementById('fav-count');
+      const inputEl   = document.getElementById('fav-input');
+      const addBtn    = document.getElementById('fav-add-btn');
+      const favHeader = document.getElementById('fav-header');
+      const favBody   = document.getElementById('fav-body');
+      const favToggle = document.getElementById('fav-toggle');
+
+      let activeUrl = null;
+
+      /* Toggle collapse */
+      favHeader.addEventListener('click', () => {
+        favBody.classList.toggle('open');
+        favToggle.classList.toggle('open');
+      });
+
+      function esc(str) { return IcyMeta.esc(str); }
+
+      function urlToLabel(url) {
+        try {
+          const u = new URL(url);
+          return u.hostname + (u.pathname !== '/' ? u.pathname : '');
+        } catch { return url; }
+      }
+
+      function renderItem(fav) {
+        const li = document.createElement('div');
+        li.className = 'fav-item' + (fav.url === activeUrl ? ' active-station' : '');
+        li.dataset.url = fav.url;
+
+        const meta = fav.meta;
+        const displayName = meta?.name || urlToLabel(fav.url);
+
+        const genreTags = meta?.genre
+          ? meta.genre.split(/[\s/]+/).filter(Boolean).slice(0, 3)
+              .map(g => `<span class="fav-tag">${esc(g)}</span>`).join('')
+          : '';
+        const techTags = meta?.bitrate
+          ? `<span class="fav-tag hl">${esc(meta.bitrate)} kbps</span>`
+          : '';
+        const tagsHtml = (genreTags || techTags) ? `<div class="fav-tags">${genreTags}${techTags}</div>` : '';
+
+        // Logo area
+        let logoHtml;
+        if (meta === null) {
+          // Not yet fetched — show spinner
+          logoHtml = `<div class="fav-logo-wrap"><div class="fav-logo-loading"></div></div>`;
+        } else if (meta?.logo) {
+          logoHtml = `<div class="fav-logo-wrap"><img class="fav-logo" src="${esc(meta.logo)}" alt="" onerror="this.outerHTML='<span class=fav-logo-placeholder>📻</span>'"></div>`;
+        } else {
+          logoHtml = `<div class="fav-logo-wrap"><span class="fav-logo-placeholder">📻</span></div>`;
+        }
+
+        li.innerHTML = `
+          ${logoHtml}
+          <div class="fav-info">
+            <div class="fav-name">${esc(displayName)}</div>
+            <div class="fav-url">${esc(fav.url)}</div>
+            ${tagsHtml}
+          </div>
+          <div class="fav-actions">
+            <button class="fav-btn fav-btn-play" title="Play this station">▶</button>
+            <button class="fav-btn fav-btn-remove" title="Remove from favorites">✕</button>
+          </div>`;
+
+        li.querySelector('.fav-info').addEventListener('click', () => handlePlay(fav.url));
+        li.querySelector('.fav-btn-play').addEventListener('click', () => handlePlay(fav.url));
+        li.querySelector('.fav-btn-remove').addEventListener('click', () => {
+          FavoritesStore.remove(fav.url);
+          render();
+          showToast('Station removed');
+        });
+
+        return li;
+      }
+
+      function render() {
+        const favs = FavoritesStore.getAll();
+        countEl.textContent = favs.length;
+
+        if (favs.length === 0) {
+          listEl.innerHTML = `<div class="fav-empty">No favorites yet.<br>Paste a stream URL above and press <code>+ Add</code>.</div>`;
+          return;
+        }
+
+        listEl.innerHTML = '';
+        favs.forEach(fav => listEl.appendChild(renderItem(fav)));
+      }
+
+      function setActive(url) {
+        activeUrl = url;
+        // Update active class without full re-render
+        listEl.querySelectorAll('.fav-item').forEach(el => {
+          el.classList.toggle('active-station', el.dataset.url === url);
         });
       }
 
-      function handleStop() {
-        clearTimeout(corsCheckTimer);
-        if (Recorder.isRecording()) Recorder.stop();
-        StreamPlayer.stop();
-        Visualizer.stop();
-        IcyMeta.clear();
-        btnPlay.disabled = false;
-        btnStop.disabled = true;
-        btnRecord.disabled = true;
-        setStatus('idle');
+      /* Add a station */
+      async function addStation(url) {
+        url = url.trim();
+        if (!url) { showToast('Enter a stream URL', true); return; }
+        try { new URL(url); } catch { showToast('Invalid URL', true); return; }
+
+        const added = FavoritesStore.add(url);
+        if (!added) { showToast('Already in favorites', true); return; }
+
+        render();
+        showToast('Station added — fetching metadata…');
+        inputEl.value = '';
+
+        // Fetch metadata in background and update
+        const meta = await IcyMeta.fetchMeta(url);
+        FavoritesStore.updateMeta(url, meta || undefined);
+        render();
       }
 
-      btnPlay.addEventListener('click', handlePlay);
-      btnStop.addEventListener('click', handleStop);
+      addBtn.addEventListener('click', () => addStation(inputEl.value));
+      inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') addStation(inputEl.value); });
 
-      audio.addEventListener('playing', () => {
-        setStatus('playing');
-        Visualizer.start(StreamPlayer.getAnalyser());
-        scheduleCorsCheck();   // verify analyser is producing real data
-        btnRecord.disabled = false;
-      });
+      /* Fetch metadata for all stations that don't have it yet */
+      async function hydrateAll() {
+        const favs = FavoritesStore.getAll();
+        for (const fav of favs) {
+          if (fav.meta === null) {
+            const meta = await IcyMeta.fetchMeta(fav.url);
+            FavoritesStore.updateMeta(fav.url, meta || undefined);
+            render();
+          }
+        }
+      }
 
-      audio.addEventListener('waiting', () => { setStatus('buffering'); });
-      audio.addEventListener('stalled', () => { setStatus('buffering'); });
-      audio.addEventListener('ended',   handleStop);
+      return { render, setActive, hydrateAll };
+    })();
 
-      audio.addEventListener('error', () => {
-        setStatus('error');
-        Visualizer.stop();
-        if (Recorder.isRecording()) Recorder.stop();
-        btnPlay.disabled = false;
-        btnStop.disabled = true;
-        btnRecord.disabled = true;
-      });
+    /* =========================================================
+       BOOTSTRAP
+    ========================================================= */
+    FavoritesUI.render();
+    // Hydrate metadata for stored stations in background
+    FavoritesUI.hydrateAll();
 
-      // Auto-play on load
-      handlePlay();
+    // Auto-play initial stream
+    currentStreamUrl = initialUrl;
+    urlDisplay.innerHTML = `<span>SRC</span> ${initialUrl}`;
+    urlDisplay.title = initialUrl;
+    handlePlay(initialUrl);
 
-    } else {
-      content.innerHTML = `
-        <div class="no-stream">
-          <p>No stream URL provided.</p>
-          <p>Add <code>?play=https://…</code> to the URL.</p>
-        </div>`;
-      setStatus('idle');
-    }
   </script>
 </body>
 </html>
