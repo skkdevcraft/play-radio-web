@@ -1,0 +1,192 @@
+/* =========================================================
+   CHRISTMAS CINEMATIC BACKGROUND
+   Requires:
+   --t, --amp-mid, --amp-high, --amp-bass
+   ========================================================= */
+
+:root {
+  --christmas-green: #0c3b2e;
+  --christmas-dark: #071d16;
+  --christmas-red: #b11226;
+  --snow-color: #ffffff;
+}
+
+
+/* =========================================================
+   Base Layers
+   ========================================================= */
+
+.bg-layer-1,
+.bg-layer-2,
+.bg-layer-3 {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-layer-1 { z-index: -3; }
+.bg-layer-2 { z-index: -2; }
+.bg-layer-3 { z-index: -1; }
+
+/* =========================================================
+   Aurora Borealis (Atmosphere)
+   ========================================================= */
+
+.bg-layer-1 {
+  background: linear-gradient(
+    to bottom,
+    #02110d 0%,
+    var(--christmas-dark) 60%,
+    #010806 100%
+  );
+}
+
+.bg-layer-1::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: -4;
+
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(0,255,180,0.25), transparent 60%),
+    radial-gradient(ellipse at 70% 25%, rgba(0,180,255,0.25), transparent 60%),
+    radial-gradient(ellipse at 50% 10%, rgba(120,255,200,0.25), transparent 70%);
+
+  filter: blur(80px);
+  opacity: 0.5;
+
+  animation: aurora-drift 40s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform:
+      translateX(calc(sin(calc(var(--t) * 0.002)) * 40px))
+      translateY(0)
+      scale(1);
+  }
+  100% {
+    transform:
+      translateX(calc(cos(calc(var(--t) * 0.002)) * 60px))
+      translateY(-30px)
+      scale(1.1);
+  }
+}
+
+/* =========================================================
+   Pine Tree Silhouette
+   ========================================================= */
+
+.bg-layer-1::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%)
+    scale(calc(1 + var(--amp-bass) * 0.05));
+  width: 600px;
+  height: 500px;
+
+  background:
+    linear-gradient(to top,
+      transparent 0%,
+      var(--christmas-green) 40%,
+      var(--christmas-green) 100%);
+
+  clip-path: polygon(
+    50% 0%,
+    65% 20%,
+    60% 20%,
+    75% 40%,
+    68% 40%,
+    85% 65%,
+    15% 65%,
+    32% 40%,
+    25% 40%,
+    40% 20%,
+    35% 20%
+  );
+
+  filter:
+    drop-shadow(0 0 calc(10px + var(--amp-bass) * 25px)
+    rgba(0,255,150,0.3));
+}
+
+/* =========================================================
+   Dense Smooth Snow (Radial Gradient System)
+   ========================================================= */
+
+.bg-layer-2::after,
+.bg-layer-3::after {
+  content: "";
+  position: absolute;
+  inset: -200% 0 0 0;
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.75) 1.5px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.4) 0.5px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.85) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.5) 1.5px, transparent 2px);
+
+  background-size:
+    113px 137px,
+    179px 163px,
+    241px 197px,
+    97px  211px,
+    157px 149px,
+    223px 251px;
+
+  background-position:
+    0 0,
+    37px 81px,
+    14px 53px,
+    71px 29px,
+    52px 104px,
+    88px 67px;
+
+  animation: snow-drift 155s linear infinite;
+}
+
+.bg-layer-3::after {
+  animation-duration: 85s;
+  animation-delay: -23s;
+
+  background-position:
+    19px 44px,
+    63px 112px,
+    8px  77px,
+    91px 38px,
+    44px 95px,
+    77px 21px;
+
+  filter:
+    drop-shadow(0 0 calc(4px + var(--amp-high) * 10px)
+    rgba(154,223,255,0.9));
+}
+
+@keyframes snow-drift {
+  0% {
+    transform:
+      translateY(-20%)
+      translateX(calc(sin(calc(var(--t) * 0.02)) * 42px));
+  }
+  25% {
+    transform:
+      translateY(10%)
+      translateX(calc(sin(calc(var(--t) * 0.02 + 1)) * 28px));
+  }
+  60% {
+    transform:
+      translateY(60%)
+      translateX(calc(cos(calc(var(--t) * 0.025)) * 35px));
+  }
+  100% {
+    transform:
+      translateY(120%)
+      translateX(calc(cos(calc(var(--t) * 0.03)) * 17px));
+  }
+}

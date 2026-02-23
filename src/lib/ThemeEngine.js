@@ -22,6 +22,7 @@ export const ThemeEngine = (() => {
     { id: 'arctic-frost', name: 'Arctic Frost', label: 'Light & Clean' },
     { id: 'neon-dusk', name: 'Neon Dusk', label: 'Synthwave' },
     { id: 'valentine', name: 'Valentine', label: 'Valentine' },
+    { id: 'christmas', name: 'Christmas', label: 'Christmas' },
   ];
 
   let _activeId = null;

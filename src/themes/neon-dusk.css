@@ -291,10 +291,18 @@ body {
 
 /* Logo Rotation */
 
-.station-meta__logo-placeholder {
+/* .station-meta__logo-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
   transform: rotate(calc(var(--t) * calc(20 + var(--amp-high-pct) * 4) * 0.05deg));
+  transition: transform 0.02s linear;
+} */
+
+.station-meta__logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(calc(1 + var(--amp-high-pct) * 0.015));
   transition: transform 0.02s linear;
 }
