@@ -18,6 +18,21 @@ export const Player = (() => {
   const params     = new URLSearchParams(window.location.search);
   const initialUrl = params.get('play') || 'https://dancewave.online/dance.ogg';
 
+  /* ---------------------------------------------------------
+     EVENT EMITTER
+  --------------------------------------------------------- */
+  const _listeners = {};
+
+  function on(event, cb) {
+    (_listeners[event] ??= []).push(cb);
+  }
+
+  function _emit(event, ...args) {
+    (_listeners[event] ?? []).forEach(cb => cb(...args));
+  }
+
+  /* --------------------------------------------------------- */
+
   function _updateBrowserUrl(url) {
     const u = new URL(window.location.href);
     if (url) u.searchParams.set('play', url);
@@ -51,6 +66,7 @@ export const Player = (() => {
     if (btnStop)   btnStop.disabled   = false;
     if (corsNotice) corsNotice.style.display = 'none';
     StatusBar.set('buffering');
+    IcyMeta.clear();
     IcyMeta.load(url);
 
     StreamPlayer.play(url, () => {
@@ -65,6 +81,8 @@ export const Player = (() => {
       if (btnPlay) btnPlay.disabled = false;
       if (btnStop) btnStop.disabled = true;
     });
+
+    _emit('play', url);
   }
 
   function stop() {
@@ -79,6 +97,8 @@ export const Player = (() => {
     if (btnRecord) btnRecord.disabled = true;
     StatusBar.set('idle');
     FavoritesUI.setActive(null);
+
+    _emit('stop');
   }
 
   if (btnPlay)   btnPlay.addEventListener('click',  () => play());
@@ -152,7 +172,7 @@ export const Player = (() => {
 
   _updateVolUI(1);
 
-  return { play, stop, getInitialUrl: () => initialUrl };
+  return { play, stop, on, getInitialUrl: () => initialUrl };
 })();
 
 

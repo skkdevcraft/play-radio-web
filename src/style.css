@@ -610,6 +610,108 @@ main#app {
 .station-list__empty { padding: 1.5rem 1rem; text-align: center; font-size: 0.65rem; color: var(--color-text-dim); letter-spacing: 0.1em; line-height: 1.8; }
 .station-list__empty code { color: var(--color-accent); background: var(--color-well); padding: 0.1em 0.4em; }
 
+/* ── Search panel ───────────────────────────────────────── */
+.search-panel {
+    grid-area: search; /* Define a new grid area for consistency */
+    display: block;
+    margin-top: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-top: var(--fav-panel-border-top); /* Re-use favorite panel's top border */
+}
+.search-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background: var(--color-panel-alt);
+    border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
+    user-select: none;
+}
+.search-panel__title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--color-text);
+}
+.search-panel__body {
+    background: var(--color-bg);
+}
+.search-input-area {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+}
+.search-input-area__input {
+    flex: 1;
+    background: var(--color-well);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 0.5rem 0.6rem;
+    letter-spacing: 0.05em;
+    outline: none;
+    transition: border-color 0.15s;
+    min-width: 0;
+}
+.search-input-area__input::placeholder {
+    color: var(--color-text-muted);
+}
+.search-input-area__input:focus {
+    border-color: var(--color-accent);
+}
+.search-input-area__btn {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.search-input-area__btn:hover {
+    background: var(--color-accent);
+    color: #000;
+    box-shadow: 0 0 12px var(--color-accent-shadow);
+}
+.search-results-list {
+    max-height: var(--fav-max-height); /* Re-use favorite list's max-height */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+.search-results-list::-webkit-scrollbar {
+    width: 4px;
+}
+.search-results-list::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+}
+.search-results__empty {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-size: 0.65rem;
+    color: var(--color-text-dim);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+}
+
+main#app {
+    grid-template-areas:
+    "header"
+    "player"
+    "themes"
+    "favorites"
+    "search";
+}
+
+
 /* ── Toast ──────────────────────────────────────────────── */
 .toast { position: fixed; bottom: var(--toast-position-bottom); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--toast-bg); border: 1px solid var(--toast-border); border-left: 3px solid var(--toast-accent-border); color: var(--toast-color); font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.6rem 1.2rem; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 100; white-space: nowrap; }
 .toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }

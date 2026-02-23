@@ -126,7 +126,11 @@ export const FavoritesUI = (() => {
     }
   }
 
-  return { render, setActive, hydrateAll };
+  async function addStation(url) {
+    await _addStation(url);
+  }
+
+  return { render, setActive, hydrateAll, addStation };
 })();
 
 /* =========================================================

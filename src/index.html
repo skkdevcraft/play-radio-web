@@ -82,6 +82,24 @@
       </div>
     </section>
 
+    <!-- SEARCH -->
+    <section class="search-panel" aria-label="Search radio stations">
+      <div class="search-panel__header" role="button" tabindex="0">
+        <span class="search-panel__title">Search Stations</span>
+      </div>
+      <div class="search-panel__body">
+        <div class="search-input-area">
+          <input class="search-input-area__input" id="search-input" type="text"
+                 placeholder="Search by name, tag, country..."
+                 autocomplete="off" spellcheck="false" aria-label="Search query" />
+          <button class="search-input-area__btn" id="search-btn">Search</button>
+        </div>
+        <div class="search-results-list" id="search-results-list" role="list">
+          <div class="search-results__empty">Enter a query above to find stations.</div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">FM / AM / DAB / IP</footer>
