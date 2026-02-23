@@ -260,15 +260,6 @@
     --toast-position-bottom:  1.5rem;
 }
 
-:root {
-    --layout-columns: 1fr 1fr;
-    --layout-areas:
-        "header header"
-        "player search"
-        "favorites search"
-        "themes themes";
-}
-
 /* ============================================================
     BODY & BACKGROUND
     --bg-image accepts any CSS image value: url(), gradients, etc.
