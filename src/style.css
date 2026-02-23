@@ -70,14 +70,15 @@
         '"header header" "player favorites" "themes themes"'
         (each row is a quoted string, columns separated by spaces)
     */
-    --layout-columns:         1fr;
     --layout-rows:            auto;
+    --layout-columns:         1fr;
     --layout-areas:
         "header"
         "player"
         "themes"
-        "favorites";
-    --layout-gap:             0px;        /* gap between grid cells */
+        "favorites"
+        "search";
+    --layout-gap:             1rem;        /* gap between grid cells */
     --layout-max-width:       1040px;
     --layout-padding:         4rem;
     --layout-align-items:     start;
@@ -259,6 +260,15 @@
     --toast-position-bottom:  1.5rem;
 }
 
+:root {
+    --layout-columns: 1fr 1fr;
+    --layout-areas:
+        "header header"
+        "player search"
+        "favorites search"
+        "themes themes";
+}
+
 /* ============================================================
     BODY & BACKGROUND
     --bg-image accepts any CSS image value: url(), gradients, etc.
@@ -275,6 +285,8 @@ body {
     color: var(--color-text);
     font-family: var(--font-mono);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     padding: var(--layout-padding);
 }
@@ -542,7 +554,6 @@ main#app {
 .theme-switcher {
     grid-area: var(--themes-grid-area);
     display: var(--theme-switcher-display);
-    margin-top: 1.5rem;
     border: 1px solid var(--color-border);
     border-top: 3px solid var(--color-accent2);
 }
@@ -566,7 +577,6 @@ main#app {
 .favorites-panel {
     grid-area: var(--favorites-grid-area);
     display: var(--favorites-display);
-    margin-top: 1.5rem;
     border: 1px solid var(--color-border);
     border-top: var(--fav-panel-border-top);
 }
@@ -614,7 +624,6 @@ main#app {
 .search-panel {
     grid-area: var(--search-grid-area);
     display: block;
-    margin-top: 1.5rem;
     border: 1px solid var(--color-border);
     border-top: var(--fav-panel-border-top); /* Re-use favorite panel's top border */
 }
@@ -701,16 +710,6 @@ main#app {
     letter-spacing: 0.1em;
     line-height: 1.8;
 }
-
-main#app {
-    grid-template-areas:
-    "header"
-    "player"
-    "themes"
-    "favorites"
-    "search";
-}
-
 
 /* ── Toast ──────────────────────────────────────────────── */
 .toast { position: fixed; bottom: var(--toast-position-bottom); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--toast-bg); border: 1px solid var(--toast-border); border-left: 3px solid var(--toast-accent-border); color: var(--toast-color); font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.6rem 1.2rem; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 100; white-space: nowrap; }
