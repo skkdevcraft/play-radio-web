@@ -81,6 +81,7 @@ export const SearchUI = (() => {
     if (addFavBtn) {
         addFavBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
+            IcyMeta.setMeta(station.url, station);
             FavoritesUI.addStation(station.url);
         });
     }

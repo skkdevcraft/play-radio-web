@@ -3,12 +3,44 @@
 ========================================================= */
 export const IcyMeta = (() => {
   const panelEl = document.getElementById('station-meta');
+  const STORAGE_KEY = 'icymeta_cache';
 
   function esc(str) {
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
+  
+  function _loadCache() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch { return {}; }
+  }
+
+  function _saveCache(cache) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cache));
+    } catch { /* storage full or unavailable */ }
+  }
+
+  function setMeta(url, data) {
+    if (!url || !data) return;
+    const cache = _loadCache();
+    cache[url] = {
+      name:        data.name        || null,
+      description: data.description || null,
+      genre:       data.tags        || data.genre || null,
+      url:         data.homepage    || data.url   || null,
+      logo:        data.favicon     || data.logo  || null,
+      bitrate:     data.bitrate     ? String(data.bitrate) : null,
+      samplerate:  data.samplerate  || null,
+      _cached_at:  Date.now(),
+    };
+    _saveCache(cache);
+  }
 
   async function fetchMeta(url) {
+    const cache = _loadCache();
+    if (cache[url]) return cache[url];
+
     try {
       const ctrl = new AbortController();
       const tid = setTimeout(() => ctrl.abort(), 6000);
@@ -20,8 +52,14 @@ export const IcyMeta = (() => {
       const meta = {
         name: get('icy-name'), description: get('icy-description'), genre: get('icy-genre'),
         url: get('icy-url'), logo: get('icy-logo'), bitrate: get('icy-br'), samplerate: get('icy-sr'),
+        _cached_at: Date.now(),
       };
-      return Object.values(meta).some(v => v !== null) ? meta : null;
+      const result = Object.values(meta).some((v, i, a) => i < a.length - 1 && v !== null) ? meta : null;
+      if (result) {
+        cache[url] = result;
+        _saveCache(cache);
+      }
+      return result;
     } catch { return null; }
   }
 
@@ -62,5 +100,9 @@ export const IcyMeta = (() => {
     panelEl.classList.remove('is-visible');
   }
 
-  return { fetchMeta, renderPanel, load, clear, esc };
+  function clearCache() {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  return { fetchMeta, renderPanel, load, clear, esc, setMeta, clearCache };
 })();
