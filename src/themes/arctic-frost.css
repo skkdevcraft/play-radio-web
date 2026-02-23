@@ -1,0 +1,135 @@
+/* =========================================================
+   ARCTIC FROST THEME
+   File: themes/arctic-frost.css
+   Style: Light & Clean
+========================================================= */
+
+/* ---------------------------------------------------------
+   Google Fonts
+--------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap');
+
+/* ---------------------------------------------------------
+   ROOT VARIABLES
+--------------------------------------------------------- */
+:root {
+
+  --font-mono: 'DM Mono', monospace;
+  --font-display: 'Exo 2', sans-serif;
+
+  --color-bg: #f0f4f8;
+  --color-panel: #ffffff;
+  --color-panel-alt: #f7fafd;
+  --color-well: #edf1f7;
+
+  --color-border: #d0dae8;
+  --color-border-subtle: #e4eaf4;
+
+  --color-accent: #0077ff;
+  --color-accent-shadow: rgba(0,119,255,0.25);
+
+  --color-accent2: #e6003a;
+  --color-accent2-shadow: rgba(230,0,58,0.25);
+
+  --color-status-playing: #00b05c;
+  --color-status-buffering: #0077ff;
+  --color-status-error: #e6003a;
+
+  --color-vu-low: #00b05c;
+  --color-vu-mid: #0077ff;
+  --color-vu-high: #e6003a;
+  --color-vu-idle: #c8d4e4;
+
+  --color-text: #1a2233;
+  --color-text-dim: #7a8fa8;
+  --color-text-muted: #a8baca;
+
+  --color-record: #b00030;
+  --color-record-shadow: rgba(176,0,48,0.3);
+
+  --header-title-color: #0055cc;
+  --header-title-shadow: 0 2px 0 rgba(0,119,255,0.15);
+  --header-subtitle-color: #7a8fa8;
+
+  --panel-bg: #ffffff;
+  --panel-border-top: 3px solid #0077ff;
+  --panel-border-right: 2px solid #d0dae8;
+  --panel-border-bottom: 2px solid #d0dae8;
+  --panel-border-left: 2px solid #d0dae8;
+  --panel-border-radius: 6px;
+  --panel-padding: 2rem;
+
+  --btn-play-border: #0077ff;
+  --btn-play-color: #0077ff;
+  --btn-play-hover-bg: #0077ff;
+  --btn-play-hover-color: #ffffff;
+  --btn-play-hover-shadow: 0 4px 16px rgba(0,119,255,0.3);
+
+  --btn-stop-border: #e6003a;
+  --btn-stop-color: #e6003a;
+  --btn-stop-hover-bg: #e6003a;
+  --btn-stop-hover-color: #ffffff;
+  --btn-stop-hover-shadow: 0 4px 16px rgba(230,0,58,0.3);
+
+  --btn-font-size: 1.2rem;
+  --btn-padding: 0.9rem 1rem;
+  --btn-border-width: 2px;
+  --btn-border-style: solid;
+  --btn-border-radius: 6px;
+
+  --slider-thumb-color: #0077ff;
+  --slider-thumb-shadow: 0 0 6px rgba(0,119,255,0.4);
+  --slider-track-bg: #d0dae8;
+
+  --vu-height: 60px;
+  --vu-gap: 3px;
+  --vu-bar-radius: 3px;
+
+  --meta-logo-size: 80px;
+  --meta-name-color: #0055cc;
+  --meta-tag-color: #7a8fa8;
+  --meta-tag-border: #d0dae8;
+  --meta-tag-hl-color: #0077ff;
+  --meta-tag-hl-border: rgba(0,119,255,0.3);
+
+  --fav-panel-border-top: 3px solid #d0dae8;
+  --fav-item-active-bg: #eef6ff;
+  --fav-item-active-accent: #0077ff;
+  --fav-item-hover-bg: #f7fafd;
+  --fav-name-color: #1a2233;
+  --fav-name-active-color: #0055cc;
+  --fav-btn-play-color: #0077ff;
+  --fav-btn-rem-color: #e6003a;
+
+  --toast-bg: #ffffff;
+  --toast-border: #d0dae8;
+  --toast-accent-border: #0077ff;
+  --toast-error-border: #e6003a;
+  --toast-color: #1a2233;
+
+  --bg-grid-color: #dce6f0;
+  --bg-grid-size: 40px;
+
+  --bg-color: #f0f4f8;
+
+  --layout-max-width: 520px;
+}
+
+/* ---------------------------------------------------------
+   LIGHT-SPECIFIC POLISH
+--------------------------------------------------------- */
+
+/* Soften grid overlay on bright background */
+body::before {
+  opacity: 0.5;
+}
+
+/* Subtle hover fills for station list controls */
+.station-list__btn--play:hover {
+  background: rgba(0,119,255,0.07) !important;
+}
+
+.station-list__btn--remove:hover {
+  background: rgba(230,0,58,0.07) !important;
+}

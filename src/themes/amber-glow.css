@@ -1,0 +1,135 @@
+/* =========================================================
+   AMBER GLOW THEME
+   File: themes/amber-glow.css
+   Style: Retro CRT
+========================================================= */
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* ---------------------------------------------------------
+   ROOT VARIABLES
+--------------------------------------------------------- */
+:root {
+
+  --font-mono: 'VT323', monospace;
+  --font-display: 'VT323', monospace;
+
+  --color-bg: #0c0800;
+  --color-panel: #120e00;
+  --color-panel-alt: #0e0a00;
+  --color-well: #080500;
+
+  --color-border: #3a2800;
+  --color-border-subtle: #1c1400;
+
+  --color-accent: #ffb300;
+  --color-accent-shadow: rgba(255,179,0,0.35);
+
+  --color-accent2: #ff6600;
+  --color-accent2-shadow: rgba(255,102,0,0.4);
+
+  --color-status-playing: #ffb300;
+  --color-status-buffering: #ff8800;
+  --color-status-error: #ff2200;
+
+  --color-vu-low: #ffb300;
+  --color-vu-mid: #ff8800;
+  --color-vu-high: #ff4400;
+  --color-vu-idle: #3a2800;
+
+  --color-text: #e6a000;
+  --color-text-dim: #6b4a00;
+  --color-text-muted: #3d2a00;
+
+  --color-record: #cc3300;
+  --color-record-shadow: rgba(204,51,0,0.5);
+
+  --header-title-color: #ffb300;
+  --header-title-shadow:
+    0 0 30px rgba(255,179,0,0.5),
+    0 0 60px rgba(255,100,0,0.2);
+
+  --header-subtitle-color: #6b4a00;
+
+  --panel-bg: #120e00;
+  --panel-border-top: 3px solid #ffb300;
+  --panel-border-right: 1px solid #3a2800;
+  --panel-border-bottom: 1px solid #3a2800;
+  --panel-border-left: 1px solid #3a2800;
+
+  --btn-play-border: #ffb300;
+  --btn-play-color: #ffb300;
+  --btn-play-hover-bg: #ffb300;
+  --btn-play-hover-color: #000000;
+  --btn-play-hover-shadow: 0 0 20px rgba(255,179,0,0.5);
+
+  --btn-stop-border: #ff6600;
+  --btn-stop-color: #ff6600;
+  --btn-stop-hover-bg: #ff6600;
+  --btn-stop-hover-color: #000000;
+  --btn-stop-hover-shadow: 0 0 20px rgba(255,102,0,0.5);
+
+  --btn-font-size: 1.6rem;
+  --btn-padding: 0.7rem 1rem;
+  --btn-border-width: 1px;
+  --btn-border-style: solid;
+  --btn-border-radius: 0px;
+
+  --slider-thumb-color: #ffb300;
+  --slider-thumb-shadow: 0 0 8px rgba(255,179,0,0.5);
+  --slider-track-bg: #3a2800;
+
+  --vu-height: 60px;
+  --vu-gap: 3px;
+
+  --meta-logo-size: 80px;
+  --meta-name-color: #ffb300;
+  --meta-tag-color: #6b4a00;
+  --meta-tag-border: #3a2800;
+  --meta-tag-hl-color: #ffb300;
+  --meta-tag-hl-border: rgba(255,179,0,0.3);
+
+  --fav-panel-border-top: 3px solid #3a2800;
+  --fav-item-active-bg: #1a1000;
+  --fav-item-active-accent: #ffb300;
+  --fav-item-hover-bg: #140e00;
+  --fav-name-color: #e6a000;
+  --fav-name-active-color: #ffb300;
+  --fav-btn-play-color: #ffb300;
+  --fav-btn-rem-color: #ff6600;
+
+  --toast-bg: #1a1000;
+  --toast-border: #3a2800;
+  --toast-accent-border: #ffb300;
+  --toast-error-border: #ff6600;
+  --toast-color: #e6a000;
+
+  --bg-grid-color: #160f00;
+  --bg-grid-size: 40px;
+}
+
+/* ---------------------------------------------------------
+   CRT SCANLINE OVERLAY
+--------------------------------------------------------- */
+body::after {
+  content: '';
+  display: block;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.18) 2px,
+    rgba(0,0,0,0.18) 4px
+  );
+}
+
+/* Subtle phosphor glow inside player */
+.player {
+  box-shadow: 0 0 40px rgba(255,179,0,0.08) inset;
+}

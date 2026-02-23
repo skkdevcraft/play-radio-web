@@ -1,0 +1,300 @@
+/* =========================================================
+   Neon Dusk — Synthwave Theme
+   ========================================================= */
+
+/* -------------------------
+   CSS Variables
+   ------------------------- */
+:root {
+  --color-bg: #0d0015;
+  --color-panel: #150020;
+  --color-panel-alt: #110018;
+  --color-well: #08000f;
+
+  --color-border: #3d1060;
+  --color-border-subtle: #1e0830;
+
+  --color-accent: #ff00e4;
+  --color-accent-shadow: rgba(255,0,228,0.35);
+  --color-accent2: #00e5ff;
+  --color-accent2-shadow: rgba(0,229,255,0.35);
+
+  --color-status-playing: #00ff99;
+  --color-status-buffering: #ff00e4;
+  --color-status-error: #ff2244;
+
+  --color-vu-low: #00ff99;
+  --color-vu-mid: #ff00e4;
+  --color-vu-high: #00e5ff;
+  --color-vu-idle: #3d1060;
+
+  --color-text: #d4a8ff;
+  --color-text-dim: #6b3d90;
+  --color-text-muted: #3d1060;
+
+  --color-record: #ff2244;
+  --color-record-shadow: rgba(255,34,68,0.5);
+
+  --header-title-color: #ff00e4;
+  --header-title-shadow: 0 0 20px rgba(255,0,228,0.6), 3px 3px 0 #00e5ff;
+  --header-subtitle-color: #6b3d90;
+
+  --panel-bg: #150020;
+  --panel-border: #3d1060;
+  --panel-border-top: 3px solid #ff00e4;
+  --panel-border-right: 1px solid #3d1060;
+  --panel-border-bottom: 1px solid #3d1060;
+  --panel-border-left: 1px solid #3d1060;
+  --panel-padding: 2rem;
+
+  --btn-play-border: #ff00e4;
+  --btn-play-color: #ff00e4;
+  --btn-play-hover-bg: #ff00e4;
+  --btn-play-hover-color: #000000;
+  --btn-play-hover-shadow: 0 0 24px rgba(255,0,228,0.6);
+
+  --btn-stop-border: #00e5ff;
+  --btn-stop-color: #00e5ff;
+  --btn-stop-hover-bg: #00e5ff;
+  --btn-stop-hover-color: #000000;
+  --btn-stop-hover-shadow: 0 0 24px rgba(0,229,255,0.6);
+
+  --btn-font-size: 1.3rem;
+  --btn-padding: 0.8rem 1rem;
+  --btn-border-width: 1px;
+  --btn-border-style: solid;
+  --btn-border-radius: 4px;
+
+  --slider-thumb-color: #ff00e4;
+  --slider-thumb-shadow: 0 0 8px rgba(255,0,228,0.5);
+  --slider-track-bg: #3d1060;
+
+  --vu-height: 60px;
+  --vu-gap: 3px;
+
+  --meta-logo-size: 80px;
+  --meta-name-color: #ff00e4;
+  --meta-tag-color: #6b3d90;
+  --meta-tag-border: #3d1060;
+  --meta-tag-hl-color: #ff00e4;
+  --meta-tag-hl-border: rgba(255,0,228,0.3);
+
+  --fav-panel-border-top: 3px solid #3d1060;
+  --fav-item-active-bg: #1e0030;
+  --fav-item-active-accent: #ff00e4;
+  --fav-item-hover-bg: #150020;
+  --fav-name-color: #d4a8ff;
+  --fav-name-active-color: #ff00e4;
+  --fav-btn-play-color: #ff00e4;
+  --fav-btn-rem-color: #00e5ff;
+
+  --toast-bg: #1e0030;
+  --toast-border: #3d1060;
+  --toast-accent-border: #ff00e4;
+  --toast-error-border: #ff2244;
+  --toast-color: #d4a8ff;
+
+  --bg-grid-color: #1a0030;
+  --bg-grid-size: 40px;
+
+  /* Audio reactive variables (expected to be driven via JS) */
+  --t: 0;
+  --amp-low: 0;
+  --amp-mid: 0;
+  --amp-high: 0;
+  --amp-pct: 0;
+  --amp-low-pct: 0;
+  --amp-mid-pct: 0;
+  --amp-high-pct: 0;
+}
+
+/* -------------------------
+   Base Layout
+   ------------------------- */
+
+body {
+  margin: 0;
+  font-family: "Courier Prime", monospace;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+
+  /* Grid background */
+  background-image:
+    linear-gradient(var(--bg-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid-color) 1px, transparent 1px);
+  background-size: var(--bg-grid-size) var(--bg-grid-size);
+}
+
+/* Horizon gradient behind grid */
+body {
+  background-image:
+    radial-gradient(ellipse 120% 60% at 50% 110%, rgba(255,0,228,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% 110%, rgba(0,229,255,0.12) 0%, transparent 60%),
+    linear-gradient(var(--bg-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid-color) 1px, transparent 1px);
+}
+
+/* -------------------------
+   Header
+   ------------------------- */
+
+.site-header__title {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  color: var(--header-title-color);
+  text-shadow: var(--header-title-shadow);
+  letter-spacing: 0.08em;
+}
+
+.site-header__subtitle {
+  color: var(--header-subtitle-color);
+}
+
+/* -------------------------
+   Panels
+   ------------------------- */
+
+.player,
+.panel {
+  background: var(--panel-bg);
+  border-top: var(--panel-border-top);
+  border-right: var(--panel-border-right);
+  border-bottom: var(--panel-border-bottom);
+  border-left: var(--panel-border-left);
+  padding: var(--panel-padding);
+}
+
+/* Reactive glow */
+.player {
+  box-shadow:
+    0 0 0 1px #3d1060,
+    0 0 calc(20px + var(--amp-pct) * 2px) rgba(255,0,228,0.15) inset,
+    0 8px 60px rgba(0,0,0,0.6);
+}
+
+/* -------------------------
+   Buttons
+   ------------------------- */
+
+button {
+  font-size: var(--btn-font-size);
+  padding: var(--btn-padding);
+  border-width: var(--btn-border-width);
+  border-style: var(--btn-border-style);
+  border-radius: var(--btn-border-radius);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-play {
+  border-color: var(--btn-play-border);
+  color: var(--btn-play-color);
+}
+.btn-play:hover {
+  background: var(--btn-play-hover-bg);
+  color: var(--btn-play-hover-color);
+  box-shadow: var(--btn-play-hover-shadow);
+}
+
+.btn-stop {
+  border-color: var(--btn-stop-border);
+  color: var(--btn-stop-color);
+}
+.btn-stop:hover {
+  background: var(--btn-stop-hover-bg);
+  color: var(--btn-stop-hover-color);
+  box-shadow: var(--btn-stop-hover-shadow);
+}
+
+/* -------------------------
+   Slider
+   ------------------------- */
+
+input[type="range"] {
+  appearance: none;
+  background: var(--slider-track-bg);
+  height: 4px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--slider-thumb-color);
+  box-shadow: var(--slider-thumb-shadow);
+  cursor: pointer;
+}
+
+/* -------------------------
+   VU Meter
+   ------------------------- */
+
+.vu-meter {
+  display: flex;
+  gap: var(--vu-gap);
+  height: var(--vu-height);
+  filter: hue-rotate(calc(var(--t) * 15deg));
+}
+
+/* -------------------------
+   Favorites Panel
+   ------------------------- */
+
+.favorites-panel {
+  border-top: var(--fav-panel-border-top);
+  border-top-width: calc(3px + var(--amp-mid) * 6px);
+  transition: border-top-width 0.05s;
+}
+
+/* -------------------------
+   Reactive Motion Layer
+   ------------------------- */
+
+body {
+  transform-origin: center center;
+  will-change: transform;
+  animation: none;
+
+  transform:
+    perspective(1400px)
+    rotateX(
+      calc(sin(calc(var(--t) * 0.04)) * (2deg + var(--amp-low) * 2deg))
+    )
+    rotateY(
+      calc(cos(calc(var(--t) * 0.032)) * (1.5deg + var(--amp-mid) * 1.5deg))
+    )
+    translateY(
+      calc(sin(calc(var(--t) * 0.05)) * (8px + var(--amp-low-pct) * 0.08px))
+    )
+    translateX(
+      calc(cos(calc(var(--t) * 0.027)) * (6px + var(--amp-mid-pct) * 0.06px))
+    );
+}
+
+/* Title Flicker + Bass Scale */
+
+.site-header__title {
+  animation: neon-flicker 6s ease-in-out infinite;
+  display: inline-block;
+  transform: scale(calc(1 + var(--amp-low) * 0.52));
+  transition: transform 0.05s;
+}
+
+@keyframes neon-flicker {
+  0%,95%,100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 1; }
+  98% { opacity: 0.7; }
+  99% { opacity: 1; }
+}
+
+/* Logo Rotation */
+
+.station-meta__logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(calc(var(--t) * calc(20 + var(--amp-high-pct) * 4) * 0.05deg));
+  transition: transform 0.02s linear;
+}

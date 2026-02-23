@@ -552,12 +552,6 @@ main#app {
 .theme-switcher__toggle.is-open { transform: rotate(180deg); }
 .theme-switcher__body { display: none; background: var(--color-bg); }
 .theme-switcher__body.is-open { display: block; }
-.theme-switcher__actions { display: flex; gap: 0.5rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; }
-.theme-switcher__upload-label,
-.theme-switcher__download-btn { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.1em; padding: 0.4rem 0.9rem; border: 1px solid var(--color-border); color: var(--color-text-dim); cursor: pointer; background: transparent; transition: all 0.15s; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem; }
-.theme-switcher__upload-label:hover,
-.theme-switcher__download-btn:hover { border-color: var(--color-accent); color: var(--color-accent); background: rgba(0,0,0,0.1); }
-.theme-switcher__upload-input { display: none; }
 .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); }
 .theme-card { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border-subtle); border-right: 1px solid var(--color-border-subtle); cursor: pointer; transition: background 0.1s; position: relative; }
 .theme-card:hover { background: var(--color-panel); }
