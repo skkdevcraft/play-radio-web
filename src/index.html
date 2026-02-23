@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Radio Stream Player</title>
   <style id="theme-font-style"></style>
-  <style id="theme-custom-css">/* custom skin CSS injected here */</style>
+  <style id="theme-custom-css">
+    /* custom skin CSS injected here */
+  </style>
   <link href="style.css" rel="stylesheet" />
 </head>
-<body>
-    <div class="bg-layer-1">
-      <div class="tree-lights"></div>
-    </div>
-    <div class="bg-layer-2"></div>
-    <div class="bg-layer-3">
-      <div class="santa"></div>
-    </div>
 
+<body>
+  <div class="bg-layer-1">
+    <div class="tree-lights"></div>
+  </div>
+  <div class="bg-layer-2"></div>
+  <div class="bg-layer-3">
+    <div class="santa"></div>
+  </div>
+
+  <main id="app">
     <header class="site-header">
       <h1 class="site-header__title">Radio</h1>
       <p class="site-header__subtitle">Stream Player</p>
@@ -43,7 +48,8 @@
       </div>
       <div class="volume-control">
         <span class="volume-control__icon" id="vol-icon" role="button" tabindex="0" aria-label="Toggle mute">🔊</span>
-        <input class="volume-control__slider" id="vol-slider" type="range" min="0" max="100" value="100" aria-label="Volume">
+        <input class="volume-control__slider" id="vol-slider" type="range" min="0" max="100" value="100"
+          aria-label="Volume">
         <span class="volume-control__value" id="vol-value">100%</span>
       </div>
       <p class="cors-notice" id="cors-notice" role="alert">
@@ -73,9 +79,8 @@
       </div>
       <div class="favorites-panel__body is-open" id="fav-body">
         <div class="add-station">
-          <input class="add-station__input" id="fav-input" type="url"
-                 placeholder="https://stream.example.com/radio.mp3"
-                 autocomplete="off" spellcheck="false" aria-label="Stream URL to add" />
+          <input class="add-station__input" id="fav-input" type="url" placeholder="https://stream.example.com/radio.mp3"
+            autocomplete="off" spellcheck="false" aria-label="Stream URL to add" />
           <button class="add-station__btn" id="fav-add-btn">+ Add</button>
         </div>
         <div class="station-list" id="station-list" role="list"></div>
@@ -90,8 +95,8 @@
       <div class="search-panel__body">
         <div class="search-input-area">
           <input class="search-input-area__input" id="search-input" type="text"
-                 placeholder="Search by name, tag, country..."
-                 autocomplete="off" spellcheck="false" aria-label="Search query" />
+            placeholder="Search by name, tag, country..." autocomplete="off" spellcheck="false"
+            aria-label="Search query" />
           <button class="search-input-area__btn" id="search-btn">Search</button>
         </div>
         <div class="search-results-list" id="search-results-list" role="list">
@@ -108,4 +113,5 @@
 
   <script src="main.js" type="module"></script>
 </body>
+
 </html>

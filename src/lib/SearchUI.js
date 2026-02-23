@@ -72,7 +72,11 @@ export const SearchUI = (() => {
         <button class="station-list__btn station-list__btn--add-fav" title="Add to Favorites">+</button>
       </div>`;
 
-    const playStation = () => Player.play(station.url);
+    const playStation = () => {
+      IcyMeta.setMeta(station.url, station);
+      Player.play(station.url);
+    };
+    
     li.querySelector('.station-list__info').addEventListener('click', playStation);
     li.querySelector('.station-list__btn--play').addEventListener('click', playStation);
     

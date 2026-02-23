@@ -64,6 +64,7 @@
         "player"    = .player  (article)
         "themes"    = .theme-switcher
         "favorites" = .favorites-panel
+        "search"    = .search-panel
 
     Example 2-col layout value for --layout-areas:
         '"header header" "player favorites" "themes themes"'
@@ -72,13 +73,13 @@
     --layout-columns:         1fr;
     --layout-rows:            auto;
     --layout-areas:
-    "header"
-    "player"
-    "themes"
-    "favorites";
+        "header"
+        "player"
+        "themes"
+        "favorites";
     --layout-gap:             0px;        /* gap between grid cells */
-    --layout-max-width:       520px;
-    --layout-padding:         2rem;
+    --layout-max-width:       1040px;
+    --layout-padding:         4rem;
     --layout-align-items:     start;
 
     /* ── Element grid placement ──────────────────────────── */
@@ -92,6 +93,7 @@
     --player-grid-area:       player;
     --themes-grid-area:       themes;
     --favorites-grid-area:    favorites;
+    --search-grid-area:       search;
 
     /* ── Element visibility ──────────────────────────────── */
     --player-display:         block;       /* none = hide player panel */
@@ -273,8 +275,6 @@ body {
     color: var(--color-text);
     font-family: var(--font-mono);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     padding: var(--layout-padding);
 }
@@ -612,7 +612,7 @@ main#app {
 
 /* ── Search panel ───────────────────────────────────────── */
 .search-panel {
-    grid-area: search; /* Define a new grid area for consistency */
+    grid-area: var(--search-grid-area);
     display: block;
     margin-top: 1.5rem;
     border: 1px solid var(--color-border);
