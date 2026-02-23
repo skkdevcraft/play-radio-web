@@ -84,3 +84,6 @@ It has theme support that allows changeing the colors with variables. now I want
 
 please, rearrange the HTML to be more flexible for modding (the grid you mentioned) and any other changes that support the total "re-skinning" include comment instructions of what is possible. implement the customCSS field extension
 
+Time-based variables:
+
+add variables that are automatically updated by the frequency data. this way, the user may include them in the custom css to react on changes of the audio. chnage the bars to use these variables. also include a "time" variable that may be used for continuous "delta time". this way the variables will be able to be used in transforms - scale, rotation, keyframes etc.

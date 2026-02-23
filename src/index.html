@@ -948,6 +948,36 @@ const ThemeEngine = (() => {
             radial-gradient(ellipse 80% 40% at 50% 110%, rgba(0,229,255,0.12) 0%, transparent 60%);
         }
 
+        body {
+          transform-origin: center center;
+          will-change: transform;
+          animation: none; /* ensure no conflicting theme animation */
+          
+          /* Composite sinusoidal motion using time variable */
+          transform:
+            perspective(1400px)
+            rotateX(
+              calc(
+                sin(calc(var(--t) * 0.04)) * (2deg + var(--amp-low) * 2deg)
+              )
+            )
+            rotateY(
+              calc(
+                cos(calc(var(--t) * 0.032)) * (1.5deg + var(--amp-mid) * 1.5deg)
+              )
+            )
+            translateY(
+              calc(
+                sin(calc(var(--t) * 0.05)) * (8px + var(--amp-low-pct) * 0.08px)
+              )
+            )
+            translateX(
+              calc(
+                cos(calc(var(--t) * 0.027)) * (6px + var(--amp-mid-pct) * 0.06px)
+              )
+            );
+        }
+
         /* Panel glow scales with overall loudness */
         .player {
           box-shadow:
@@ -960,7 +990,7 @@ const ThemeEngine = (() => {
         .site-header__title {
           animation: neon-flicker 6s ease-in-out infinite;
           display: inline-block;
-          transform: scale(calc(1 + var(--amp-low) * 0.12));
+          transform: scale(calc(1 + var(--amp-low) * 0.52));
           transition: transform 0.05s;
         }
         @keyframes neon-flicker {
