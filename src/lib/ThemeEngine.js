@@ -21,6 +21,7 @@ export const ThemeEngine = (() => {
     { id: 'amber-glow',  name: 'Amber Glow',  label: 'Retro CRT' },
     { id: 'arctic-frost', name: 'Arctic Frost', label: 'Light & Clean' },
     { id: 'neon-dusk', name: 'Neon Dusk', label: 'Synthwave' },
+    { id: 'valentine', name: 'Valentine', label: 'Valentine' },
   ];
 
   let _activeId = null;

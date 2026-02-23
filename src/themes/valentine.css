@@ -1,0 +1,190 @@
+/* =========================================================
+   Valentine Theme — Pink Pulse
+   ========================================================= */
+
+/* -------------------------
+   CSS Variables
+   ------------------------- */
+:root {
+  --color-bg: #1a001f;
+  --color-panel: #2a0033;
+  --color-panel-alt: #22002b;
+  --color-well: #16001c;
+
+  --color-border: #5a1a6a;
+  --color-border-subtle: #3a0f45;
+
+  --color-accent: #ff4da6;
+  --color-accent-shadow: rgba(255,77,166,0.35);
+  --color-accent2: #c061ff;
+  --color-accent2-shadow: rgba(192,97,255,0.35);
+
+  --color-text: #ffd6f5;
+  --color-text-dim: #d08ce6;
+  --color-text-muted: #7a3c8f;
+
+  --header-title-color: #ff4da6;
+  --header-title-shadow: 0 0 24px rgba(255,77,166,0.6);
+
+  --btn-radius: 999px;
+
+  /* Audio reactive vars (driven by JS) */
+  --t: 0;
+  --amp-low: 0;
+  --amp-mid: 0;
+  --amp-high: 0;
+  --amp-pct: 0;
+}
+
+/* -------------------------
+   Base Layout
+   ------------------------- */
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% 60%, #2b0033 0%, #1a001f 70%);
+  color: var(--color-text);
+  font-family: "Courier Prime", monospace;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* -------------------------
+   Big Beating Heart (Bass Reactive)
+   ------------------------- */
+
+body::before {
+  content: "";
+  position: fixed;
+  left: 30%;
+  top: 40%;
+  width: 420px;
+  height: 420px;
+  transform:
+    translate(-50%, -50%)
+    scale(calc(1 + var(--amp-low, 0) * 0.6));
+  transition: transform 0.08s ease-out;
+
+  background: #ff4da6;
+
+  clip-path: path(
+    "M 210 370 C 210 370 20 240 20 130 C 20 60 70 20 130 20 C 165 20 195 40 210 65 C 225 40 255 20 290 20 C 350 20 400 60 400 130 C 400 240 210 370 210 370 Z"
+  );
+
+  filter: drop-shadow(0 0 calc(40px + var(--amp-low, 0) * 30px) rgba(255, 77, 166, 0.5));
+  opacity: 0.18;
+  z-index: -2;
+}
+
+/* -------------------------
+   Floating Small Hearts
+   ------------------------- */
+
+body::after {
+  content: "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤";
+  position: fixed;
+  bottom: -10%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 40px;
+  color: rgba(255,105,180,0.5);
+  animation: float-hearts 18s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes float-hearts {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% { opacity: 0.6; }
+  50% {
+    transform: translateY(-60vh) translateX(20px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120vh) translateX(-20px);
+    opacity: 0;
+  }
+}
+
+/* -------------------------
+   Header
+   ------------------------- */
+
+.site-header__title {
+  font-size: 0; /* hides original text */
+}
+
+.site-header__title::before {
+  content: "Love";
+  font-size: 5rem;
+}
+
+.site-header__title {
+  font-family: "Orbitron", sans-serif;
+  color: var(--header-title-color);
+  text-shadow: var(--header-title-shadow);
+  transform: scale(calc(1 + var(--amp-low) * 0.25));
+  transition: transform 0.08s ease-out;
+}
+
+/* -------------------------
+   Panels
+   ------------------------- */
+
+.panel,
+.player {
+  background: rgba(42,0,51,0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 0 25px rgba(255,77,166,0.15),
+    inset 0 0 calc(15px + var(--amp-pct) * 3px) rgba(255,105,180,0.2);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+/* -------------------------
+   Buttons
+   ------------------------- */
+
+button {
+  border-radius: var(--btn-radius);
+  border: 1px solid var(--color-accent);
+  background: transparent;
+  color: var(--color-accent);
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  background: var(--color-accent);
+  color: #1a001f;
+  box-shadow: 0 0 20px rgba(255,77,166,0.5);
+}
+
+/* -------------------------
+   VU Meter (Soft Glow)
+   ------------------------- */
+
+.vu-meter {
+  display: flex;
+  gap: 4px;
+  height: 60px;
+  filter: hue-rotate(calc(var(--t) * 8deg));
+}
+
+/* -------------------------
+   Toast / Meta
+   ------------------------- */
+
+.toast {
+  background: #2a0033;
+  border: 1px solid var(--color-accent);
+  color: var(--color-text);
+}
