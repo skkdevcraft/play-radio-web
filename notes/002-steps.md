@@ -73,3 +73,14 @@ Add "record" button. when pressed, start recording the audio. when the user pres
 Volume:
 
 add volume control slider that controls the playback volume
+
+Skinnging/themes:
+
+I want to allow easy "re-skinning". I want to allow the users to change it's appearnce - look and feel much like the old "winamp" allowed long time ago. Please, refactor the html, the css and the code so the "skinning" feature is possible. Make the HTML be semantic. make the javascript be safe - some elements may not be present. update the CSS to be easily changed. Make the current "theme" be the first "default" theme. Later we will implement the ability the user to upload her own theme and be able to download the theme with comments and directions how to customize. All the changes are in the front-end.
+
+Modding:
+
+It has theme support that allows changeing the colors with variables. now I want to extend the modding support to the HTML elements - for example, showing/hiding the site-header, status-bar or stream-url or rearranging the elements - favorites to the be side-by-side on the left or right. I also want the user the be able to mod the content of some elements, for example the site title (via CSS content). what level of modding is possible with CSS only? also background images?
+
+please, rearrange the HTML to be more flexible for modding (the grid you mentioned) and any other changes that support the total "re-skinning" include comment instructions of what is possible. implement the customCSS field extension
+
