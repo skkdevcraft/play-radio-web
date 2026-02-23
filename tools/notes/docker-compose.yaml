@@ -42,7 +42,7 @@ services:
     volumes:
       - npm-cache:/npm-cache
       - ./mcpServers.json:/config/mcpServers.json:ro
-      - ../../notes/artifacts:/projects
+      - ../../src:/src
     restart: unless-stopped
     depends_on:
       npm-cache-permissions:

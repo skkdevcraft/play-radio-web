@@ -1,0 +1,636 @@
+/* ============================================================
+    BASE RESET
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ============================================================
+    THEME CSS CUSTOM PROPERTIES
+    ThemeEngine writes these at runtime from the active theme.
+    All component styles reference ONLY these tokens.
+
+    MODDERS: Every --var below can be overridden in your skin's
+    "vars" object. See the downloadable skin JSON for full docs.
+============================================================ */
+:root {
+    /* ── Colors ─────────────────────────────────────────── */
+    --color-bg:               #0a0a0a;
+    --color-panel:            #111111;
+    --color-panel-alt:        #0d0d0d;
+    --color-well:             #000000;
+    --color-border:           #2a2a2a;
+    --color-border-subtle:    #161616;
+    --color-accent:           #e8ff00;
+    --color-accent-shadow:    rgba(232,255,0,0.3);
+    --color-accent2:          #ff3c00;
+    --color-accent2-shadow:   rgba(255,60,0,0.4);
+    --color-status-playing:   #1aff6a;
+    --color-status-buffering: #e8ff00;
+    --color-status-error:     #ff3c00;
+    --color-vu-low:           #1aff6a;
+    --color-vu-mid:           #e8ff00;
+    --color-vu-high:          #ff3c00;
+    --color-vu-idle:          #555555;
+    --color-text:             #e0e0e0;
+    --color-text-dim:         #555555;
+    --color-text-muted:       #333333;
+    --color-record:           #c0392b;
+    --color-record-shadow:    rgba(192,57,43,0.5);
+
+    /* ── Typography ──────────────────────────────────────── */
+    --font-mono:              'Share Tech Mono', monospace;
+    --font-display:           'Bebas Neue', sans-serif;
+
+    /* ── Header ──────────────────────────────────────────── */
+    --header-display:         block;       /* none = hide entire header */
+    --header-title-text:      none;        /* CSS content override for title (set to '"MY RADIO"' with quotes-in-quotes) */
+    --header-subtitle-text:   none;        /* CSS content override for subtitle */
+    --header-title-color:     #e8ff00;
+    --header-title-size:      clamp(2.5rem, 8vw, 4rem);
+    --header-title-shadow:    0 0 20px rgba(232,255,0,0.3), 3px 3px 0 #ff3c00;
+    --header-subtitle-color:  #555555;
+    --header-align:           center;      /* text-align: left | center | right */
+
+    /* ── Layout grid ─────────────────────────────────────── */
+    /*
+    The main #app container uses CSS Grid.
+    Default: single column, stacked vertically.
+
+    To go 2-column (player left, favorites right) set:
+        --layout-columns: 1fr 1fr
+    Then assign grid areas with --ELEMENT-grid-area vars below.
+
+    Named areas used by default layout (single col):
+        "header"    = .site-header
+        "player"    = .player  (article)
+        "themes"    = .theme-switcher
+        "favorites" = .favorites-panel
+
+    Example 2-col layout value for --layout-areas:
+        '"header header" "player favorites" "themes themes"'
+        (each row is a quoted string, columns separated by spaces)
+    */
+    --layout-columns:         1fr;
+    --layout-rows:            auto;
+    --layout-areas:
+    "header"
+    "player"
+    "themes"
+    "favorites";
+    --layout-gap:             0px;        /* gap between grid cells */
+    --layout-max-width:       520px;
+    --layout-padding:         2rem;
+    --layout-align-items:     start;
+
+    /* ── Element grid placement ──────────────────────────── */
+    /*
+    Override these to place elements in specific grid areas.
+    Values are CSS grid-area strings (named area or row/col shorthand).
+    Example: --header-grid-area: header
+                --favorites-grid-area: 2 / 2 / 3 / 3
+    */
+    --header-grid-area:       header;
+    --player-grid-area:       player;
+    --themes-grid-area:       themes;
+    --favorites-grid-area:    favorites;
+
+    /* ── Element visibility ──────────────────────────────── */
+    --player-display:         block;       /* none = hide player panel */
+    --status-bar-display:     flex;        /* none = hide status bar */
+    --stream-url-display:     block;       /* none = hide source URL bar */
+    --vu-meter-display:       flex;        /* none = hide VU meter */
+    --station-meta-display:   flex;        /* shown by JS when playing; override only if you want forced-off */
+    --record-btn-display:     grid-column; /* record btn: "none" hides it; default inherits grid */
+    --volume-display:         flex;        /* none = hide volume control */
+    --cors-notice-display:    none;        /* keep none unless debugging */
+    --theme-switcher-display: block;       /* none = hide skin picker */
+    --favorites-display:      block;       /* none = hide favorites panel */
+    --footer-display:         block;       /* none = hide footer */
+
+    /* ── Panel ────────────────────────────────────────────── */
+    --panel-bg:               #111111;
+    --panel-border:           #2a2a2a;
+    --panel-border-top:       3px solid #e8ff00;
+    --panel-border-right:     1px solid #2a2a2a;
+    --panel-border-bottom:    1px solid #2a2a2a;
+    --panel-border-left:      1px solid #2a2a2a;
+    --panel-padding:          2rem;
+    --panel-border-radius:    0px;
+
+    /* ── Background ──────────────────────────────────────── */
+    --bg-color:               #0a0a0a;
+    --bg-image:               none;        /* url(...) or none */
+    --bg-size:                auto;
+    --bg-position:            center;
+    --bg-repeat:              repeat;
+    --bg-attachment:          scroll;
+    --bg-blend-mode:          normal;
+    --bg-grid-color:          #1a1a1a;
+    --bg-grid-size:           40px;
+    --bg-grid-display:        block;       /* none = disable grid lines */
+
+    /* ── Buttons ─────────────────────────────────────────── */
+    --btn-play-border:        #e8ff00;
+    --btn-play-color:         #e8ff00;
+    --btn-play-hover-bg:      #e8ff00;
+    --btn-play-hover-color:   #000000;
+    --btn-play-hover-shadow:  0 0 20px rgba(232,255,0,0.4);
+    --btn-stop-border:        #ff3c00;
+    --btn-stop-color:         #ff3c00;
+    --btn-stop-hover-bg:      #ff3c00;
+    --btn-stop-hover-color:   #ffffff;
+    --btn-stop-hover-shadow:  0 0 20px rgba(255,60,0,0.4);
+    --btn-font-size:          1.4rem;
+    --btn-padding:            0.8rem 1rem;
+    --btn-border-width:       1px;
+    --btn-border-style:       solid;
+    --btn-border-radius:      0px;
+    --btn-text-transform:     none;        /* uppercase | none */
+    --btn-letter-spacing:     0.1em;
+
+    /* ── Slider ──────────────────────────────────────────── */
+    --slider-height:          3px;
+    --slider-thumb-size:      14px;
+    --slider-thumb-color:     #e8ff00;
+    --slider-thumb-shadow:    0 0 6px rgba(232,255,0,0.4);
+    --slider-track-bg:        #2a2a2a;
+
+    /* ── VU Meter ─────────────────────────────────────────── */
+    --vu-height:              60px;
+    --vu-gap:                 3px;
+    --vu-bar-radius:          0px;         /* rounded bars: try 4px */
+
+    /* ── Audio-reactive vars (written every animation frame) ─
+        These are live-updated by AudioReactor and can be used
+        freely in customCSS to drive transforms, filters, colors,
+        shadows — anything CSS accepts a number or length for.
+
+        TIME
+        --t            Seconds since page load (float, unbounded).
+                        Use in calc() for continuous motion:
+                        transform: rotate(calc(var(--t) * 30deg));
+        --dt           Delta-time of last frame in seconds (~0.016).
+                        Useful for normalising speed to framerate.
+
+        AMPLITUDE (0 – 1, smoothed)
+        --amp          Overall loudness across all frequencies.
+        --amp-low      Bass / sub-bass energy  (0 – 250 Hz band).
+        --amp-mid      Midrange energy          (250 – 2000 Hz).
+        --amp-high     Treble / presence energy (2000+ Hz).
+        --amp-peak     Instantaneous peak (no smoothing). Snappy.
+
+        SCALED VARIANTS (0 – 100, same signals × 100)
+        --amp-pct      --amp      × 100   (handy for % lengths)
+        --amp-low-pct  --amp-low  × 100
+        --amp-mid-pct  --amp-mid  × 100
+        --amp-high-pct --amp-high × 100
+
+        PER-BAR (16 bars, indexed 0–15)
+        --bar-0 … --bar-15   Individual bar amplitude (0 – 1).
+
+        USAGE EXAMPLES IN customCSS:
+
+        // Title pulses with bass
+        .site-header__title {
+            transform: scale(calc(1 + var(--amp-low) * 0.08));
+        }
+
+        // Panel border glow tracks loudness
+        .player {
+            box-shadow: 0 0 calc(var(--amp-pct) * 1px) var(--color-accent);
+        }
+
+        // Continuous rotation driven by time, sped up by treble
+        .station-meta__logo-placeholder {
+            transform: rotate(calc(var(--t) * calc(60 + var(--amp-high-pct) * 2) * 1deg));
+        }
+
+        // Hue-shift on peak
+        .vu-meter {
+            filter: hue-rotate(calc(var(--amp-peak) * 120deg));
+        }
+
+        // Bar-specific: make bar 0 drive a custom element size
+        .my-element { width: calc(var(--bar-0) * 100px); }
+    ─────────────────────────────────────────────────────────── */
+    --t:            0;
+    --dt:           0;
+    --amp:          0;
+    --amp-low:      0;
+    --amp-mid:      0;
+    --amp-high:     0;
+    --amp-peak:     0;
+    --amp-pct:      0;
+    --amp-low-pct:  0;
+    --amp-mid-pct:  0;
+    --amp-high-pct: 0;
+    --bar-0:  0; --bar-1:  0; --bar-2:  0; --bar-3:  0;
+    --bar-4:  0; --bar-5:  0; --bar-6:  0; --bar-7:  0;
+    --bar-8:  0; --bar-9:  0; --bar-10: 0; --bar-11: 0;
+    --bar-12: 0; --bar-13: 0; --bar-14: 0; --bar-15: 0;
+
+    /* ── Station Meta ─────────────────────────────────────── */
+    --meta-logo-size:         80px;
+    --meta-name-color:        #e8ff00;
+    --meta-tag-color:         #555555;
+    --meta-tag-border:        #2a2a2a;
+    --meta-tag-hl-color:      #e8ff00;
+    --meta-tag-hl-border:     rgba(232,255,0,0.3);
+
+    /* ── Favorites Panel ──────────────────────────────────── */
+    --fav-panel-border-top:   3px solid #333333;
+    --fav-item-active-bg:     #0d1400;
+    --fav-item-active-accent: #e8ff00;
+    --fav-item-hover-bg:      #111111;
+    --fav-logo-size:          52px;
+    --fav-name-color:         #e0e0e0;
+    --fav-name-active-color:  #e8ff00;
+    --fav-btn-play-color:     #e8ff00;
+    --fav-btn-rem-color:      #ff3c00;
+    --fav-max-height:         320px;       /* max height of station list */
+
+    /* ── Toast ───────────────────────────────────────────── */
+    --toast-bg:               #1a1a1a;
+    --toast-border:           #2a2a2a;
+    --toast-accent-border:    #e8ff00;
+    --toast-error-border:     #ff3c00;
+    --toast-color:            #e0e0e0;
+    --toast-position-bottom:  1.5rem;
+}
+
+/* ============================================================
+    BODY & BACKGROUND
+    --bg-image accepts any CSS image value: url(), gradients, etc.
+    --bg-grid-display: none disables the grid overlay entirely.
+============================================================ */
+body {
+    background-color: var(--bg-color);
+    background-image: var(--bg-image, none);
+    background-size: var(--bg-size);
+    background-position: var(--bg-position);
+    background-repeat: var(--bg-repeat);
+    background-attachment: var(--bg-attachment);
+    background-blend-mode: var(--bg-blend-mode);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--layout-padding);
+}
+
+/* Grid overlay — pseudo-element so it never blocks bg-image */
+body::before {
+    content: '';
+    display: var(--bg-grid-display);
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+    repeating-linear-gradient(0deg, transparent, transparent calc(var(--bg-grid-size) - 1px),
+        var(--bg-grid-color) calc(var(--bg-grid-size) - 1px), var(--bg-grid-color) var(--bg-grid-size)),
+    repeating-linear-gradient(90deg, transparent, transparent calc(var(--bg-grid-size) - 1px),
+        var(--bg-grid-color) calc(var(--bg-grid-size) - 1px), var(--bg-grid-color) var(--bg-grid-size));
+}
+
+/* ============================================================
+    MAIN GRID CONTAINER
+    This is the primary layout engine. Control it entirely with
+    CSS vars — no HTML changes needed.
+
+    Quick recipes (put in customCSS or vars):
+
+    ┌─────────────────────────────────────────────────────┐
+    │ Side-by-side (player left, favorites right):        │
+    │   --layout-columns: 1fr 1fr;                        │
+    │   --layout-areas:                                   │
+    │     '"header header"'                               │
+    │     '"player favorites"'                            │
+    │     '"themes themes"';                              │
+    │   --layout-max-width: 1040px;                       │
+    ├─────────────────────────────────────────────────────┤
+    │ Favorites on top:                                   │
+    │   --favorites-grid-area: 1 / 1 / 2 / 2;            │
+    │   (or swap areas in --layout-areas)                 │
+    ├─────────────────────────────────────────────────────┤
+    │ No skin picker:                                     │
+    │   --theme-switcher-display: none;                   │
+    ├─────────────────────────────────────────────────────┤
+    │ Compact / no header:                                │
+    │   --header-display: none;                           │
+    └─────────────────────────────────────────────────────┘
+============================================================ */
+main#app {
+    display: grid;
+    grid-template-columns: var(--layout-columns);
+    grid-template-rows:    var(--layout-rows);
+    grid-template-areas:   var(--layout-areas);
+    gap:                   var(--layout-gap);
+    align-items:           var(--layout-align-items);
+    width: 100%;
+    max-width: var(--layout-max-width);
+    padding-top: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.site-header {
+    grid-area: var(--header-grid-area);
+    display: var(--header-display);
+    text-align: var(--header-align);
+    margin-bottom: 2.5rem;
+}
+
+/*
+    Title text override — to replace "Radio" with custom text:
+    In vars: "header-title-text": '"MY STATION"'  (the value needs CSS quotes)
+    The real text is hidden via font-size:0 and the ::after injects yours.
+    If --header-title-text is "none" (default) the real text shows normally.
+*/
+.site-header__title {
+    font-family: var(--font-display);
+    font-size: var(--header-title-size);
+    letter-spacing: 0.08em;
+    color: var(--header-title-color);
+    text-shadow: var(--header-title-shadow);
+    line-height: 1;
+}
+.site-header__title[data-override]::before {
+    content: var(--header-title-text);
+}
+.site-header__title[data-override] {
+    font-size: 0;
+    color: transparent;
+    text-shadow: none;
+}
+.site-header__title[data-override]::before {
+    font-size: var(--header-title-size);
+    color: var(--header-title-color);
+    text-shadow: var(--header-title-shadow);
+    display: block;
+}
+
+.site-header__subtitle {
+    font-size: 0.7rem;
+    color: var(--header-subtitle-color);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+}
+.site-header__subtitle[data-override] {
+    font-size: 0;
+}
+.site-header__subtitle[data-override]::before {
+    content: var(--header-subtitle-text);
+    font-size: 0.7rem;
+    display: block;
+}
+
+/* ── Player panel ───────────────────────────────────────── */
+.player {
+    grid-area: var(--player-grid-area);
+    display: var(--player-display);
+    background: var(--panel-bg);
+    border-top:    var(--panel-border-top);
+    border-right:  var(--panel-border-right);
+    border-bottom: var(--panel-border-bottom);
+    border-left:   var(--panel-border-left);
+    border-radius: var(--panel-border-radius);
+    padding: var(--panel-padding);
+    position: relative;
+}
+
+/* ── Station meta ─────────────────────────────────────────── */
+.station-meta {
+    display: none;
+    margin-bottom: 1.5rem;
+    background: var(--color-well);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+.station-meta.is-visible { display: var(--station-meta-display, flex); }
+.station-meta__logo { width: var(--meta-logo-size); min-width: var(--meta-logo-size); height: var(--meta-logo-size); object-fit: cover; display: block; background: #1a1a1a; border-right: 1px solid var(--color-border); }
+.station-meta__logo-placeholder { width: var(--meta-logo-size); min-width: var(--meta-logo-size); height: var(--meta-logo-size); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; background: var(--color-panel-alt); border-right: 1px solid var(--color-border); color: var(--color-text-dim); flex-shrink: 0; }
+.station-meta__info { padding: 0.6rem 0.8rem; display: flex; flex-direction: column; justify-content: center; gap: 0.25rem; overflow: hidden; min-width: 0; }
+.station-meta__name { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.08em; color: var(--meta-name-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.1; }
+.station-meta__name a { color: inherit; text-decoration: none; }
+.station-meta__name a:hover { text-decoration: underline; }
+.station-meta__desc { font-size: 0.62rem; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.04em; }
+.station-meta__tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.15rem; }
+.station-meta__tag { font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; background: #1a1a1a; border: 1px solid var(--meta-tag-border); color: var(--meta-tag-color); padding: 0.15em 0.45em; }
+.station-meta__tag--hl { border-color: var(--meta-tag-hl-border); color: var(--meta-tag-hl-color); }
+
+/* ── VU Meter ───────────────────────────────────────────── */
+.vu-meter {
+    display: var(--vu-meter-display);
+    gap: var(--vu-gap);
+    height: var(--vu-height);
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    background: var(--color-well);
+    border: 1px solid var(--color-border);
+}
+.vu-meter__bar {
+    flex: 1;
+    /* Height and color driven by --_bar-h / --_bar-color scoped inline vars
+        set by AudioReactor each frame. Fallbacks apply when stopped/idle.
+        Modders: override bar appearance in customCSS using the global
+        --bar-0…--bar-15 and --amp-* vars instead of inline style. */
+    background: var(--_bar-color, var(--color-vu-idle));
+    height: var(--_bar-h, 2px);
+    min-height: 2px;
+    max-height: 100%;
+    transform-origin: bottom;
+    border-radius: var(--vu-bar-radius);
+    transition: background 0.05s;
+}
+
+/* ── Status bar ─────────────────────────────────────────── */
+.status-bar {
+    display: var(--status-bar-display);
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+.status-bar__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-text-dim); flex-shrink: 0; transition: background 0.3s; }
+.status-bar__dot--playing  { background: var(--color-status-playing);  box-shadow: 0 0 8px var(--color-status-playing);  animation: blink 1.2s ease-in-out infinite; }
+.status-bar__dot--buffering{ background: var(--color-status-buffering); box-shadow: 0 0 8px var(--color-status-buffering); animation: blink 0.4s ease-in-out infinite; }
+.status-bar__dot--error    { background: var(--color-status-error);     box-shadow: 0 0 8px var(--color-status-error); }
+.status-bar__text { color: var(--color-text-dim); }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ── Stream URL ─────────────────────────────────────────── */
+.stream-url {
+    display: var(--stream-url-display);
+    font-size: 0.65rem;
+    color: var(--color-text-dim);
+    background: var(--color-well);
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.05em;
+}
+.stream-url__label { color: var(--color-accent); }
+
+/* ── Controls ───────────────────────────────────────────── */
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.btn {
+    font-family: var(--font-display);
+    font-size: var(--btn-font-size);
+    letter-spacing: var(--btn-letter-spacing);
+    text-transform: var(--btn-text-transform);
+    padding: var(--btn-padding);
+    border: var(--btn-border-width) var(--btn-border-style);
+    border-radius: var(--btn-border-radius);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+.btn::after { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.15s; }
+.btn:active::after { opacity: 0.15; background: #fff; }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn:disabled:hover { background: transparent !important; box-shadow: none !important; color: inherit !important; }
+.btn--play { border-color: var(--btn-play-border); color: var(--btn-play-color); }
+.btn--play:hover:not(:disabled) { background: var(--btn-play-hover-bg); color: var(--btn-play-hover-color); box-shadow: var(--btn-play-hover-shadow); }
+.btn--stop { border-color: var(--btn-stop-border); color: var(--btn-stop-color); }
+.btn--stop:hover:not(:disabled) { background: var(--btn-stop-hover-bg); color: var(--btn-stop-hover-color); box-shadow: var(--btn-stop-hover-shadow); }
+.btn--record {
+    border-color: var(--color-record);
+    color: var(--color-record);
+    grid-column: 1/-1;
+    display: var(--record-btn-display, flex);
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+}
+.btn--record:hover:not(:disabled) { background: var(--color-record); color: #fff; box-shadow: 0 0 20px var(--color-record-shadow); }
+.btn--record.is-recording { border-color: var(--color-accent2); color: var(--color-accent2); animation: rec-pulse 1.4s ease-in-out infinite; }
+.btn--record.is-recording:hover:not(:disabled) { background: var(--color-accent2); color: #fff; box-shadow: 0 0 20px var(--color-accent2-shadow); }
+@keyframes rec-pulse { 0%,100%{box-shadow:0 0 0px rgba(255,60,0,0);} 50%{box-shadow:0 0 12px rgba(255,60,0,0.7);} }
+.btn--record__dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.btn--record.is-recording .btn--record__dot { animation: blink 0.8s ease-in-out infinite; }
+.btn--record__timer { font-size: 0.75rem; font-family: var(--font-mono); letter-spacing: 0.1em; opacity: 0.8; }
+
+/* ── Volume ─────────────────────────────────────────────── */
+.volume-control {
+    display: var(--volume-display);
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+.volume-control__icon { font-size: 0.9rem; color: var(--color-text-dim); flex-shrink: 0; width: 1.2rem; text-align: center; cursor: pointer; user-select: none; }
+.volume-control__slider { -webkit-appearance: none; appearance: none; flex: 1; height: var(--slider-height); background: var(--slider-track-bg); outline: none; cursor: pointer; }
+.volume-control__slider::-webkit-slider-thumb { -webkit-appearance: none; width: var(--slider-thumb-size); height: var(--slider-thumb-size); border-radius: 50%; background: var(--slider-thumb-color); box-shadow: var(--slider-thumb-shadow); cursor: pointer; transition: transform 0.1s; }
+.volume-control__slider::-moz-range-thumb { width: var(--slider-thumb-size); height: var(--slider-thumb-size); border-radius: 50%; border: none; background: var(--slider-thumb-color); box-shadow: var(--slider-thumb-shadow); cursor: pointer; }
+.volume-control__slider:hover::-webkit-slider-thumb { transform: scale(1.3); }
+.volume-control__value { font-size: 0.65rem; color: var(--color-text-dim); letter-spacing: 0.1em; width: 2.5rem; text-align: right; flex-shrink: 0; }
+.cors-notice { display: none; margin-top: 0.8rem; font-size: 0.62rem; color: var(--color-text-muted); letter-spacing: 0.08em; line-height: 1.6; }
+
+/* ── Theme switcher ─────────────────────────────────────── */
+.theme-switcher {
+    grid-area: var(--themes-grid-area);
+    display: var(--theme-switcher-display);
+    margin-top: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-accent2);
+}
+.theme-switcher__header { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 1rem; background: var(--color-panel-alt); border-bottom: 1px solid var(--color-border); cursor: pointer; user-select: none; }
+.theme-switcher__title { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.12em; color: var(--color-text); }
+.theme-switcher__toggle { font-size: 0.7rem; color: var(--color-text-dim); transition: transform 0.2s; }
+.theme-switcher__toggle.is-open { transform: rotate(180deg); }
+.theme-switcher__body { display: none; background: var(--color-bg); }
+.theme-switcher__body.is-open { display: block; }
+.theme-switcher__actions { display: flex; gap: 0.5rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; }
+.theme-switcher__upload-label,
+.theme-switcher__download-btn { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.1em; padding: 0.4rem 0.9rem; border: 1px solid var(--color-border); color: var(--color-text-dim); cursor: pointer; background: transparent; transition: all 0.15s; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem; }
+.theme-switcher__upload-label:hover,
+.theme-switcher__download-btn:hover { border-color: var(--color-accent); color: var(--color-accent); background: rgba(0,0,0,0.1); }
+.theme-switcher__upload-input { display: none; }
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); }
+.theme-card { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border-subtle); border-right: 1px solid var(--color-border-subtle); cursor: pointer; transition: background 0.1s; position: relative; }
+.theme-card:hover { background: var(--color-panel); }
+.theme-card.is-active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--color-accent); }
+.theme-card__swatches { display: flex; gap: 3px; margin-bottom: 0.4rem; }
+.theme-card__swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
+.theme-card__name { font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--color-text); line-height: 1.1; }
+.theme-card.is-active .theme-card__name { color: var(--color-accent); }
+.theme-card__label { font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-dim); margin-top: 0.2rem; }
+
+/* ── Favorites panel ────────────────────────────────────── */
+.favorites-panel {
+    grid-area: var(--favorites-grid-area);
+    display: var(--favorites-display);
+    margin-top: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-top: var(--fav-panel-border-top);
+}
+.favorites-panel__header { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 1rem; background: var(--color-panel-alt); border-bottom: 1px solid var(--color-border); cursor: pointer; user-select: none; }
+.favorites-panel__title { font-family: var(--font-display); font-size: 1.1rem; letter-spacing: 0.12em; color: var(--color-text); }
+.favorites-panel__count { font-size: 0.6rem; color: var(--color-text-dim); letter-spacing: 0.1em; background: #1a1a1a; border: 1px solid var(--color-border); padding: 0.1em 0.5em; }
+.favorites-panel__toggle { font-size: 0.7rem; color: var(--color-text-dim); transition: transform 0.2s; }
+.favorites-panel__toggle.is-open { transform: rotate(180deg); }
+.favorites-panel__body { display: none; background: var(--color-bg); }
+.favorites-panel__body.is-open { display: block; }
+.add-station { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border); display: flex; gap: 0.5rem; align-items: stretch; }
+.add-station__input { flex: 1; background: var(--color-well); border: 1px solid var(--color-border); color: var(--color-text); font-family: var(--font-mono); font-size: 0.65rem; padding: 0.5rem 0.6rem; letter-spacing: 0.05em; outline: none; transition: border-color 0.15s; min-width: 0; }
+.add-station__input::placeholder { color: var(--color-text-muted); }
+.add-station__input:focus { border-color: var(--color-accent); }
+.add-station__btn { font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.1em; padding: 0.4rem 0.9rem; border: 1px solid var(--color-accent); color: var(--color-accent); cursor: pointer; background: transparent; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
+.add-station__btn:hover { background: var(--color-accent); color: #000; box-shadow: 0 0 12px var(--color-accent-shadow); }
+.station-list { max-height: var(--fav-max-height); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+.station-list::-webkit-scrollbar { width: 4px; }
+.station-list::-webkit-scrollbar-thumb { background: var(--color-border); }
+.station-list__item { display: flex; align-items: center; border-bottom: 1px solid var(--color-border-subtle); transition: background 0.1s; position: relative; overflow: hidden; }
+.station-list__item:last-child { border-bottom: none; }
+.station-list__item:hover { background: var(--fav-item-hover-bg); }
+.station-list__item.is-active { background: var(--fav-item-active-bg); }
+.station-list__item.is-active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--fav-item-active-accent); }
+.station-list__logo-wrap { width: var(--fav-logo-size); min-width: var(--fav-logo-size); height: var(--fav-logo-size); border-right: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; background: var(--color-well); overflow: hidden; flex-shrink: 0; }
+.station-list__logo { width: var(--fav-logo-size); height: var(--fav-logo-size); object-fit: cover; display: block; }
+.station-list__logo-placeholder { font-size: 1.2rem; color: var(--color-text-dim); }
+.station-list__logo-loading { width: 16px; height: 16px; border: 2px solid var(--color-border); border-top-color: var(--color-accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.station-list__info { flex: 1; padding: 0.5rem 0.7rem; overflow: hidden; min-width: 0; cursor: pointer; }
+.station-list__name { font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 0.08em; color: var(--fav-name-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.1; }
+.station-list__item.is-active .station-list__name { color: var(--fav-name-active-color); }
+.station-list__url { font-size: 0.57rem; color: var(--color-text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.2rem; letter-spacing: 0.03em; }
+.station-list__tags { display: flex; gap: 0.25rem; margin-top: 0.3rem; flex-wrap: wrap; }
+.station-list__tag { font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-dim); border: 1px solid #2a2a2a; padding: 0.1em 0.35em; }
+.station-list__tag--hl { color: var(--fav-btn-play-color); border-color: rgba(232,255,0,0.3); }
+.station-list__actions { display: flex; align-items: center; padding: 0 0.5rem; gap: 0.3rem; flex-shrink: 0; }
+.station-list__btn { width: 28px; height: 28px; border: 1px solid var(--color-border); background: transparent; color: var(--color-text-dim); font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; padding: 0; }
+.station-list__btn--play:hover { border-color: var(--fav-btn-play-color); color: var(--fav-btn-play-color); background: rgba(232,255,0,0.07); }
+.station-list__btn--remove:hover { border-color: var(--fav-btn-rem-color); color: var(--fav-btn-rem-color); background: rgba(255,60,0,0.07); }
+.station-list__empty { padding: 1.5rem 1rem; text-align: center; font-size: 0.65rem; color: var(--color-text-dim); letter-spacing: 0.1em; line-height: 1.8; }
+.station-list__empty code { color: var(--color-accent); background: var(--color-well); padding: 0.1em 0.4em; }
+
+/* ── Toast ──────────────────────────────────────────────── */
+.toast { position: fixed; bottom: var(--toast-position-bottom); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--toast-bg); border: 1px solid var(--toast-border); border-left: 3px solid var(--toast-accent-border); color: var(--toast-color); font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.6rem 1.2rem; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 100; white-space: nowrap; }
+.toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.is-error { border-left-color: var(--toast-error-border); }
+
+/* ── Footer ─────────────────────────────────────────────── */
+.site-footer {
+    display: var(--footer-display);
+    margin-top: 1rem;
+    text-align: right;
+    font-size: 0.6rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.1em;
+    width: 100%;
+    max-width: var(--layout-max-width);
+    position: relative;
+    z-index: 1;
+}
