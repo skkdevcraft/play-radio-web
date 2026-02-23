@@ -1,3 +1,5 @@
+import { BUILT_IN } from './themes.js';
+
 /* =========================================================
    THEME ENGINE
    Manages built-in + user-uploaded themes. Applies CSS vars
