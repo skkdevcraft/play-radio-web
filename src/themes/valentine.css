@@ -49,6 +49,23 @@ body {
   position: relative;
 }
 
+/* =========================================================
+   Base Layers
+   ========================================================= */
+
+.bg-layer-1,
+.bg-layer-2,
+.bg-layer-3 {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-layer-1 { z-index: -3; }
+.bg-layer-2 { z-index: -2; }
+.bg-layer-3 { z-index: -1; }
+
 /* -------------------------
    Big Beating Heart (Bass Reactive)
    ------------------------- */
@@ -80,37 +97,181 @@ body::before {
    Floating Small Hearts
    ------------------------- */
 
-body::after {
-  content: "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤";
-  position: fixed;
-  bottom: -10%;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-  letter-spacing: 40px;
-  color: rgba(255,105,180,0.5);
-  animation: float-hearts 18s linear infinite;
-  z-index: -1;
+.bg-layer-1::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -200% 0;
   pointer-events: none;
+  z-index: -1;
+
+  background-image:
+    radial-gradient(circle, rgba(255,105,180,0.85) 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,77,166,0.70)  3px, transparent 4px),
+    radial-gradient(circle, rgba(255,160,210,0.55) 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,77,166,0.40)  1px, transparent 2px),
+    radial-gradient(circle, rgba(255,200,230,0.80) 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,105,180,0.50) 3px, transparent 4px);
+
+  background-size:
+    107px 131px,
+    173px 157px,
+    239px 193px,
+    89px  207px,
+    151px 143px,
+    211px 247px;
+
+  background-position:
+     0px   0px,
+    41px  73px,
+    18px  59px,
+    67px  31px,
+    55px 109px,
+    83px  62px;
+
+  animation: hearts-rise-1 90s linear infinite;
+  animation-delay: -12s;
 }
 
-@keyframes float-hearts {
+.bg-layer-2::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -200% 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background-image:
+    radial-gradient(circle, rgba(255,77,166,0.75)  3px, transparent 4px),
+    radial-gradient(circle, rgba(255,200,230,0.60) 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,105,180,0.45) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,160,210,0.80) 3px, transparent 4px),
+    radial-gradient(circle, rgba(255,77,166,0.55)  2px, transparent 3px),
+    radial-gradient(circle, rgba(255,200,230,0.35) 2px, transparent 3px);
+
+  background-size:
+    127px 149px,
+    183px 171px,
+    97px  223px,
+    251px 187px,
+    163px 137px,
+    217px 259px;
+
+  background-position:
+    23px  17px,
+     9px  88px,
+    76px  44px,
+    48px 117px,
+    31px  66px,
+    92px  38px;
+
+  animation: hearts-rise-2 120s linear infinite;
+  animation-delay: -37s;
+}
+
+.bg-layer-3::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -200% 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background-image:
+    radial-gradient(circle, rgba(255,160,210,0.90) 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,105,180,0.65) 1px, transparent 2px),
+    radial-gradient(circle, rgba(255,77,166,0.80)  3px, transparent 4px),
+    radial-gradient(circle, rgba(255,200,230,0.45) 2px, transparent 3px),
+    radial-gradient(circle, rgba(255,105,180,0.60) 3px, transparent 4px),
+    radial-gradient(circle, rgba(255,160,210,0.35) 1px, transparent 2px);
+
+  background-size:
+    139px 163px,
+    191px 141px,
+    83px  199px,
+    229px 173px,
+    167px 251px,
+    109px 137px;
+
+  background-position:
+    61px  52px,
+    14px  97px,
+    88px  23px,
+    37px  74px,
+    72px 118px,
+     5px  41px;
+
+  animation: hearts-rise-3 160s linear infinite;
+  animation-delay: -61s;
+
+  filter: drop-shadow(0 0 calc(3px + var(--amp-low, 0) * 8px) rgba(255,77,166,0.7));
+}
+
+@keyframes hearts-rise-1 {
   0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
+    transform:
+      translateY(0%)
+      translateX(calc(sin(calc(var(--t) * 0.018)) * 44px));
   }
-  10% { opacity: 0.6; }
-  50% {
-    transform: translateY(-60vh) translateX(20px);
-    opacity: 0.8;
+  30% {
+    transform:
+      translateY(-28%)
+      translateX(calc(cos(calc(var(--t) * 0.022 + 0.5)) * 32px));
+  }
+  65% {
+    transform:
+      translateY(-62%)
+      translateX(calc(sin(calc(var(--t) * 0.019 + 1.2)) * 28px));
   }
   100% {
-    transform: translateY(-120vh) translateX(-20px);
-    opacity: 0;
+    transform:
+      translateY(-120%)
+      translateX(calc(cos(calc(var(--t) * 0.025)) * 18px));
   }
 }
 
+@keyframes hearts-rise-2 {
+  0% {
+    transform:
+      translateY(0%)
+      translateX(calc(cos(calc(var(--t) * 0.015 + 0.8)) * 36px));
+  }
+  35% {
+    transform:
+      translateY(-32%)
+      translateX(calc(sin(calc(var(--t) * 0.021 + 0.3)) * 48px));
+  }
+  70% {
+    transform:
+      translateY(-68%)
+      translateX(calc(cos(calc(var(--t) * 0.017 + 1.5)) * 22px));
+  }
+  100% {
+    transform:
+      translateY(-120%)
+      translateX(calc(sin(calc(var(--t) * 0.028)) * 12px));
+  }
+}
+
+@keyframes hearts-rise-3 {
+  0% {
+    transform:
+      translateY(0%)
+      translateX(calc(sin(calc(var(--t) * 0.012 + 1.1)) * 52px));
+  }
+  20% {
+    transform:
+      translateY(-18%)
+      translateX(calc(cos(calc(var(--t) * 0.016 + 0.7)) * 38px));
+  }
+  55% {
+    transform:
+      translateY(-55%)
+      translateX(calc(sin(calc(var(--t) * 0.020 + 2.0)) * 29px));
+  }
+  100% {
+    transform:
+      translateY(-120%)
+      translateX(calc(cos(calc(var(--t) * 0.014 + 0.4)) * 16px));
+  }
+}
 /* -------------------------
    Header
    ------------------------- */
