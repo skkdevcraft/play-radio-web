@@ -115,10 +115,17 @@ export const Player = (() => {
   if (audio) {
     audio.addEventListener('playing', () => {
       StatusBar.set('playing');
-      AudioReactor.startLive(StreamPlayer.getAnalyser());
+      const analyser = StreamPlayer.getAnalyser();
+      if (analyser) {
+        /* Full audio graph available — use live analyser data */
+        AudioReactor.startLive(analyser);
+      } else {
+        /* No AudioContext — fall back to synthetic animation */
+        AudioReactor.startFallback();
+      }
       Visualizer.start();
-      _scheduleCorsCheck();
-      if (btnRecord) btnRecord.disabled = false;
+      if (analyser) _scheduleCorsCheck();
+      if (btnRecord) btnRecord.disabled = !StreamPlayer.getAudioContext();
     });
     audio.addEventListener('waiting', () => StatusBar.set('buffering'));
     audio.addEventListener('stalled', () => StatusBar.set('buffering'));
@@ -278,15 +285,34 @@ const StreamPlayer = (() => {
   const audio = document.getElementById('audio');
   let audioCtx = null, analyser = null, sourceNode = null;
 
+  /* ── Check for AudioContext support once at module init ── */
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext || null;
+  if (!AudioContextClass) {
+    console.warn(
+      '[StreamPlayer] Web Audio API (AudioContext) is not supported in this browser. ' +
+      'Visualizer, audio analysis, and recording will be disabled. Playback continues normally.'
+    );
+  }
+
   function ensureAudioGraph() {
-    if (audioCtx || !audio) return;
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 64;
-    analyser.smoothingTimeConstant = 0.8;
-    sourceNode = audioCtx.createMediaElementSource(audio);
-    sourceNode.connect(analyser);
-    analyser.connect(audioCtx.destination);
+    /* Skip silently if already built, no audio element, or API unavailable */
+    if (audioCtx || !audio || !AudioContextClass) return;
+
+    try {
+      audioCtx   = new AudioContextClass();
+      analyser   = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+      analyser.smoothingTimeConstant = 0.8;
+      sourceNode = audioCtx.createMediaElementSource(audio);
+      sourceNode.connect(analyser);
+      analyser.connect(audioCtx.destination);
+    } catch (err) {
+      console.warn('[StreamPlayer] Failed to initialise AudioContext:', err);
+      /* Null everything out so callers get clean nulls rather than broken objects */
+      audioCtx   = null;
+      analyser   = null;
+      sourceNode = null;
+    }
   }
 
   function _load(url, withCors) {
