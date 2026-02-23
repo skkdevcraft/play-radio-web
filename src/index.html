@@ -168,6 +168,75 @@
       --vu-gap:                 3px;
       --vu-bar-radius:          0px;         /* rounded bars: try 4px */
 
+      /* ── Audio-reactive vars (written every animation frame) ─
+         These are live-updated by AudioReactor and can be used
+         freely in customCSS to drive transforms, filters, colors,
+         shadows — anything CSS accepts a number or length for.
+
+         TIME
+           --t            Seconds since page load (float, unbounded).
+                          Use in calc() for continuous motion:
+                            transform: rotate(calc(var(--t) * 30deg));
+           --dt           Delta-time of last frame in seconds (~0.016).
+                          Useful for normalising speed to framerate.
+
+         AMPLITUDE (0 – 1, smoothed)
+           --amp          Overall loudness across all frequencies.
+           --amp-low      Bass / sub-bass energy  (0 – 250 Hz band).
+           --amp-mid      Midrange energy          (250 – 2000 Hz).
+           --amp-high     Treble / presence energy (2000+ Hz).
+           --amp-peak     Instantaneous peak (no smoothing). Snappy.
+
+         SCALED VARIANTS (0 – 100, same signals × 100)
+           --amp-pct      --amp      × 100   (handy for % lengths)
+           --amp-low-pct  --amp-low  × 100
+           --amp-mid-pct  --amp-mid  × 100
+           --amp-high-pct --amp-high × 100
+
+         PER-BAR (16 bars, indexed 0–15)
+           --bar-0 … --bar-15   Individual bar amplitude (0 – 1).
+
+         USAGE EXAMPLES IN customCSS:
+
+           // Title pulses with bass
+           .site-header__title {
+             transform: scale(calc(1 + var(--amp-low) * 0.08));
+           }
+
+           // Panel border glow tracks loudness
+           .player {
+             box-shadow: 0 0 calc(var(--amp-pct) * 1px) var(--color-accent);
+           }
+
+           // Continuous rotation driven by time, sped up by treble
+           .station-meta__logo-placeholder {
+             transform: rotate(calc(var(--t) * calc(60 + var(--amp-high-pct) * 2) * 1deg));
+           }
+
+           // Hue-shift on peak
+           .vu-meter {
+             filter: hue-rotate(calc(var(--amp-peak) * 120deg));
+           }
+
+           // Bar-specific: make bar 0 drive a custom element size
+           .my-element { width: calc(var(--bar-0) * 100px); }
+      ─────────────────────────────────────────────────────────── */
+      --t:            0;
+      --dt:           0;
+      --amp:          0;
+      --amp-low:      0;
+      --amp-mid:      0;
+      --amp-high:     0;
+      --amp-peak:     0;
+      --amp-pct:      0;
+      --amp-low-pct:  0;
+      --amp-mid-pct:  0;
+      --amp-high-pct: 0;
+      --bar-0:  0; --bar-1:  0; --bar-2:  0; --bar-3:  0;
+      --bar-4:  0; --bar-5:  0; --bar-6:  0; --bar-7:  0;
+      --bar-8:  0; --bar-9:  0; --bar-10: 0; --bar-11: 0;
+      --bar-12: 0; --bar-13: 0; --bar-14: 0; --bar-15: 0;
+
       /* ── Station Meta ─────────────────────────────────────── */
       --meta-logo-size:         80px;
       --meta-name-color:        #e8ff00;
@@ -375,10 +444,17 @@
     }
     .vu-meter__bar {
       flex: 1;
-      background: var(--color-vu-idle);
+      /* Height and color driven by --_bar-h / --_bar-color scoped inline vars
+         set by AudioReactor each frame. Fallbacks apply when stopped/idle.
+         Modders: override bar appearance in customCSS using the global
+         --bar-0…--bar-15 and --amp-* vars instead of inline style. */
+      background: var(--_bar-color, var(--color-vu-idle));
+      height: var(--_bar-h, 2px);
       min-height: 2px;
+      max-height: 100%;
       transform-origin: bottom;
       border-radius: var(--vu-bar-radius);
+      transition: background 0.05s;
     }
 
     /* ── Status bar ─────────────────────────────────────────── */
@@ -865,20 +941,27 @@ const ThemeEngine = (() => {
         'bg-grid-color':'#1a0030','bg-grid-size':'40px'
       },
       customCSS: `
-        /* Neon Dusk: retro horizon gradient behind grid */
+        /* Neon Dusk: horizon gradient behind grid */
         body {
           background-image:
             radial-gradient(ellipse 120% 60% at 50% 110%, rgba(255,0,228,0.18) 0%, transparent 70%),
             radial-gradient(ellipse 80% 40% at 50% 110%, rgba(0,229,255,0.12) 0%, transparent 60%);
         }
+
+        /* Panel glow scales with overall loudness */
         .player {
           box-shadow:
             0 0 0 1px #3d1060,
-            0 0 40px rgba(255,0,228,0.07) inset,
+            0 0 calc(20px + var(--amp-pct) * 2px) rgba(255,0,228,0.15) inset,
             0 8px 60px rgba(0,0,0,0.6);
         }
+
+        /* Title flickers (time-based) AND scales with bass */
         .site-header__title {
           animation: neon-flicker 6s ease-in-out infinite;
+          display: inline-block;
+          transform: scale(calc(1 + var(--amp-low) * 0.12));
+          transition: transform 0.05s;
         }
         @keyframes neon-flicker {
           0%,95%,100% { opacity: 1; }
@@ -886,6 +969,24 @@ const ThemeEngine = (() => {
           97% { opacity: 1; }
           98% { opacity: 0.7; }
           99% { opacity: 1; }
+        }
+
+        /* Station logo spins slowly with --t, speeds up on treble peaks */
+        .station-meta__logo-placeholder {
+          display: flex; align-items: center; justify-content: center;
+          transform: rotate(calc(var(--t) * calc(20 + var(--amp-high-pct) * 4) * 0.05deg));
+          transition: transform 0.02s linear;
+        }
+
+        /* VU meter hue-shifts with time */
+        .vu-meter {
+          filter: hue-rotate(calc(var(--t) * 15deg));
+        }
+
+        /* Border accent width reacts to mid frequencies */
+        .favorites-panel {
+          border-top-width: calc(3px + var(--amp-mid) * 6px);
+          transition: border-top-width 0.05s;
         }
       `
     }
@@ -1051,7 +1152,46 @@ const ThemeEngine = (() => {
       "        inner CSS single-quotes around your text)",
       "   • Same for subtitle via: \"header-subtitle-text\": \"'EST. 2024'\"",
       "",
-      "   BACKGROUND IMAGES",
+      "   AUDIO-REACTIVE VARS (updated every animation frame ~60fps)",
+      "   These are live CSS custom properties you can use anywhere in customCSS.",
+      "   They work in calc(), transforms, filters, shadows — anything CSS accepts.",
+      "",
+      "   TIME",
+      "     --t          Seconds since page load (continuous float, unbounded)",
+      "                  Use for perpetual motion: rotate(calc(var(--t) * 30deg))",
+      "     --dt         Delta time of last frame (~0.016s). For speed normalisation.",
+      "",
+      "   AMPLITUDE  (0–1 floats, smoothed)",
+      "     --amp        Overall loudness across all frequencies",
+      "     --amp-low    Bass / sub-bass energy  (0–250 Hz band)",
+      "     --amp-mid    Midrange energy          (250–2000 Hz)",
+      "     --amp-high   Treble / presence energy (2000+ Hz)",
+      "     --amp-peak   Instantaneous peak, no smoothing — very snappy",
+      "",
+      "   SCALED ×100  (same signals in 0–100 range, handy for px/% lengths)",
+      "     --amp-pct  --amp-low-pct  --amp-mid-pct  --amp-high-pct",
+      "",
+      "   PER-BAR  (0–1, 16 bars indexed 0–15)",
+      "     --bar-0 … --bar-15   Individual frequency-band amplitude",
+      "",
+      "   EXAMPLE RECIPES",
+      "   • Title pulses with bass:",
+      "       .site-header__title {",
+      "         display: inline-block;",
+      "         transform: scale(calc(1 + var(--amp-low) * 0.08));",
+      "         transition: transform 0.05s;",
+      "       }",
+      "   • Panel glow tracks loudness:",
+      "       .player { box-shadow: 0 0 calc(var(--amp-pct) * 1px) var(--color-accent); }",
+      "   • Logo spins with time, faster on treble:",
+      "       .station-meta__logo-placeholder {",
+      "         transform: rotate(calc(var(--t) * calc(30 + var(--amp-high-pct) * 3) * 1deg));",
+      "       }",
+      "   • Hue-shift VU meter over time:",
+      "       .vu-meter { filter: hue-rotate(calc(var(--t) * 20deg)); }",
+      "   • Border width reacts to mids:",
+      "       .player { border-width: calc(1px + var(--amp-mid) * 8px); }",
+      "",
       "   • From URL:",
       "       body { background-image: url('https://...'); }",
       "   • From data URI (self-contained, no external request):",
@@ -1182,6 +1322,18 @@ const ThemeEngine = (() => {
       'fav-name-active-color':  'Active station name color',
       'fav-btn-play-color':     'List play button hover color',
       'fav-btn-rem-color':      'List remove button hover color',
+      /* Audio-reactive */
+      't':            'Seconds since page load. Use in calc() for continuous motion.',
+      'dt':           'Delta time of last frame (~0.016s). For speed normalisation.',
+      'amp':          'Overall smoothed loudness (0–1).',
+      'amp-low':      'Smoothed bass/sub-bass energy (0–1).',
+      'amp-mid':      'Smoothed midrange energy (0–1).',
+      'amp-high':     'Smoothed treble energy (0–1).',
+      'amp-peak':     'Instantaneous peak amplitude, no smoothing (0–1).',
+      'amp-pct':      '--amp × 100. Use for px or % lengths.',
+      'amp-low-pct':  '--amp-low × 100.',
+      'amp-mid-pct':  '--amp-mid × 100.',
+      'amp-high-pct': '--amp-high × 100.',
       /* Toast */
       'toast-bg':               'Toast notification background',
       'toast-border':           'Toast notification border',
@@ -1412,14 +1564,201 @@ const StreamPlayer = (() => {
 })();
 
 /* =========================================================
+   AUDIO REACTOR
+   Single source of truth for all audio-driven CSS vars.
+   Runs its own rAF loop and writes to :root on every frame.
+
+   Variables written each frame (all on :root / documentElement):
+
+     TIME
+       --t          Seconds since page load (continuous float)
+       --dt         Delta time of last frame in seconds
+
+     AMPLITUDE  (0–1 floats, exponentially smoothed)
+       --amp        Overall RMS-ish loudness
+       --amp-low    Bass band  (bins 0 – 20%  of FFT)
+       --amp-mid    Mid  band  (bins 20– 60%  of FFT)
+       --amp-high   High band  (bins 60–100%  of FFT)
+       --amp-peak   Instantaneous peak bin value, no smoothing
+
+     SCALED ×100 (same signals, 0–100 range)
+       --amp-pct  --amp-low-pct  --amp-mid-pct  --amp-high-pct
+
+     PER-BAR  (0–1, 16 bars indexed 0–15)
+       --bar-0 … --bar-15
+
+   In fallback mode (no analyser / CORS blocked) all amplitude
+   vars animate synthetically so customCSS effects keep running.
+========================================================= */
+const AudioReactor = (() => {
+  const root = document.documentElement;
+  const BAR_COUNT = 16;
+
+  let rafId    = null;
+  let analyser = null;
+  let dataArray = null;
+  let mode     = 'idle';   /* 'idle' | 'live' | 'fallback' */
+
+  /* smoothed values – exponential moving average */
+  let sAmp = 0, sLow = 0, sMid = 0, sHigh = 0;
+  const SMOOTH = 0.18;   /* 0=instant, 1=frozen; lower = snappier */
+
+  let tStart = performance.now();
+  let tPrev  = tStart;
+
+  /* ── helpers ────────────────────────────────────────── */
+  function _css(prop, val) {
+    root.style.setProperty(prop, val);
+  }
+  function _lerp(a, b, t) { return a + (b - a) * t; }
+
+  /* Read colour from CSS var (used by Visualizer for bar colours) */
+  function _colorFromCSS(prop) {
+    return getComputedStyle(root).getPropertyValue(prop).trim();
+  }
+
+  /* ── frame writers ──────────────────────────────────── */
+  function _writeLive(ts) {
+    analyser.getByteFrequencyData(dataArray);
+    const len = dataArray.length;
+
+    /* band boundaries (bin indices) */
+    const lowEnd  = Math.floor(len * 0.20);
+    const midEnd  = Math.floor(len * 0.60);
+
+    let sumAll = 0, sumLow = 0, sumMid = 0, sumHigh = 0;
+    let peak = 0;
+    for (let i = 0; i < len; i++) {
+      const v = dataArray[i] / 255;
+      sumAll += v;
+      if (i < lowEnd)       sumLow  += v;
+      else if (i < midEnd)  sumMid  += v;
+      else                  sumHigh += v;
+      if (v > peak) peak = v;
+    }
+
+    const ampRaw  = sumAll  / len;
+    const lowRaw  = sumLow  / Math.max(1, lowEnd);
+    const midRaw  = sumMid  / Math.max(1, midEnd - lowEnd);
+    const highRaw = sumHigh / Math.max(1, len - midEnd);
+
+    sAmp  = _lerp(sAmp,  ampRaw,  SMOOTH);
+    sLow  = _lerp(sLow,  lowRaw,  SMOOTH);
+    sMid  = _lerp(sMid,  midRaw,  SMOOTH);
+    sHigh = _lerp(sHigh, highRaw, SMOOTH);
+
+    /* per-bar values mapped to :root --bar-N */
+    for (let i = 0; i < BAR_COUNT; i++) {
+      const idx = Math.floor((i / BAR_COUNT) * len);
+      const barVal = (dataArray[idx] / 255).toFixed(4);
+      _css(`--bar-${i}`, barVal);
+    }
+
+    return { amp: sAmp, low: sLow, mid: sMid, high: sHigh, peak };
+  }
+
+  function _writeFallback(t) {
+    /* Synthetic waves so customCSS effects still animate when CORS blocks analyser */
+    const amp  = 0.15 + 0.10 * Math.sin(t * 1.3);
+    const low  = 0.20 + 0.15 * Math.sin(t * 0.9);
+    const mid  = 0.10 + 0.08 * Math.sin(t * 2.1 + 1.0);
+    const high = 0.05 + 0.05 * Math.sin(t * 3.7 + 2.0);
+
+    for (let i = 0; i < BAR_COUNT; i++) {
+      const phase = (i / BAR_COUNT) * Math.PI * 2;
+      const v = (0.08 + 0.12 * (0.5 + 0.5 * Math.sin(t * (0.6 + (i % 5) * 0.07) + phase))).toFixed(4);
+      _css(`--bar-${i}`, v);
+    }
+
+    return { amp, low, mid, high, peak: amp };
+  }
+
+  /* ── main loop ──────────────────────────────────────── */
+  function _loop(ts) {
+    rafId = requestAnimationFrame(_loop);
+
+    const tNow = ts / 1000;
+    const tAbs = (ts - tStart) / 1000;
+    const dt   = Math.min(tNow - tPrev, 0.1);   /* cap dt to 100 ms */
+    tPrev = tNow;
+
+    /* Always write time vars regardless of audio state */
+    _css('--t',  tAbs.toFixed(4));
+    _css('--dt', dt.toFixed(4));
+
+    if (mode === 'idle') return;
+
+    const bands = (mode === 'live') ? _writeLive(ts) : _writeFallback(tAbs);
+
+    const { amp, low, mid, high, peak } = bands;
+
+    _css('--amp',          amp.toFixed(4));
+    _css('--amp-low',      low.toFixed(4));
+    _css('--amp-mid',      mid.toFixed(4));
+    _css('--amp-high',     high.toFixed(4));
+    _css('--amp-peak',     peak.toFixed(4));
+    _css('--amp-pct',      (amp  * 100).toFixed(2));
+    _css('--amp-low-pct',  (low  * 100).toFixed(2));
+    _css('--amp-mid-pct',  (mid  * 100).toFixed(2));
+    _css('--amp-high-pct', (high * 100).toFixed(2));
+  }
+
+  /* ── public API ─────────────────────────────────────── */
+  function startLive(analyserNode) {
+    analyser  = analyserNode;
+    dataArray = new Uint8Array(analyserNode.frequencyBinCount);
+    mode = 'live';
+    if (!rafId) { tStart = performance.now(); rafId = requestAnimationFrame(_loop); }
+  }
+
+  function startFallback() {
+    mode = 'fallback';
+    if (!rafId) { tStart = performance.now(); rafId = requestAnimationFrame(_loop); }
+  }
+
+  function stop() {
+    mode = 'idle';
+    /* Zero out amplitude vars — time keeps running */
+    ['--amp','--amp-low','--amp-mid','--amp-high','--amp-peak',
+     '--amp-pct','--amp-low-pct','--amp-mid-pct','--amp-high-pct'].forEach(p => _css(p, '0'));
+    for (let i = 0; i < BAR_COUNT; i++) _css(`--bar-${i}`, '0');
+  }
+
+  function isLiveSilent() {
+    if (!analyser || !dataArray) return true;
+    analyser.getByteFrequencyData(dataArray);
+    return dataArray.every(v => v === 0);
+  }
+
+  /* Always start the time loop immediately so --t is live from page load */
+  (function _startTimeClock() {
+    tStart = performance.now();
+    rafId = requestAnimationFrame(_loop);
+  })();
+
+  return {
+    startLive, startFallback, stop, isLiveSilent,
+    getBarCount: () => BAR_COUNT,
+    colorFromCSS: _colorFromCSS
+  };
+})();
+
+/* =========================================================
    VISUALIZER
+   Reads the CSS vars written by AudioReactor each frame
+   and renders the VU bar display. Bars are styled via
+   scoped inline CSS vars (--_bar-h, --_bar-color) so that
+   modders can override bar appearance entirely in customCSS
+   using the global --bar-N and --amp-* vars.
 ========================================================= */
 const Visualizer = (() => {
   const vuEl = document.getElementById('vu-meter');
-  const BAR_COUNT = 16;
+  const BAR_COUNT = AudioReactor.getBarCount();
   const bars = [];
-  let rafId = null, analyser = null, dataArray = null, mode = 'idle';
+  let rafId = null;
+  let mode  = 'idle';   /* 'idle' | 'active' */
 
+  /* Build bar elements */
   if (vuEl) {
     for (let i = 0; i < BAR_COUNT; i++) {
       const b = document.createElement('div');
@@ -1429,70 +1768,52 @@ const Visualizer = (() => {
     }
   }
 
-  function _colorFromCSS(prop) {
-    return getComputedStyle(document.documentElement).getPropertyValue(prop).trim();
-  }
-
   function _barColor(norm) {
-    if (norm < 0.6)  return _colorFromCSS('--color-vu-low') || '#1aff6a';
-    if (norm < 0.85) return _colorFromCSS('--color-vu-mid') || '#e8ff00';
-    return _colorFromCSS('--color-vu-high') || '#ff3c00';
+    if (norm < 0.6)  return AudioReactor.colorFromCSS('--color-vu-low')  || '#1aff6a';
+    if (norm < 0.85) return AudioReactor.colorFromCSS('--color-vu-mid')  || '#e8ff00';
+    return               AudioReactor.colorFromCSS('--color-vu-high') || '#ff3c00';
   }
 
-  function _renderAnalyser() {
-    if (!analyser || !dataArray || !vuEl) return;
-    analyser.getByteFrequencyData(dataArray);
-    const innerH = vuEl.clientHeight - 16;
-    bars.forEach((b, i) => {
-      const norm = dataArray[Math.floor((i / BAR_COUNT) * dataArray.length)] / 255;
-      b.style.height     = Math.max(2, Math.round(norm * innerH)) + 'px';
-      b.style.background = _barColor(norm);
-    });
-  }
-
-  function _renderFallback(ts) {
+  function _render() {
     if (!vuEl) return;
     const innerH = vuEl.clientHeight - 16;
-    const t = ts / 1000;
-    const low = _colorFromCSS('--color-vu-low') || '#1aff6a';
+    const root = document.documentElement;
+    const style = getComputedStyle(root);
+
     bars.forEach((b, i) => {
-      const phase = (i / BAR_COUNT) * Math.PI * 2;
-      const norm  = 0.08 + 0.12 * (0.5 + 0.5 * Math.sin(t * (0.6 + (i % 5) * 0.07) + phase));
-      b.style.height     = Math.max(2, Math.round(norm * innerH)) + 'px';
-      b.style.background = low + '66';
+      /* Read the global --bar-N var that AudioReactor just wrote */
+      const norm = parseFloat(style.getPropertyValue(`--bar-${i}`)) || 0;
+      const h    = Math.max(2, Math.round(norm * innerH));
+      const col  = _barColor(norm);
+      /* Write scoped vars on the element itself so CSS can react */
+      b.style.setProperty('--_bar-h',     h + 'px');
+      b.style.setProperty('--_bar-color', col);
     });
   }
 
-  function _loop(ts) {
+  function _loop() {
     rafId = requestAnimationFrame(_loop);
-    if (mode === 'analyser') _renderAnalyser();
-    else if (mode === 'fallback') _renderFallback(ts);
+    if (mode === 'active') _render();
   }
 
-  function isAnalyserSilent() {
-    if (!analyser || !dataArray) return true;
-    analyser.getByteFrequencyData(dataArray);
-    return dataArray.every(v => v === 0);
-  }
-
-  function start(analyserNode) {
-    analyser  = analyserNode;
-    dataArray = new Uint8Array(analyser.frequencyBinCount);
-    mode = 'analyser';
-    if (!rafId) rafId = requestAnimationFrame(_loop);
-  }
-
-  function switchToFallback() {
-    mode = 'fallback';
+  function start() {
+    mode = 'active';
     if (!rafId) rafId = requestAnimationFrame(_loop);
   }
 
   function stop() {
     if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     mode = 'idle';
-    const idleColor = _colorFromCSS('--color-vu-idle') || '#555';
-    bars.forEach(b => { b.style.height = '2px'; b.style.background = idleColor; });
+    const idleColor = AudioReactor.colorFromCSS('--color-vu-idle') || '#555';
+    bars.forEach(b => {
+      b.style.setProperty('--_bar-h',     '2px');
+      b.style.setProperty('--_bar-color', idleColor);
+    });
   }
+
+  /* Expose for CORS check — delegate to AudioReactor */
+  function isAnalyserSilent() { return AudioReactor.isLiveSilent(); }
+  function switchToFallback()  { AudioReactor.startFallback(); }
 
   return { start, stop, switchToFallback, isAnalyserSilent };
 })();
@@ -1700,8 +2021,9 @@ const Player = (() => {
   function _scheduleCorsCheck() {
     clearTimeout(corsCheckTimer);
     corsCheckTimer = setTimeout(() => {
-      if (Visualizer.isAnalyserSilent()) {
-        Visualizer.switchToFallback();
+      if (AudioReactor.isLiveSilent()) {
+        AudioReactor.startFallback();
+        /* Visualizer.start() already running from 'playing' event */
         if (corsNotice) corsNotice.style.display = 'block';
       }
     }, 2500);
@@ -1725,10 +2047,13 @@ const Player = (() => {
     IcyMeta.load(url);
 
     StreamPlayer.play(url, () => {
-      Visualizer.switchToFallback();
+      /* CORS blocked — switch both systems to synthetic fallback mode */
+      AudioReactor.startFallback();
+      Visualizer.start();
       if (corsNotice) corsNotice.style.display = 'block';
     }).catch(() => {
       StatusBar.set('error');
+      AudioReactor.stop();
       Visualizer.stop();
       if (btnPlay) btnPlay.disabled = false;
       if (btnStop) btnStop.disabled = true;
@@ -1739,6 +2064,7 @@ const Player = (() => {
     clearTimeout(corsCheckTimer);
     if (Recorder.isRecording()) Recorder.stop();
     StreamPlayer.stop();
+    AudioReactor.stop();
     Visualizer.stop();
     IcyMeta.clear();
     if (btnPlay)   btnPlay.disabled   = false;
@@ -1762,7 +2088,8 @@ const Player = (() => {
   if (audio) {
     audio.addEventListener('playing', () => {
       StatusBar.set('playing');
-      Visualizer.start(StreamPlayer.getAnalyser());
+      AudioReactor.startLive(StreamPlayer.getAnalyser());
+      Visualizer.start();
       _scheduleCorsCheck();
       if (btnRecord) btnRecord.disabled = false;
     });
@@ -1771,6 +2098,7 @@ const Player = (() => {
     audio.addEventListener('ended',   stop);
     audio.addEventListener('error',   () => {
       StatusBar.set('error');
+      AudioReactor.stop();
       Visualizer.stop();
       if (Recorder.isRecording()) Recorder.stop();
       if (btnPlay)   btnPlay.disabled   = false;
