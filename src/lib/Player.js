@@ -602,11 +602,12 @@ const Visualizer = (() => {
   function switchToFallback()  { AudioReactor.startFallback(); }
 
   function fullScreen(on) {
-    if (!vuEl) return;
+    const body = document.getElementsByTagName('body')[0];
+    if (!body) return;
     if (on) {
-      vuEl.classList.add("vu-meter-fullscreen");
+      body.classList.add("fullscreen");
     } else {
-      vuEl.classList.remove("vu-meter-fullscreen");
+      body.classList.remove("fullscreen");
     }
   }
 

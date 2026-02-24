@@ -1455,7 +1455,7 @@ main#app {
     Add .vu-meter-fullscreen to the <figure> to activate.
     Remove it to restore the inline player view.
 ============================================================ */
-.vu-meter-fullscreen {
+.fullscreen .vu-meter  {
   /* Cover the entire viewport */
   position: fixed;
   inset: 0;
@@ -1481,14 +1481,14 @@ main#app {
 }
 
 /* Bars stretch to fill the full height */
-.vu-meter-fullscreen .vu-meter__bar {
+.fullscreen .vu-meter__bar {
   flex: 1;
   max-height: 100%;
   border-radius: var(--vu-bar-radius);
 }
 
 /* Optional: dim everything beneath the fullscreen meter */
-.vu-meter-fullscreen::before {
+.fullscreen::before {
   content: '';
   position: absolute;
   inset: 0;
