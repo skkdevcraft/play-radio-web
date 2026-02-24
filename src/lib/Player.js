@@ -286,7 +286,11 @@ const StreamPlayer = (() => {
   let audioCtx = null, analyser = null, sourceNode = null;
 
   /* ── Check for AudioContext support once at module init ── */
-  const AudioContextClass = window.AudioContext || window.webkitAudioContext || null;
+  let AudioContextClass = false;
+  try {
+    AudioContextClass = window.AudioContext || window.webkitAudioContext || null;
+  } catch {}
+  
   if (!AudioContextClass) {
     console.warn(
       '[StreamPlayer] Web Audio API (AudioContext) is not supported in this browser. ' +
@@ -452,7 +456,7 @@ const AudioReactor = (() => {
 
     for (let i = 0; i < BAR_COUNT; i++) {
       const phase = (i / BAR_COUNT) * Math.PI * 2;
-      const v = (0.08 + 0.12 * (0.5 + 0.5 * Math.sin(t * (0.6 + (i % 5) * 0.07) + phase))).toFixed(4);
+      const v = (0.58 + 0.92 * (0.1 + 0.5 * Math.sin(t * (0.6 + (i % 5) * 0.07) + phase))).toFixed(4);
       _css(`--bar-${i}`, v);
     }
 
