@@ -1,0 +1,153 @@
+/* =========================================================
+   DARK MATRIX THEME
+   File: themes/dark-matrix.css
+========================================================= */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Root Variables */
+:root {
+
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-display: 'Bebas Neue', sans-serif;
+
+  --color-bg: #bb2020;
+  --color-panel: #111111;
+  --color-panel-alt: #0d0d0d;
+  --color-well: #000000;
+
+  --color-border: #2a2a2a;
+  --color-border-subtle: #161616;
+
+  --color-accent: #e8ff00;
+  --color-accent-shadow: rgba(232,255,0,0.3);
+
+  --color-accent2: #ff3c00;
+  --color-accent2-shadow: rgba(255,60,0,0.4);
+
+  --color-status-playing: #1aff6a;
+  --color-status-buffering: #e8ff00;
+  --color-status-error: #ff3c00;
+
+  --color-vu-low: #1aff6a;
+  --color-vu-mid: #e8ff00;
+  --color-vu-high: #ff3c00;
+  --color-vu-idle: #555555;
+
+  --color-text: #e0e0e0;
+  --color-text-dim: #555555;
+  --color-text-muted: #333333;
+
+  --color-record: #c0392b;
+  --color-record-shadow: rgba(192,57,43,0.5);
+
+  --header-title-color: #e8ff00;
+  --header-title-shadow:
+    0 0 20px rgba(232,255,0,0.3),
+    3px 3px 0 #ff3c00;
+
+  --header-subtitle-color: #555555;
+
+  --panel-bg: #111111;
+  --panel-border-top: 3px solid #e8ff00;
+  --panel-border-right: 1px solid #2a2a2a;
+  --panel-border-bottom: 1px solid #2a2a2a;
+  --panel-border-left: 1px solid #2a2a2a;
+
+  --btn-play-border: #e8ff00;
+  --btn-play-hover-bg: #e8ff00;
+  --btn-play-hover-color: #000000;
+
+  --btn-stop-border: #ff3c00;
+  --btn-stop-hover-bg: #ff3c00;
+  --btn-stop-hover-color: #ffffff;
+
+  --slider-thumb-color: #e8ff00;
+  --slider-track-bg: #2a2a2a;
+
+  --vu-height: 60px;
+  --vu-gap: 3px;
+
+  --toast-bg: #1a1a1a;
+  --toast-border: #2a2a2a;
+  --toast-accent-border: #e8ff00;
+  --toast-error-border: #ff3c00;
+  --toast-color: #e0e0e0;
+
+  --bg-grid-color: #1a1a1a;
+  --bg-grid-size: 40px;
+}
+
+/* ============================================================
+    VU METER — FULLSCREEN MODE
+    revert
+============================================================ */
+.fullscreen .vu-meter  {
+  all: revert;
+
+  display: var(--vu-meter-display);
+  gap: var(--vu-gap);
+  height: var(--vu-height);
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  background: var(--color-well);
+  border: 1px solid var(--color-border);
+}
+
+/* Bars stretch to fill the full height */
+.fullscreen .vu-meter__bar {
+  all: revert;
+
+  flex: 1;
+  /* Height and color driven by --_bar-h / --_bar-color scoped inline vars
+        set by AudioReactor each frame. Fallbacks apply when stopped/idle.
+        Modders: override bar appearance in customCSS using the global
+        --bar-0…--bar-15 and --amp-* vars instead of inline style. */
+  background: var(--_bar-color, var(--color-vu-idle));
+  height: var(--_bar-h, 2px);
+  min-height: 2px;
+  max-height: 100%;
+  transform-origin: bottom;
+  border-radius: var(--vu-bar-radius);
+  transition: background 0.05s;
+}
+
+/* Optional: dim everything beneath the fullscreen meter */
+.fullscreen::before {
+  all: revert;
+}
+
+
+.fullscreen .player {
+  transform-origin: center center;
+  will-change: transform;
+  animation: none;
+
+  /* Set initial angle for 3D effect */
+  transform: 
+    perspective(1400px)
+    rotateX(-8deg)   /* slight initial tilt */
+    rotateY(5deg);   /* slight initial rotation */
+}
+
+.fullscreen .player {
+  /* Dynamic animation */
+  transform: 
+    perspective(1400px)
+    /* Base tilt + oscillation */
+    rotateX(
+      calc(-8deg + sin(calc(var(--t) * 0.04)) * (2deg + var(--amp-low) * 22deg))
+    )
+    rotateY(
+      calc(5deg + cos(calc(var(--t) * 0.032)) * (1.5deg + var(--amp-mid) * 2.5deg))
+    )
+    translateY(
+      calc(sin(calc(var(--t) * 0.05)) * (8px + var(--amp-low-pct) * 0.08px))
+    )
+    translateX(
+      calc(cos(calc(var(--t) * 0.027)) * (6px + var(--amp-mid-pct) * 0.06px))
+    );
+}

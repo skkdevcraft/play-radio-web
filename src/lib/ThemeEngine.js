@@ -23,6 +23,7 @@ export const ThemeEngine = (() => {
     { id: 'neon-dusk', name: 'Neon Dusk', label: 'Synthwave' },
     { id: 'valentine', name: 'Valentine', label: 'Valentine' },
     { id: 'christmas', name: 'Christmas', label: 'Christmas' },
+    { id: 'dance-matrix', name: 'Dance Matrix', label: 'Default' },
   ];
 
   let _activeId = null;

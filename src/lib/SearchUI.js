@@ -132,12 +132,7 @@ export const SearchUI = (() => {
         params.set('name', query.trim());
       }
 
-      const response = await fetch(`${API_BASE_URL}?${params}`, {
-        headers: {
-          // we cannot set User-Agent client side
-          'X-Client-Name': 'radiocombinator.com/1.0 (https://github.com/skkdevcraft/play-radio-web)'
-        }
-      });
+      const response = await fetch(`${API_BASE_URL}?${params}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

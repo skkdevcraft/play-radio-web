@@ -885,7 +885,7 @@ main#app {
 
 .theme-switcher__body {
   display: none;
-  background: var(--color-bg);
+  background: var(--color-panel);
 }
 
 .theme-switcher__body.is-open {
@@ -1001,7 +1001,7 @@ main#app {
 
 .favorites-panel__body {
   display: none;
-  background: var(--color-bg);
+  background: var(--color-panel);
 }
 
 .favorites-panel__body.is-open {
@@ -1277,7 +1277,7 @@ main#app {
 }
 
 .search-panel__body {
-  background: var(--color-bg);
+  background: var(--color-panel);
 }
 
 .search-input-area {
