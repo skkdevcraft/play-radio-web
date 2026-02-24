@@ -30,11 +30,11 @@
   --color-accent2: #ff3c00;
   --color-accent2-shadow: rgba(255, 60, 0, 0.4);
   --color-status-playing: #1aff6a;
-  --color-status-buffering: #e8ff00;
-  --color-status-error: #ff3c00;
+  --color-status-buffering: var(--color-accent);
+  --color-status-error: var(--color-accent2);
   --color-vu-low: #1aff6a;
-  --color-vu-mid: #e8ff00;
-  --color-vu-high: #ff3c00;
+  --color-vu-mid: var(--color-accent);
+  --color-vu-high: var(--color-accent2);
   --color-vu-idle: #555555;
   --color-text: #e0e0e0;
   --color-text-dim: #555555;
@@ -53,10 +53,10 @@
   /* CSS content override for title (set to '"MY RADIO"' with quotes-in-quotes) */
   --header-subtitle-text: none;
   /* CSS content override for subtitle */
-  --header-title-color: #e8ff00;
+  --header-title-color: var(--color-accent);
   --header-title-size: clamp(2.5rem, 8vw, 4rem);
-  --header-title-shadow: 0 0 20px rgba(232, 255, 0, 0.3), 3px 3px 0 #ff3c00;
-  --header-subtitle-color: #555555;
+  --header-title-shadow: 0 0 20px var(--color-accent-shadow), 3px 3px 0 var(--color-accent2);
+  --header-subtitle-color: var(--color-text-dim);
   --header-align: center;
   /* text-align: left | center | right */
 
@@ -132,17 +132,17 @@
   /* none = hide footer */
 
   /* ── Panel ────────────────────────────────────────────── */
-  --panel-bg: #111111;
-  --panel-border: #2a2a2a;
-  --panel-border-top: 3px solid #e8ff00;
-  --panel-border-right: 1px solid #2a2a2a;
-  --panel-border-bottom: 1px solid #2a2a2a;
-  --panel-border-left: 1px solid #2a2a2a;
+  --panel-bg: var(--color-panel);
+  --panel-border: var(--color-border);
+  --panel-border-top: 3px solid var(--color-accent);
+  --panel-border-right: 1px solid var(--color-border);
+  --panel-border-bottom: 1px solid var(--color-border);
+  --panel-border-left: 1px solid var(--color-border);
   --panel-padding: 2rem;
   --panel-border-radius: 0px;
 
   /* ── Background ──────────────────────────────────────── */
-  --bg-color: #0a0a0a;
+  --bg-color: var(--color-bg);
   --bg-image: none;
   /* url(...) or none */
   --bg-size: auto;
@@ -156,17 +156,17 @@
   /* none = disable grid lines */
 
   /* ── Buttons ─────────────────────────────────────────── */
-  --btn-play-border: #e8ff00;
-  --btn-play-color: #e8ff00;
-  --btn-play-hover-bg: #e8ff00;
+  --btn-play-border: var(--color-accent);
+  --btn-play-color: var(--color-accent);
+  --btn-play-hover-bg: var(--color-accent);
   --btn-play-hover-color: #000000;
-  --btn-play-hover-shadow: 0 0 20px rgba(232, 255, 0, 0.4);
-  --btn-stop-border: #ff3c00;
-  --btn-stop-color: #ff3c00;
-  --btn-stop-hover-bg: #ff3c00;
+  --btn-play-hover-shadow: 0 0 20px var(--color-accent-shadow);
+  --btn-stop-border: var(--color-accent2);
+  --btn-stop-color: var(--color-accent2);
+  --btn-stop-hover-bg: var(--color-accent2);
   --btn-stop-hover-color: #ffffff;
   --btn-github-hover-color: #000000;
-  --btn-stop-hover-shadow: 0 0 20px rgba(255, 60, 0, 0.4);
+  --btn-stop-hover-shadow: 0 0 20px var(--color-accent2-shadow);
   --btn-font-size: 1.4rem;
   --btn-padding: 0.8rem 1rem;
   --btn-border-width: 1px;
@@ -179,9 +179,9 @@
   /* ── Slider ──────────────────────────────────────────── */
   --slider-height: 3px;
   --slider-thumb-size: 14px;
-  --slider-thumb-color: #e8ff00;
-  --slider-thumb-shadow: 0 0 6px rgba(232, 255, 0, 0.4);
-  --slider-track-bg: #2a2a2a;
+  --slider-thumb-color: var(--color-accent);
+  --slider-thumb-shadow: 0 0 6px var(--color-accent-shadow);
+  --slider-track-bg: var(--color-border);
 
   /* ── VU Meter ─────────────────────────────────────────── */
   --vu-height: 60px;
@@ -272,31 +272,31 @@
 
   /* ── Station Meta ─────────────────────────────────────── */
   --meta-logo-size: 80px;
-  --meta-name-color: #e8ff00;
-  --meta-tag-color: #555555;
-  --meta-tag-border: #2a2a2a;
-  --meta-tag-hl-color: #e8ff00;
-  --meta-tag-hl-border: rgba(232, 255, 0, 0.3);
+  --meta-name-color: var(--color-accent);
+  --meta-tag-color: var(--color-text-dim);
+  --meta-tag-border: var(--color-border);
+  --meta-tag-hl-color: var(--color-accent);
+  --meta-tag-hl-border: var(--color-accent-shadow);
 
   /* ── Favorites Panel ──────────────────────────────────── */
-  --fav-panel-border-top: 3px solid #333333;
+  --fav-panel-border-top: 3px solid var(--color-text-muted);
   --fav-item-active-bg: #0d1400;
-  --fav-item-active-accent: #e8ff00;
-  --fav-item-hover-bg: #111111;
+  --fav-item-active-accent: var(--color-accent);
+  --fav-item-hover-bg: var(--color-panel);
   --fav-logo-size: 52px;
-  --fav-name-color: #e0e0e0;
-  --fav-name-active-color: #e8ff00;
-  --fav-btn-play-color: #e8ff00;
-  --fav-btn-rem-color: #ff3c00;
+  --fav-name-color: var(--color-text);
+  --fav-name-active-color: var(--color-accent);
+  --fav-btn-play-color: var(--color-accent);
+  --fav-btn-rem-color: var(--color-accent2);
   --fav-max-height: 320px;
   /* max height of station list */
 
   /* ── Toast ───────────────────────────────────────────── */
   --toast-bg: #1a1a1a;
-  --toast-border: #2a2a2a;
-  --toast-accent-border: #e8ff00;
-  --toast-error-border: #ff3c00;
-  --toast-color: #e0e0e0;
+  --toast-border: var(--color-border);
+  --toast-accent-border: var(--color-accent);
+  --toast-error-border: var(--color-accent2);
+  --toast-color: var(--color-text);
   --toast-position-bottom: 1.5rem;
 }
 
@@ -749,11 +749,11 @@ main#app {
 
   0%,
   100% {
-    box-shadow: 0 0 0px rgba(255, 60, 0, 0);
+    box-shadow: 0 0 0px var(--color-accent2-shadow);
   }
 
   50% {
-    box-shadow: 0 0 12px rgba(255, 60, 0, 0.7);
+    box-shadow: 0 0 12px var(--color-accent2-shadow);
   }
 }
 
@@ -1189,13 +1189,13 @@ main#app {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-dim);
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--color-border);
   padding: 0.1em 0.35em;
 }
 
 .station-list__tag--hl {
   color: var(--fav-btn-play-color);
-  border-color: rgba(232, 255, 0, 0.3);
+  border-color: var(--color-accent-shadow);
 }
 
 .station-list__actions {
