@@ -52,7 +52,10 @@ export const ThemeEngine = (() => {
     _activeId = theme.id;
 
     try {
-      localStorage.setItem(STORAGE_KEY, _activeId);
+      const u = new URL(window.location.href);
+      if (_activeId) u.searchParams.set('theme', _activeId);
+      else u.searchParams.delete('theme');
+      window.history.replaceState({}, '', u.toString());
     } catch (_) {}
 
     _loadCSS(_activeId);
@@ -64,13 +67,12 @@ export const ThemeEngine = (() => {
      Init
   ------------------------------------------------------- */
   function init() {
-    let saved = null;
-    try {
-      saved = localStorage.getItem(STORAGE_KEY);
-    } catch (_) {}
+    const params = new URLSearchParams(window.location.search);
 
-    const startId = THEMES.find(t => t.id === saved)
-      ? saved
+    const initialTheme = params.get('theme');
+
+    const startId = THEMES.find(t => t.id === initialTheme)
+      ? initialTheme
       : THEMES[0].id;
 
     apply(startId);

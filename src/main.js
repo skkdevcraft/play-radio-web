@@ -15,8 +15,6 @@ import { Player } from './lib/Player.js';
   SearchUI.init();
 
   const initialUrl = Player.getInitialUrl();
-  const urlDisplay = document.getElementById('stream-url-display');
-  if (urlDisplay) urlDisplay.innerHTML = `<span class="stream-url__label">SRC</span> ${initialUrl}`;
   Player.play(initialUrl);
 
   // Update active state in both FavoritesUI and SearchUI when player state changes
