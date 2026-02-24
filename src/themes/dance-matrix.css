@@ -1,6 +1,6 @@
 /* =========================================================
-   DARK MATRIX THEME
-   File: themes/dark-matrix.css
+   DANCE MATRIX THEME
+   File: themes/dance-matrix.css
 ========================================================= */
 
 /* Google Fonts */
@@ -120,29 +120,63 @@
   all: revert;
 }
 
-
-.fullscreen .player {
-  transform-origin: center center;
-  will-change: transform;
-  animation: none;
-
-  /* Set initial angle for 3D effect */
-  transform: 
-    perspective(1400px)
-    rotateX(-8deg)   /* slight initial tilt */
-    rotateY(5deg);   /* slight initial rotation */
-}
-
 .fullscreen .player {
   /* Dynamic animation */
   transform: 
     perspective(1400px)
+
+    scale(calc(0.8 + var(--amp-low) * 0.2))
+
     /* Base tilt + oscillation */
     rotateX(
       calc(-8deg + sin(calc(var(--t) * 0.04)) * (2deg + var(--amp-low) * 22deg))
     )
     rotateY(
       calc(5deg + cos(calc(var(--t) * 0.032)) * (1.5deg + var(--amp-mid) * 2.5deg))
+    )
+    translateY(
+      calc(sin(calc(var(--t) * 0.05)) * (8px + var(--amp-low-pct) * 0.08px))
+    )
+    translateX(
+      calc(cos(calc(var(--t) * 0.027)) * (6px + var(--amp-mid-pct) * 0.06px))
+    );
+}
+
+.fullscreen .favorites-panel {
+  /* Dynamic animation */
+  transform: 
+    perspective(1400px)
+
+    scale(calc(0.8 + var(--amp-mid) * 0.2))
+
+    /* Base tilt + oscillation */
+    rotateX(
+      calc(-8deg + sin(calc(var(--t) * 0.14)) * (2deg + var(--amp-high) * 32deg))
+    )
+    rotateY(
+      calc(5deg + cos(calc(var(--t) * 0.032)) * (1.5deg + var(--amp-mid) * 12.5deg))
+    )
+    translateY(
+      calc(sin(calc(var(--t) * 0.05)) * (8px + var(--amp-low-pct) * 0.08px))
+    )
+    translateX(
+      calc(cos(calc(var(--t) * 0.027)) * (6px + var(--amp-mid-pct) * 0.06px))
+    );
+}
+
+.fullscreen .site-header {
+  /* Dynamic animation */
+  transform: 
+    perspective(1400px)
+
+    scale(calc(0.7 + var(--amp-high-pct) * 0.01))
+
+    /* Base tilt + oscillation */
+    rotateX(
+      calc(-8deg + sin(calc(var(--t) * 0.54)) * (2deg + var(--amp-low) * 22deg))
+    )
+    rotateY(
+      calc(5deg + cos(calc(var(--t) * 0.432)) * (1.5deg + var(--amp-mid) * 2.5deg))
     )
     translateY(
       calc(sin(calc(var(--t) * 0.05)) * (8px + var(--amp-low-pct) * 0.08px))
