@@ -2,6 +2,8 @@ A **single‑page radio stream player** — entirely client‑side, zero backend
 
 Live at: https://play.radiocombinator.com
 
+![Demo](./theme-demo/dance-matrix.gif)
+
 ---
 
 ## Features
@@ -49,7 +51,17 @@ Themes power the UI customization experience. Each theme is:
 
 ### Built‑in Themes
 
+<table>
+  <tr>
+    <td><img src="./theme-demo/valentine.gif" alt="Valentine" width="320"/></td>
+    <td><img src="./theme-demo/christmas.gif" alt="Christmas" width="320"/></td>
 
+  </tr>
+  <tr>
+    <td><img src="./theme-demo/amber-glow.gif" alt="Amber Glow" width="320"/></td>
+    <td><img src="./theme-demo/arctic-frost.gif" alt="Arctic Frost" width="320"/></td>
+  </tr>
+</table>
 
 ### Contribute Your Own Theme
 
