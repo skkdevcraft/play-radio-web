@@ -2,6 +2,7 @@
    ICY METADATA
 ========================================================= */
 export const IcyMeta = (() => {
+  const titleEl = document.getElementById('title');
   const panelEl = document.getElementById('station-meta');
   const STORAGE_KEY = 'icymeta_cache';
 
@@ -89,7 +90,9 @@ export const IcyMeta = (() => {
   }
 
   async function load(url) {
+    if (titleEl) titleEl.innerText = "radiocombinator.com";
     const meta = await fetchMeta(url);
+    if (meta && meta.name) titleEl.innerText = meta.name;
     renderPanel(meta);
     return meta;
   }
