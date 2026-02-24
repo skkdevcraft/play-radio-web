@@ -601,5 +601,68 @@ const Visualizer = (() => {
   function isAnalyserSilent() { return AudioReactor.isLiveSilent(); }
   function switchToFallback()  { AudioReactor.startFallback(); }
 
-  return { start, stop, switchToFallback, isAnalyserSilent };
+  function fullScreen(on) {
+    if (!vuEl) return;
+    if (on) {
+      vuEl.classList.add("vu-meter-fullscreen");
+    } else {
+      vuEl.classList.remove("vu-meter-fullscreen");
+    }
+  }
+
+  return { start, stop, switchToFallback, isAnalyserSilent, fullScreen };
+})();
+
+/* =========================================================
+   FULLSCREEN VISUALIZER — idle timer
+   Activates after IDLE_MS of inactivity while playing.
+   Deactivates on any user interaction or when playback stops.
+========================================================= */
+export const FullscreenVU = (() => {
+  const IDLE_MS = 10_000; // 10 seconds — adjust to taste
+  let timer = null;
+  let isPlaying = false;
+  let isFullscreen = false;
+
+  function _activate() {
+    if (isFullscreen || !isPlaying) return;
+    isFullscreen = true;
+    Visualizer.fullScreen(true);
+  }
+
+  function _deactivate() {
+    if (!isFullscreen) return;
+    isFullscreen = false;
+    Visualizer.fullScreen(false);
+  }
+
+  function _resetTimer() {
+    clearTimeout(timer);
+    _deactivate();
+    if (isPlaying) {
+      timer = setTimeout(_activate, IDLE_MS);
+    }
+  }
+
+  function _onInteraction() {
+    _resetTimer();
+  }
+
+  // Watch Player state
+  Player.on('play', () => {
+    isPlaying = true;
+    _resetTimer();
+  });
+
+  Player.on('stop', () => {
+    isPlaying = false;
+    clearTimeout(timer);
+    _deactivate();
+  });
+
+  // Any user activity resets the idle clock and exits fullscreen
+  const EVENTS = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'wheel'];
+  EVENTS.forEach(evt =>
+    window.addEventListener(evt, _onInteraction, { passive: true })
+  );
 })();

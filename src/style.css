@@ -1449,3 +1449,66 @@ main#app {
     --layout-areas: "header header" "player favorites" "themes themes" "search search";
   }
 }
+
+/* ============================================================
+    VU METER — FULLSCREEN MODE
+    Add .vu-meter-fullscreen to the <figure> to activate.
+    Remove it to restore the inline player view.
+============================================================ */
+.vu-meter-fullscreen {
+  /* Cover the entire viewport */
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+
+  /* Override inline dimensions */
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 1.5rem 2rem;
+
+  /* Align bars to the bottom so they grow upward naturally */
+  display: flex;
+  align-items: flex-end;
+  gap: var(--vu-gap);
+
+  /* Keep the dark well feel, now full-bleed */
+  background: var(--color-well);
+  border: none;
+
+  /* Subtle fade-in */
+  animation: vu-fs-enter 0.35s ease forwards;
+}
+
+/* Bars stretch to fill the full height */
+.vu-meter-fullscreen .vu-meter__bar {
+  flex: 1;
+  max-height: 100%;
+  border-radius: var(--vu-bar-radius);
+}
+
+/* Optional: dim everything beneath the fullscreen meter */
+.vu-meter-fullscreen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center bottom,
+    transparent 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes vu-fs-enter {
+  from {
+    opacity: 0;
+    transform: scaleY(0.96);
+    transform-origin: bottom;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
