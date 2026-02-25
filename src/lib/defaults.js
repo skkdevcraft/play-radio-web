@@ -1,5 +1,19 @@
 export const DEFAULTS = [
   {
+    "url": "https://play.global.audio/vanillahi.aac",
+    "meta": {
+      "name": "Vanilla",
+      "description": null,
+      "genre": "chill out",
+      "url": "https://radioplay.bg/",
+      "logo": "https://www.radioplay.bg/assets/logos/vanilla.png",
+      "bitrate": "160",
+      "samplerate": null,
+      "_cached_at": 1772011790215
+    },
+    "addedAt": 1772011790215
+  },
+  {
     "url": "https://mangoradio.stream.laut.fm/mangoradio",
     "meta": {
       "name": "MANGORADIO",
@@ -42,20 +56,6 @@ export const DEFAULTS = [
     "addedAt": 1772017083693
   },
   {
-    "url": "https://play.global.audio/vanillahi.aac",
-    "meta": {
-      "name": "Vanilla",
-      "description": null,
-      "genre": "chill out",
-      "url": "https://radioplay.bg/",
-      "logo": "https://www.radioplay.bg/assets/logos/vanilla.png",
-      "bitrate": "160",
-      "samplerate": null,
-      "_cached_at": 1772011790215
-    },
-    "addedAt": 1772011790215
-  },
-  {
     "url": "http://play.global.audio/nrj128",
     "meta": {
       "name": "Energy NRJ Bulgaria",
@@ -84,17 +84,17 @@ export const DEFAULTS = [
     "addedAt": 1772011848598
   },
   {
-    "url": "https://bass-high.rautemusik.fm/?ref=radiobrowser",
+    "url": "https://brokenbeats.net/stream/aac",
     "meta": {
-      "name": "__BASS__ by rautemusik (rm.fm)",
+      "name": "Brokenbeats",
       "description": null,
-      "genre": "chilled trap,drum & bass,drum 'n' bass,drum and bass,hip-hop,hiphop,liquid trap,rap hiphop rnb,trap",
-      "url": "https://www.rm.fm/bass",
-      "logo": "https://www.rm.fm/favicon.ico",
-      "bitrate": "192",
+      "genre": "drum & bass,drum 'n' bass,drum and bass",
+      "url": "https://brokenbeats.net/",
+      "logo": "https://cdn.onlineradiobox.com/img/l/9/119029.v1.png",
+      "bitrate": "320",
       "samplerate": null,
-      "_cached_at": 1772011865740
+      "_cached_at": 1772046631548
     },
-    "addedAt": 1772011865740
+    "addedAt": 1772046631548
   }
 ];
