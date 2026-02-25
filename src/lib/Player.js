@@ -16,7 +16,7 @@ export const Player = (() => {
   let corsCheckTimer = null;
 
   const params     = new URLSearchParams(window.location.search);
-  const initialUrl = params.get('play') || 'https://dancewave.online/dance.ogg';
+  const initialUrl = params.get('play') || 'https://mangoradio.stream.laut.fm/mangoradio';
 
   /* ---------------------------------------------------------
      EVENT EMITTER

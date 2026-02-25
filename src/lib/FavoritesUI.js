@@ -1,6 +1,7 @@
 import { IcyMeta } from './IcyMeta.js';
 import { Toast } from './Toast.js';
 import { Player } from './Player.js'
+import { DEFAULTS } from './defaults.js';
 
 /* =========================================================
    FAVORITES UI
@@ -138,18 +139,11 @@ export const FavoritesUI = (() => {
 ========================================================= */
 const FavoritesStore = (() => {
   const KEY = 'radio_favorites_v1';
-  const DEFAULTS = [
-    'https://dancewave.online/dance.ogg',
-    'https://n08.radiojar.com/083wqknmsuhvv?rj-ttl=5&rj-tok=AAABnIWtQmMAztJzDQnM9GXL5A',
-    'https://play.global.audio/nrj128',
-    'https://play.global.audio/vanillahi.aac',
-    'https://play.global.audio/energy-90s.aac',
-  ];
   function load() {
     try {
       const raw = localStorage.getItem(KEY);
       if (raw !== null) return JSON.parse(raw) || [];
-      const defaults = DEFAULTS.map(url => ({ url, meta: null, addedAt: Date.now() }));
+      const defaults = DEFAULTS;
       localStorage.setItem(KEY, JSON.stringify(defaults));
       return defaults;
     } catch { return []; }
