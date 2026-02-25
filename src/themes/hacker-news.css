@@ -1,0 +1,95 @@
+/* ============================================================
+   THEME OVERRIDE — "Hacker News" (minimal vars only)
+   Paste AFTER the base CSS (or load as a theme vars block)
+============================================================ */
+:root {
+  /* ── Colors (HN-like) ─────────────────────────────────── */
+  --color-bg: #f6f6ef;          /* HN page background */
+  --color-panel: #ffffff;       /* content background */
+  --color-panel-alt: #ffffff;   /* keep headers plain like HN */
+  --color-well: #ffffff;        /* inputs/wells also plain */
+  --color-border: #d0d0d0;      /* subtle light border */
+  --color-border-subtle: #e6e6e6;
+
+  --color-accent: #ff6600;      /* HN orange */
+  --color-accent-shadow: rgba(255, 102, 0, 0.25);
+  --color-accent2: #ff6600;     /* keep single-accent feel */
+  --color-accent2-shadow: rgba(255, 102, 0, 0.25);
+
+  --color-text: #000000;
+  --color-text-dim: #666666;
+  --color-text-muted: #999999;
+
+  /* Status/VU: keep calm + readable (not neon) */
+  --color-status-playing: #2e7d32;
+  --color-status-buffering: var(--color-accent);
+  --color-status-error: #b00020;
+
+  --color-vu-low: #bdbdbd;
+  --color-vu-mid: #9e9e9e;
+  --color-vu-high: #757575;
+  --color-vu-idle: #e0e0e0;
+
+  --color-record: #b00020;
+  --color-record-shadow: rgba(176, 0, 32, 0.25);
+
+  /* ── Typography (HN-ish) ──────────────────────────────── */
+  /* HN is basically system/Arial-family, not display+mono */
+  --font-mono: Verdana, Geneva, sans-serif;
+  --font-display: Verdana, Geneva, sans-serif;
+
+  /* ── Background grid off (HN is flat) ─────────────────── */
+  --bg-grid-display: none;
+  --bg-image: none;
+
+  /* ── Panels (simpler, flatter) ────────────────────────── */
+  --panel-border-top: 2px solid var(--color-accent);
+  --panel-border-right: 1px solid var(--color-border);
+  --panel-border-bottom: 1px solid var(--color-border);
+  --panel-border-left: 1px solid var(--color-border);
+  --panel-border-radius: 0px;
+  --panel-padding: 1rem;
+
+  /* ── Header (HN is small, no glow) ────────────────────── */
+  --header-title-color: #000;
+  --header-title-shadow: none;
+  --header-align: left;
+  --header-title-size: 1.3rem;
+  --header-subtitle-color: var(--color-text-dim);
+
+  /* ── Buttons (flat, subtle) ───────────────────────────── */
+  --btn-font-size: 1rem;
+  --btn-letter-spacing: 0.02em;
+  --btn-text-transform: none;
+  --btn-border-radius: 0px;
+
+  --btn-play-border: var(--color-border);
+  --btn-play-color: #000;
+  --btn-play-hover-bg: #f0f0f0;
+  --btn-play-hover-color: #000;
+  --btn-play-hover-shadow: none;
+
+  --btn-stop-border: var(--color-border);
+  --btn-stop-color: #000;
+  --btn-stop-hover-bg: #f0f0f0;
+  --btn-stop-hover-color: #000;
+  --btn-stop-hover-shadow: none;
+
+  /* ── Inputs/slider (simple gray) ──────────────────────── */
+  --slider-track-bg: #dcdcdc;
+  --slider-thumb-color: #9e9e9e;
+  --slider-thumb-shadow: none;
+
+  /* ── Favorites/Search top border: HN orange bar ───────── */
+  --fav-panel-border-top: 2px solid var(--color-accent);
+  --fav-item-active-bg: #fff3e8;        /* very light orange tint */
+  --fav-item-active-accent: var(--color-accent);
+  --fav-item-hover-bg: #f7f7f7;
+
+  /* ── Toast (plain) ────────────────────────────────────── */
+  --toast-bg: #ffffff;
+  --toast-border: var(--color-border);
+  --toast-accent-border: var(--color-accent);
+  --toast-error-border: #b00020;
+  --toast-color: #000000;
+}
