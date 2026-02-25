@@ -42,7 +42,7 @@
 
 body {
   margin: 0;
-  background: radial-gradient(circle at 50% 60%, #2b0033 0%, #1a001f 70%);
+  background-color: var(--color-bg);
   color: var(--color-text);
   font-family: "Courier Prime", monospace;
   overflow-x: hidden;
@@ -93,6 +93,9 @@ body::before {
   z-index: -2;
 }
 
+.bg-layer-1 {
+  background: radial-gradient(circle at 50% 60%, #2b0033 0%, #1a001f 70%);
+}
 /* -------------------------
    Floating Small Hearts
    ------------------------- */
