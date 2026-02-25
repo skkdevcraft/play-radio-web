@@ -3,6 +3,10 @@
    Paste AFTER the base CSS (or load as a theme vars block)
 ============================================================ */
 :root {
+  --layout-padding: 0 1rem 1rem 1rem;
+  --meta-tag-color: #f6f6ef;
+  --meta-tag-hl-color: #f6f6ef;
+
   /* ── Colors (HN-like) ─────────────────────────────────── */
   --color-bg: #f6f6ef;          /* HN page background */
   --color-panel: #ffffff;       /* content background */
@@ -55,7 +59,7 @@
   --header-title-shadow: none;
   --header-align: left;
   --header-title-size: 1.3rem;
-  --header-subtitle-color: var(--color-text-dim);
+  --header-subtitle-color: var(--color-bg);
 
   /* ── Buttons (flat, subtle) ───────────────────────────── */
   --btn-font-size: 1rem;
@@ -92,4 +96,19 @@
   --toast-accent-border: var(--color-accent);
   --toast-error-border: #b00020;
   --toast-color: #000000;
+}
+
+.site-header {
+  background-color: var(--color-accent);
+  margin-bottom: 0px;
+  padding: 1rem;
+}
+
+.station-meta__tag {
+  background: var(--color-accent);
+}
+
+.favorites-panel__count {
+  color: var(--meta-tag-color);
+  background: var(--color-accent);
 }
