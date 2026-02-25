@@ -78,6 +78,7 @@ export const Player = (() => {
       StatusBar.set('error');
       AudioReactor.stop();
       Visualizer.stop();
+      _emit('stop', url);
       if (btnPlay) btnPlay.disabled = false;
       if (btnStop) btnStop.disabled = true;
     });
