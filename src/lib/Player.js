@@ -625,7 +625,7 @@ const Visualizer = (() => {
    Deactivates on any user interaction or when playback stops.
 ========================================================= */
 export const FullscreenVU = (() => {
-  const IDLE_MS = 10_000; // 10 seconds — adjust to taste
+  const IDLE_MS = 60_000; // 1 minute
   let timer = null;
   let isPlaying = false;
   let isFullscreen = false;
