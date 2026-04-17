@@ -187,8 +187,6 @@ Whether it's:
 * UX improvements
 * Feature proposals
 
-Please read `CONTRIBUTING.md` before submitting.
-
 ---
 
 ## License
