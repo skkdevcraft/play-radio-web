@@ -385,6 +385,9 @@ main#app {
   display: var(--header-display);
   text-align: var(--header-align);
   margin-bottom: 2.5rem;
+  min-height: 2.75rem;
+  padding-right: 5rem;
+  position: relative;
 }
 
 /*
@@ -435,6 +438,92 @@ main#app {
   content: var(--header-subtitle-text);
   font-size: 0.7rem;
   display: block;
+}
+
+.energy-toggle {
+  position: absolute;
+  top: 0.2rem;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 2rem;
+  padding: 0 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-panel-alt);
+  color: var(--color-text-dim);
+  font: 0.65rem var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.energy-toggle:hover,
+.energy-toggle:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  outline: none;
+}
+
+.energy-toggle__track {
+  width: 1.7rem;
+  height: 0.85rem;
+  padding: 0.12rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+}
+
+.energy-toggle__thumb {
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateX(0);
+  transition: transform 0.15s ease;
+}
+
+.energy-toggle.is-active {
+  border-color: var(--color-status-playing);
+  color: var(--color-status-playing);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-status-playing) 35%, transparent);
+}
+
+.energy-toggle.is-active .energy-toggle__thumb {
+  transform: translateX(0.76rem);
+}
+
+:root.energy-saving .bg-layer-1,
+:root.energy-saving .bg-layer-2,
+:root.energy-saving .bg-layer-3,
+:root.energy-saving .bg-layer-1::before,
+:root.energy-saving .bg-layer-1::after,
+:root.energy-saving .bg-layer-2::before,
+:root.energy-saving .bg-layer-2::after,
+:root.energy-saving .bg-layer-3::before,
+:root.energy-saving .bg-layer-3::after {
+  animation-play-state: paused !important;
+}
+
+:root.energy-saving .status-bar__dot--playing,
+:root.energy-saving .status-bar__dot--buffering,
+:root.energy-saving .btn--record.is-recording,
+:root.energy-saving .btn--record.is-recording .btn--record__dot,
+:root.energy-saving .station-list__logo-loading {
+  animation-duration: 4s !important;
+}
+
+:root.energy-saving .vu-meter__bar {
+  transition-duration: 0.25s;
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding-top: 2.4rem;
+    padding-right: 0;
+  }
 }
 
 /* ── Player panel ───────────────────────────────────────── */
