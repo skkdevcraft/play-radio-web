@@ -2,6 +2,72 @@ import { FavoritesUI } from './FavoritesUI.js'
 import { IcyMeta } from './IcyMeta.js'
 
 /* =========================================================
+   ENERGY SAVER
+========================================================= */
+const EnergySaver = (() => {
+  const STORAGE_KEY = 'radio_energy_saving';
+  const FRAME_INTERVAL_MS = 250;
+  const root = document.documentElement;
+  const toggle = document.getElementById('energy-toggle');
+  const lastFrameByKey = new Map();
+
+  let enabled = false;
+
+  function _readStored() {
+    try {
+      return window.localStorage.getItem(STORAGE_KEY) === '1';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function _writeStored(next) {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next ? '1' : '0');
+    } catch (_) {}
+  }
+
+  function _render() {
+    root.classList.toggle('energy-saving', enabled);
+    root.dataset.energySaving = enabled ? 'on' : 'off';
+
+    if (!toggle) return;
+    toggle.classList.toggle('is-active', enabled);
+    toggle.setAttribute('aria-pressed', String(enabled));
+    toggle.setAttribute(
+      'aria-label',
+      enabled ? 'Disable energy saving mode' : 'Enable energy saving mode'
+    );
+    toggle.title = enabled ? 'Disable energy saving mode' : 'Energy saving mode';
+  }
+
+  function setEnabled(next, { persist = true } = {}) {
+    enabled = Boolean(next);
+    lastFrameByKey.clear();
+    if (persist) _writeStored(enabled);
+    _render();
+  }
+
+  function shouldRunFrame(key, ts) {
+    if (!enabled) return true;
+
+    const lastFrame = lastFrameByKey.get(key) ?? -Infinity;
+    if (ts - lastFrame < FRAME_INTERVAL_MS) return false;
+
+    lastFrameByKey.set(key, ts);
+    return true;
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', () => setEnabled(!enabled));
+  }
+
+  setEnabled(_readStored(), { persist: false });
+
+  return { shouldRunFrame, isEnabled: () => enabled };
+})();
+
+/* =========================================================
    PLAYBACK CONTROLLER
 ========================================================= */
 export const Player = (() => {
@@ -467,6 +533,7 @@ const AudioReactor = (() => {
   /* ── main loop ──────────────────────────────────────── */
   function _loop(ts) {
     rafId = requestAnimationFrame(_loop);
+    if (!EnergySaver.shouldRunFrame('audio-reactor', ts)) return;
 
     const tNow = ts / 1000;
     const tAbs = (ts - tStart) / 1000;
@@ -582,9 +649,9 @@ const Visualizer = (() => {
     });
   }
 
-  function _loop() {
+  function _loop(ts) {
     rafId = requestAnimationFrame(_loop);
-    if (mode === 'active') _render();
+    if (mode === 'active' && EnergySaver.shouldRunFrame('visualizer', ts)) _render();
   }
 
   function start() {
