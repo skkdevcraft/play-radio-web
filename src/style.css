@@ -449,8 +449,8 @@ main#app {
   gap: 0.45rem;
   height: 2rem;
   padding: 0 0.55rem;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
+  border: 1px solid var(--color-border); 
+  border-radius: var(--panel-border-radius); 
   background: var(--color-panel-alt);
   color: var(--color-text-dim);
   font: 0.65rem var(--font-mono);

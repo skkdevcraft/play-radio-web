@@ -112,3 +112,13 @@
   color: var(--meta-tag-color);
   background: var(--color-accent);
 }
+
+.energy-toggle, .energy-toggle.is-active {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.energy-toggle:hover {
+  color: var(--color-text);
+}
